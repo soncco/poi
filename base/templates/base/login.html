@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="intro">
+            <h3 class="text-success">POI - MPU</h3>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h1>Iniciar Sesión</h1>
+        <form role="form" action="{% url 'base:the_login' %}" method="post">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input id="username" name="username" type="text" class="form-control" required autofocus>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" class="form-control" required>
+            </div>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block title %}Iniciar sesión{% endblock %}

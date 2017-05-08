@@ -14,12 +14,12 @@ var plan = plan || {};
 
     var ocultar = function() {
         $('.m').addClass('hidden');
-        $('.opcional').val(0);
+        if($('#id_periodo').val() == 1)
+            $('.opcional').val(0);
     }
 
-    var $periodo = $('#id_periodo');
-    $periodo.change(function() {
-        if($(this).val() == '2') {
+    var periodos = function() {
+        if($('#id_periodo').val() == '2') {
             $('.periodo')
                 .removeClass('hidden');
             $('.m').removeClass('hidden');
@@ -38,7 +38,10 @@ var plan = plan || {};
                 .attr('readonly', 'readonly');
         }
         sumat();
-    });
+    }
+
+    var $periodo = $('#id_periodo');
+    $periodo.change(periodos);
 
 
     var calculo = function() {
@@ -72,6 +75,7 @@ var plan = plan || {};
     ocultar();
     calculo();
     sumat();
+    periodos();
 
     var actualizarTotalFilas = function() {
         $('#id_actividad_set-TOTAL_FORMS').val($('.actividad').length);
@@ -121,7 +125,15 @@ var plan = plan || {};
         calculo();
         sumat();
         actualizarTotalFilas();
+        periodos();
     });
+
+    $('.print').click(function(e) {
+        e.preventDefault();
+        $('#modalprint .modal-body iframe').attr("src", $(this).attr('href'));
+        $('#modalprint').modal({show: true});
+        return false;
+    })
 
 
 

@@ -59,6 +59,29 @@ var plan = plan || {};
             savePages : false,
           });
 
+          $('#table').delegate('a, button', 'click', function(e) {
+            e.stopPropagation();
+          });
+
+          $('#table').delegate('.btn-danger', 'click', function(e) {
+            var borrar = window.confirm('¿Estás seguro de borrar este plan? Esta acción no se puede deshacer.');
+            return borrar;
+          });
+
+
+          $('#table').delegate('.print', 'click', function(e) {
+            e.preventDefault();
+            $('#modalprint .modal-body iframe').attr("src", $(this).attr('href'));
+            $('#modalprint').modal({show: true});
+            return false;
+          });
+
+          if(typeof imprimir != 'undefined') {
+            $('#modalprint .modal-body iframe').attr("src", '/plan/imprimir/' +  imprimir);
+            $('#modalprint').modal({show: true});
+          };
+
+
         
     }
 })(jQuery);

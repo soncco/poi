@@ -8,6 +8,7 @@
 
 {% block actions %}
     <span class="small pull-right">
+        <a href="{% url 'plan:plan' %}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Crear Plan</a>
         <button class="btn btn-default btn-sm reset"><i class="fa fa-filter"></i> Quitar Filtros</button>
     </span>
 {% endblock actions %}
@@ -19,7 +20,7 @@
     <tr>
       <th>Unidad Orgánica</th>
       <th>Unidad Ejecutora</th>
-      <th>Creado por</th>
+      <th>Responsable</th>
       <th class="sorter-false filter-false col-md-2 text-center">Acciones</th>
     </tr>
   </thead>
@@ -56,9 +57,9 @@
 {% endblock content %}
 
 {% block js %}
-    {% if imprimir %}
+    {% if request.GET.imprimir %}
     <script>
-      var imprimir = {{imprimir}};
+      var imprimir = {{ request.GET.imprimir}};
     </script>
     {% endif %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/js/jquery.tablesorter.min.js"></script>

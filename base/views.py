@@ -2,6 +2,12 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+from django.contrib import messages
+from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.core.urlresolvers import reverse
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required, user_passes_test
+
 from serializers import UnidadMedidaSerializer
 from models import UnidadMedida
 from rest_framework import viewsets, generics
@@ -20,6 +26,7 @@ class UnidadMedidaList(generics.ListAPIView):
             queryset = queryset.filter(nombre__icontains=term)
         return queryset
 
+@login_required
 def index(request):
     return render(request, 'base/index.html')
 

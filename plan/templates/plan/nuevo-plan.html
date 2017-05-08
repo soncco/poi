@@ -4,7 +4,7 @@
 {% block content %}
     <form action="{% url 'plan:plan' %}" method="post">
         <div class="row">
-            <h2 class="page-sub-header">Datos del Plan</h2>
+            <h2 class="page-sub-header text-success">Datos del Plan</h2>
             <div class="col-md-4">
                 <div class="form-group">
                     {{ form.unidad_organica.label_tag }}
@@ -47,7 +47,7 @@
                     {{ form.periodo }}
                 </div>
             </div>
-            <h2>Actividades o Proyectos</h2>
+            <h2 class="page-sub-header text-info">Actividades o Proyectos</h2>
 
             <div class="actividades">
                 <div class="actividad">
@@ -90,75 +90,75 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for=""><span class="t">T1</span><span class="m">Ene</span></label>
-                                    <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-0-t1" required>
+                                    <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-t1" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for=""><span class="t">T2</span><span class="m">Feb</span></label>
-                                    <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-0-t2" required>
+                                    <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-t2" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for=""><span class="t">T3</span><span class="m">Mar</span></label>
-                                    <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-0-t3" required>
+                                    <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-t3" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for=""><span class="t">T4</span><span class="m">Abr</span></label>
-                                    <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-0-t4" required>
+                                    <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-t4" required>
                                 </div>
                             </div>
 
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T5</span><span class="m">May</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t5" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t5" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T6</span><span class="m">Jun</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t6" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t6" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T7</span><span class="m">Jul</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t7" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t7" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T8</span><span class="m">Ago</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t8" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t8" readonly>
                                 </div>
                             </div>
 
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T9</span><span class="m">Set</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t9" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t9" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T10</span><span class="m">Oct</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t10" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t10" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T11</span><span class="m">Nov</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t11" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t11" readonly>
                                 </div>
                             </div>
                             <div class="col-md-3 periodo hidden">
                                 <div class="form-group">
                                     <label for=""><span class="t">T12</span><span class="m">Dic</span></label>
-                                    <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-0-t12" readonly>
+                                    <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-0-t12" readonly>
                                 </div>
                             </div>
                         </div>
@@ -166,11 +166,11 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="">Total en <span class="t">periodos</span><span class="m">meses</span></label>
-                            <input type="number" class="input-sm form-control total-t" min="0"  name="{{ detalle_form.prefix }}-0-total" readonly>
+                            <input type="number" class="input-sm form-control total-t" min="0" step="any" name="{{ detalle_form.prefix }}-0-total" readonly>
                         </div>
                         <div class="form-group">
                             <label for="">Distribución presupuestal S/</label>
-                            <input type="number" class="input-sm form-control distribucion" min="0"  name="{{ detalle_form.prefix }}-0-distribucion_presupuestal" required>
+                            <input type="number" class="input-sm form-control distribucion" min="0" step="any" name="{{ detalle_form.prefix }}-0-distribucion_presupuestal" required>
                         </div>
                         <button class="btn btn-block btn-danger quitar-actividad" type="button"><i class="fa fa-times"></i> Quitar esta actividad</button>
                     </div>
@@ -197,6 +197,7 @@
                     <input id="id_{{ detalle_form.prefix }}-MIN_NUM_FORMS" name="{{ detalle_form.prefix }}-MIN_NUM_FORMS" type="hidden" value="0">
                     <input id="id_{{ detalle_form.prefix }}-MAX_NUM_FORMS" name="{{ detalle_form.prefix }}-MAX_NUM_FORMS" type="hidden" value="1000">
                     {% csrf_token %}
+                    <input type="hidden" name="creado_por" value="{{ request.user.pk }}">
                 </div>
             </div>
 
@@ -260,75 +261,75 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for=""><span class="t">T1</span><span class="m">Ene</span></label>
-                            <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t1" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t1" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for=""><span class="t">T2</span><span class="m">Feb</span></label>
-                            <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t2" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t2" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for=""><span class="t">T3</span><span class="m">Mar</span></label>
-                            <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t3" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t3" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for=""><span class="t">T4</span><span class="m">Abr</span></label>
-                            <input type="number" class="t-input input-sm form-control" min="0"  name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t4" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t4" required>
                         </div>
                     </div>
 
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T5</span><span class="m">May</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t5" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t5" required>
                         </div>
                     </div>
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T6</span><span class="m">Jun</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t6" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t6" required>
                         </div>
                     </div>
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T7</span><span class="m">Jul</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t7" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t7" required>
                         </div>
                     </div>
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T8</span><span class="m">Ago</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t8" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t8" required>
                         </div>
                     </div>
 
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T9</span><span class="m">Set</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t9" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t9" required>
                         </div>
                     </div>
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T10</span><span class="m">Oct</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t10" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t10" required>
                         </div>
                     </div>
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T11</span><span class="m">Nov</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t11" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t11" required>
                         </div>
                     </div>
                     <div class="col-md-3 periodo hidden">
                         <div class="form-group">
                             <label for=""><span class="t">T12</span><span class="m">Dic</span></label>
-                            <input type="number" class="t-input input-sm form-control opcional" min="0"  value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t12" required>
+                            <input type="number" class="t-input input-sm form-control opcional" min="0" step="any" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-t12" required>
                         </div>
                     </div>
                 </div>
@@ -336,11 +337,11 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="">Total en <span class="t">periodos</span><span class="m">meses</span></label>
-                    <input type="number" class="input-sm form-control total-t" min="0"  name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-total" readonly>
+                    <input type="number" class="input-sm form-control total-t" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-total" readonly>
                 </div>
                 <div class="form-group">
                     <label for="">Distribución presupuestal S/</label>
-                    <input type="number" class="input-sm form-control distribucion" min="0"  name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-distribucion_presupuestal" required>
+                    <input type="number" class="input-sm form-control distribucion" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-distribucion_presupuestal" required>
                 </div>
                 <button class="btn btn-block btn-danger quitar-actividad" type="button"><i class="fa fa-times"></i> Quitar esta actividad</button>
             </div>

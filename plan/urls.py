@@ -8,4 +8,6 @@ urlpatterns = [
     url(r'^plan/lista/$', views.planes, name='planes'),
     url(r'^plan/lista/json/$', views.planes_json, name='planes_json'),
     url(r'^plan/ver/(?P<id>.*)$', views.ver_plan, name='ver_plan'),
+    url(r'^plan/borrar/(?P<id>.*)$', views.borrar_plan, name='borrar_plan'),
+    url(r'^plan/imprimir/(?P<id>.*)$', views.imprimir_plan, name='imprimir_plan'),
 ]

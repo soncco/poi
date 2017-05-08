@@ -1,5 +1,8 @@
 Django==1.11
+Pillow==4.1.1
 argparse==1.2.1
 djangorestframework==3.6.2
+olefile==0.44
 pytz==2017.2
+reportlab==3.4.0
 wsgiref==0.1.2

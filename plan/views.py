@@ -104,7 +104,7 @@ def planes_json(request):
     for plan in planes:
 
         links = crear_enlace(reverse('plan:ver_plan', args=[plan.pk]), 'warning', 'Ver o Editar', 'edit')
-        links += crear_enlace(reverse('plan:imprimir_plan', args=[plan.pk]), 'info print', 'Imprimir', 'print')
+        links += crear_enlace(reverse('reporte:imprimir_plan', args=[plan.pk]), 'info print', 'Imprimir', 'print')
         links += crear_enlace(reverse('plan:borrar_plan', args=[plan.pk]), 'danger', 'Borrar', 'times')
 
         obj = OrderedDict({
@@ -159,5 +159,3 @@ def borrar_plan(request, id):
     return HttpResponseRedirect(reverse('plan:planes'))
 
 
-def imprimir_plan(request, id):
-    pass

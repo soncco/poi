@@ -119,6 +119,17 @@ def tabla_plan_meses(plan):
             ]
         )
 
+def tabla_firma_estilo():
+    return TableStyle(
+            [
+                ('FONTNAME', (0,0), (-1,-1), 'Helvetica'),
+                ('FONTSIZE', (0,0), (-1,-1), 9),
+                ('ALIGNMENT', (0,0), (-1,-1), 'CENTER'),
+                ('BOTTOMPADDING', (0,0), (-1,-1), 0.5),
+                ('TOPPADDING', (0,0), (-1,-1), 0.5),
+            ]
+        )
+
 
 class ImpresionPlan:
   def __init__(self, buffer, pagesize):
@@ -167,6 +178,17 @@ class ImpresionPlan:
     header = Paragraph(u'<strong>Presupuesto</strong>: S/ %s' % number_format(plan.presupuesto, 2), normal_custom(10))
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin + 150 * mm, doc.height + top - 27 * mm - h)
+
+
+    firmas_segundo = [
+      ['_____________________________', '',  '_____________________________'],
+      [u'Firma del responsable', '', 'Planeamiento y presupuesto']
+    ]
+
+    tabla_firmas_2 = Table(firmas_segundo, colWidths = [doc.width/3.0], style = tabla_firma_estilo())
+    w, h = tabla_firmas_2.wrap(doc.width, doc.bottomMargin)
+    tabla_firmas_2.drawOn(canvas, doc.leftMargin, h + 10)
+
 
     canvas.restoreState()
 

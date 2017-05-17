@@ -21,12 +21,18 @@ class Plan(models.Model):
     periodo = models.CharField(choices=TIPOS, default='1', max_length=1)
     presupuesto = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
     creado_por = models.ForeignKey(User, default=1)
+    aprobado = models.BooleanField(default=False)
 
 class Actividad(models.Model):
+    TIPOS = (
+        ('1', 'Porcentual'),
+        ('2', u'Numérico'),
+    )
     pertenece_a = models.ForeignKey(Plan)
     tarea_actividad = models.TextField()
-    unidad_medida = models.ForeignKey('base.UnidadMedida')
+    unidad_medida = models.CharField(max_length=100)
     peso = models.FloatField(default=0)
+    tipo_t = models.CharField(choices=TIPOS, default='1', max_length=1)
     t1 = models.FloatField(default=0)
     t2 = models.FloatField(default=0)
     t3 = models.FloatField(default=0)
@@ -39,6 +45,18 @@ class Actividad(models.Model):
     t10 = models.FloatField(default=0)
     t11 = models.FloatField(default=0)
     t12 = models.FloatField(default=0)
+    p1 = models.FloatField(default=0)
+    p2 = models.FloatField(default=0)
+    p3 = models.FloatField(default=0)
+    p4 = models.FloatField(default=0)
+    p5 = models.FloatField(default=0)
+    p6 = models.FloatField(default=0)
+    p7 = models.FloatField(default=0)
+    p8 = models.FloatField(default=0)
+    p9 = models.FloatField(default=0)
+    p10 = models.FloatField(default=0)
+    p11 = models.FloatField(default=0)
+    p12 = models.FloatField(default=0)
     total = models.FloatField(default=0)
     fecha_termino = models.DateField()
     distribucion_presupuestal = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))

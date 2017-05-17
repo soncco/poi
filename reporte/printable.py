@@ -85,6 +85,16 @@ def negrita_custom_center(size):
         alignment = TA_CENTER
     )
 
+def tabla_plan_nuevo(plan):
+    total = plan.actividad_set.count()
+    return TableStyle(
+            [
+                ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                ('SPAN', (0,1), (1,3)),
+                ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            ]
+        )
 
 def tabla_plan(plan):
     total = plan.actividad_set.count()
@@ -139,7 +149,7 @@ class ImpresionPlan:
   def __init__(self, buffer, pagesize):
     self.buffer = buffer
     if pagesize == 'A4':
-      self.pagesize = landscape(A4)
+      self.pagesize = A4
     elif pagesize == 'Letter':
       self.pagesize = landscape(letter)
       self.width, self.height = self.pagesize
@@ -150,30 +160,40 @@ class ImpresionPlan:
 
     logo = 'reporte/static/reporte/logo.jpg'
 
-    canvas.drawImage(logo, doc.leftMargin + 72 * mm, doc.height + doc.topMargin - 12 * mm, width = (1.8 * cm), height = (1.8 * cm))
+    top = doc.topMargin + doc.bottomMargin - 8 * mm
+
+    canvas.drawImage(logo, doc.leftMargin + 30 * mm, doc.height + top - 12 * mm, width = (1.8 * cm), height = (1.8 * cm))
     
 
     # Cabecera
     header = Paragraph(u'Municipalidad Provincial de Urubamba', negrita_custom_center(15))
-    w, h = header.wrap(doc.width, doc.topMargin)
-    header.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin)
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top)
 
 
     header = Paragraph(u'Trabajos por Unidad Orgánica', negrita_custom_center(12))
-    w, h = header.wrap(doc.width, doc.topMargin)
-    header.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - 8 * mm)
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 8 * mm)
 
 
-    header = Paragraph(u'<strong>Unidad Orgánica</strong>: %s <strong>Área Ejecutora</strong>: %s <strong>Responsable</strong>: %s' % (plan.unidad_organica, plan.area_ejecutora, plan.responsable), normal_custom(9))
-    w, h = header.wrap(doc.width, doc.topMargin)
-    header.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - 15 * mm - h)
+    header = Paragraph(u'<strong>Unidad Orgánica</strong>: %s' % (plan.unidad_organica), normal_custom(9))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 15 * mm - h)
+
+    header = Paragraph(u'<strong>Área Ejecutora</strong>: %s' % (plan.area_ejecutora), normal_custom(9))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 21 * mm - h)
+
+    header = Paragraph(u'<strong>Responsable</strong>: %s' % (plan.responsable), normal_custom(9))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 27 * mm - h)
 
     canvas.restoreState()
 
 
   def print_plan(self, plan):
     buffer = self.buffer
-    doc = SimpleDocTemplate(buffer, pagesize = self.pagesize, topMargin = 35 * mm, leftMargin = 8 * mm , rightMargin = 8 * mm, bottomMargin = 8 * mm, showBoundary = 1)
+    doc = SimpleDocTemplate(buffer, pagesize = self.pagesize, topMargin = 41 * mm, leftMargin = 8 * mm , rightMargin = 8 * mm, bottomMargin = 40 * mm, showBoundary = 1)
 
     elements  = []
 
@@ -187,86 +207,48 @@ class ImpresionPlan:
     elements.append(Paragraph(u'<strong>Objetivo Específico Institucional</strong>: %s' % plan.objetivo_especifico_institucional, normal_custom(9)))
     elements.append(Spacer(0, spacer))
 
-    if plan.periodo == '1':
+
+    # Tabla
+    size = 8
+    t_act = Paragraph('Actividad', negrita_custom_center(size))
+    t_umed = Paragraph(u'U. Medida', negrita_custom_center(size))
+    t_fecha = Paragraph(u'Fecha término', negrita_custom_center(size))
+    t_peso = Paragraph(u'Peso %', negrita_custom_center(size))
+    t_fuente = Paragraph(u'Fuente', negrita_custom_center(size))
+
+
+    conteo = 1
+
+    for actividad in plan.actividad_set.all():
+
+        tarea = Paragraph(actividad.tarea_actividad, normal_custom(7))
+        medida = Paragraph(actividad.unidad_medida, normal_custom_center(size))
+        peso = Paragraph(str(actividad.peso), normal_custom_center(size))
+        t1 = Paragraph(str(actividad.t1), normal_custom_center(size))
+        t2 = Paragraph(str(actividad.t2), normal_custom_center(size))
+        t3 = Paragraph(str(actividad.t3), normal_custom_center(size))
+        t4 = Paragraph(str(actividad.t4), normal_custom_center(size))
+        total = Paragraph(str(actividad.total), normal_custom_center(size))
+        fecha = Paragraph(actividad.fecha_termino.strftime('%d/%m/%Y'), normal_custom_center(size))
+        distribucion = Paragraph(number_format(actividad.distribucion_presupuestal, 2), normal_custom_right(size))
+        fuente = Paragraph(actividad.asignacion_presupuestal.rubro, normal_custom_center(size))
 
         detalles_data = [
-            [u'Código', Paragraph('Tarea o Actividad', negrita_custom_center(9)), 'U. de Medida', 'Peso', 'Meta %', '', '', '', 'Total periodos %', u'F. de término', u'Dist. Pres.', 'Fuente'],
-            ['', '', '', 'De la tarea', 'T1', 'T2', 'T3', 'T4', '', '', '', '']
+            [conteo, t_act, t_umed, t_fecha],
+            [tarea, '', medida, fecha],
+            ['', '', t_peso, t_fuente],
+            ['', '', peso, fuente]
+
         ]
 
-        primero = 1
-        for actividad in plan.actividad_set.all():
-            codigo = Paragraph(str(primero), normal_custom_right(9))
-            tarea = Paragraph(actividad.tarea_actividad, normal_custom(9))
-            medida = Paragraph(actividad.unidad_medida.nombre, normal_custom_center(9))
-            peso = Paragraph(str(actividad.peso), normal_custom_center(9))
-            t1 = Paragraph(str(actividad.t1), normal_custom_center(9))
-            t2 = Paragraph(str(actividad.t2), normal_custom_center(9))
-            t3 = Paragraph(str(actividad.t3), normal_custom_center(9))
-            t4 = Paragraph(str(actividad.t4), normal_custom_center(9))
-            total = Paragraph(str(actividad.total), normal_custom_center(9))
-            fecha = Paragraph(actividad.fecha_termino.strftime('%d/%m/%Y'), normal_custom_center(9))
-            distribucion = Paragraph(number_format(actividad.distribucion_presupuestal, 2), normal_custom_right(9))
-            fuente = Paragraph(actividad.asignacion_presupuestal.rubro, normal_custom(9))
+        detalles_tabla = Table(detalles_data, colWidths = [10 * mm, 130 * mm, None], style = tabla_plan_nuevo(plan))
 
-            detalles_data.append(
-                [codigo, tarea, medida, peso, t1, t2, t3, t4, total, fecha, distribucion, fuente]
-            )
+        elements.append(detalles_tabla)
 
-            primero += 1
-
-        presupuesto = Paragraph(number_format(plan.presupuesto, 2), normal_custom_right(9))
-        detalles_data.append(
-            ['', '', '', '', '', '', '', '', '', 'Total S/', presupuesto, '']   
-        )
+        conteo = conteo + 1
 
 
-        detalles_tabla = Table(detalles_data, colWidths = [15 * mm, 70 * mm, None], repeatRows = 2, style = tabla_plan(plan))
-
-    else:
-        detalles_data = [
-            [u'Código', 'Tarea o Actividad', 'U. de Medida', 'Peso', 'Meta %', '', '', '', '', '', '', '', '', '', '', '', 'Total periodos %', u'F. de término', u'Dist. Pres.', 'Fuente'],
-            ['', '', '', 'De la tarea', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', '', '', '', '']
-        ]
-
-        primero = 1
-        for actividad in plan.actividad_set.all():
-            codigo = Paragraph(str(primero), normal_custom_right(8))
-            tarea = Paragraph(actividad.tarea_actividad, normal_custom(8))
-            medida = Paragraph(actividad.unidad_medida.nombre, normal_custom_center(8))
-            peso = Paragraph(str(actividad.peso), normal_custom_center(8))
-            t1 = Paragraph(str(actividad.t1), normal_custom_center(8))
-            t2 = Paragraph(str(actividad.t2), normal_custom_center(8))
-            t3 = Paragraph(str(actividad.t3), normal_custom_center(8))
-            t4 = Paragraph(str(actividad.t4), normal_custom_center(8))
-            t5 = Paragraph(str(actividad.t5), normal_custom_center(8))
-            t6 = Paragraph(str(actividad.t6), normal_custom_center(8))
-            t7 = Paragraph(str(actividad.t7), normal_custom_center(8))
-            t8 = Paragraph(str(actividad.t8), normal_custom_center(8))
-            t9 = Paragraph(str(actividad.t9), normal_custom_center(8))
-            t10 = Paragraph(str(actividad.t10), normal_custom_center(8))
-            t11 = Paragraph(str(actividad.t11), normal_custom_center(8))
-            t12 = Paragraph(str(actividad.t12), normal_custom_center(8))
-            total = Paragraph(str(actividad.total), normal_custom_center(8))
-            fecha = Paragraph(actividad.fecha_termino.strftime('%d/%m/%Y'), normal_custom_center(8))
-            distribucion = Paragraph(number_format(actividad.distribucion_presupuestal, 2), normal_custom_right(8))
-            fuente = Paragraph(actividad.asignacion_presupuestal.rubro, normal_custom(8))
-
-            detalles_data.append(
-                [codigo, tarea, medida, peso, t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, total, fecha, distribucion, fuente]
-            )
-
-            primero += 1
-
-        presupuesto = Paragraph(number_format(plan.presupuesto, 2), normal_custom_right(9))
-        detalles_data.append(
-            ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'Total S/', presupuesto, '']   
-        )
-
-
-        detalles_tabla = Table(detalles_data, colWidths = [15 * mm, 50 * mm, 25 * mm, 20 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 10 * mm, 20 * mm, None], repeatRows = 2, style = tabla_plan_meses(plan))
-
-    elements.append(detalles_tabla)
+        
 
 
     doc.build(elements, onFirstPage = partial(self._header_footer_plan, plan = plan),
@@ -296,6 +278,6 @@ class NumberedCanvas(canvas.Canvas):
 
   def draw_page_number(self, page_count):
     # Change the position of this to wherever you want the page number to be
-    self.setFont('Helvetica', 9)
-    self.drawRightString(205 * mm, 286 * mm,
+    self.setFont('Helvetica', 8)
+    self.drawRightString(205 * mm, 290 * mm,
       u"Página %d de %d" % (self._pageNumber, page_count))

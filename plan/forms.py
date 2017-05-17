@@ -14,7 +14,7 @@ class PlanForm(ModelForm):
             'unidad_organica': u'Unidad orgánica',
             'accion_central': u'Acción central',
             'objetivo_especifico_institucional': u'Objetivo específico institucional',
-            'periodo': u'Tipo de periodo',
+            'periodo': u'Tipo de ejecución',
         }
 
         widgets = {

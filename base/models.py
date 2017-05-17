@@ -6,17 +6,6 @@ from django.utils.encoding import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
-class UnidadMedida(models.Model):
-    nombre = models.CharField(max_length=255)
-
-    class Meta:
-        verbose_name='Unidad de medida'
-        verbose_name_plural='Unidades de medida'
-
-    def __str__(self):
-        return self.nombre
-
-@python_2_unicode_compatible
 class UnidadOrganica(models.Model):
     nombre = models.CharField(max_length=255)
 

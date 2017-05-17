@@ -8,23 +8,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from serializers import UnidadMedidaSerializer
-from models import UnidadMedida
 from rest_framework import viewsets, generics
-
-class UnidadMedidaViewSet(viewsets.ModelViewSet):
-    queryset = UnidadMedida.objects.all()
-    serializer_class = UnidadMedidaSerializer
-
-class UnidadMedidaList(generics.ListAPIView):
-    serializer_class = UnidadMedidaSerializer
-
-    def get_queryset(self):
-        queryset = UnidadMedida.objects.all()
-        term = self.request.query_params.get('term', None)
-        if term is not None:
-            queryset = queryset.filter(nombre__icontains=term)
-        return queryset
 
 @login_required
 def index(request):

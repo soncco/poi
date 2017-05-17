@@ -10,6 +10,16 @@ var plan = plan || {};
             widgets : ["uitheme", "filter", "print", "stickyHeaders"],
             widgetOptions : {
               filter_reset : ".reset",
+              filter_functions : {
+                3: {
+                  'Aprobado' : function() {
+                    return 'Aprobado';
+                  },
+                  'Sin aprobar': function() {
+                    return 'Sin aprobar';
+                  },
+                }
+              }
             }
           })
           .tablesorterPager({

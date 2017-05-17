@@ -64,7 +64,7 @@ def planes_json(request):
 
     data = {
         'headers': [
-            u'Unidad Orgánica', 'Unidad Ejecutora', 'Responsable', 'Acciones'
+            u'Unidad Orgánica', 'Unidad Ejecutora', 'Responsable', 'Estado', 'Acciones'
         ],
     }
 
@@ -82,6 +82,10 @@ def planes_json(request):
     if 'filter[2]' in filters:
         planes = planes.filter(responsable__icontains = request.GET.get('filter[2]'))
 
+    if 'filter[3]' in filters:
+        estado = True if request.GET.get('filter[3]') == 'Aprobado' else False
+        planes = planes.filter(aprobado = estado)
+
 
 
     if 'column[0]' in cols:
@@ -95,6 +99,10 @@ def planes_json(request):
     if 'column[2]' in cols:
         signo = '' if request.GET.get('column[2]') == '0' else '-'
         planes = planes.order_by('%sresponsable' % signo)
+
+    if 'column[2]' in cols:
+        signo = '' if request.GET.get('column[3]') == '0' else '-'
+        planes = planes.order_by('%saprobado' % signo)
 
     total_rows = planes.count()
 
@@ -111,7 +119,8 @@ def planes_json(request):
             '0': plan.unidad_organica.nombre,
             '1': plan.area_ejecutora.nombre,
             '2': plan.responsable,
-            '3': links,
+            '3': "Aprobado" if plan.aprobado else "Sin aprobar",
+            '4': links,
         })
         rows.append(obj)
 

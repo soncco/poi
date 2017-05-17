@@ -6,6 +6,5 @@ from django.contrib import admin
 from models import *
 
 admin.site.register(Unidad)
-admin.site.register(UnidadMedida)
 admin.site.register(UnidadOrganica)
 admin.site.register(AsignacionPresupuestal)

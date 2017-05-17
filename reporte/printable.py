@@ -97,50 +97,25 @@ def tabla_plan_nuevo(plan):
         )
 
 def tabla_plan(plan):
-    total = plan.actividad_set.count()
     return TableStyle(
             [
                 ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
                 ('BOX', (0,0), (-1,-1), 0.25, colors.black),
                 ('ALIGNMENT', (0,0), (-1,-1), 'CENTER'),
-                ('VALIGN', (0,0), (-1,-1), 'TOP'),
-                ('ALIGNMENT', (1,0), (-1,-1), 'CENTER'),
-                ('FONTNAME', (0,0), (-1,1), 'Helvetica-Bold'),
-                ('ALIGNMENT', (0,0), (4,0), 'CENTER'),
-                ('VALIGN', (0,0), (-1,1), 'MIDDLE'),
-                ('SPAN', (0,0), (0,1)), # Codigo
-                ('SPAN', (1,0), (1,1)), # Tarea
-                ('SPAN', (2,0), (2,1)), # Medida
-                ('SPAN', (4,0), (7,0)), # Meta
-                ('SPAN', (8,0), (8,1)), # Total
-                ('SPAN', (9,0), (9,1)), # Fecha
-                ('SPAN', (10,0), (10,1)), # Dist.
-                ('SPAN', (11,0), (11,1)), # Fuente
-                ('SPAN', (0,total + 2), (8,total + 2)),
+                ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
             ]
         )
 
 def tabla_plan_meses(plan):
-    total = plan.actividad_set.count()
     return TableStyle(
             [
                 ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
                 ('BOX', (0,0), (-1,-1), 0.25, colors.black),
                 ('ALIGNMENT', (0,0), (-1,-1), 'CENTER'),
-                ('VALIGN', (0,0), (-1,-1), 'TOP'),
-                ('ALIGNMENT', (1,0), (-1,-1), 'CENTER'),
-                ('FONTNAME', (0,0), (-1,1), 'Helvetica-Bold'),
-                ('ALIGNMENT', (0,0), (4,0), 'CENTER'),
-                ('VALIGN', (0,0), (-1,1), 'MIDDLE'),
-                ('SPAN', (0,0), (0,1)), # Codigo
-                ('SPAN', (1,0), (1,1)), # Tarea
-                ('SPAN', (2,0), (2,1)), # Medida
-                ('SPAN', (4,0), (15,0)), # Meta
-                ('SPAN', (16,0), (16,1)), # Total
-                ('SPAN', (17,0), (17,1)), # Fecha
-                ('SPAN', (18,0), (18,1)), # Dist.
-                ('SPAN', (19,0), (19,1)), # Fuente
-                ('SPAN', (0,total + 2), (16,total + 2)),
+                ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+                ('SPAN', (4,4), (4,11)),
+                ('LINEBELOW', (4,4), (4,11), 0, colors.white),
+                ('LINEAFTER', (4,4), (4,11), 0, colors.white),
             ]
         )
 
@@ -188,6 +163,11 @@ class ImpresionPlan:
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 27 * mm - h)
 
+
+    header = Paragraph(u'<strong>Presupuesto</strong>: S/ %s' % number_format(plan.presupuesto, 2), normal_custom(10))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin + 150 * mm, doc.height + top - 27 * mm - h)
+
     canvas.restoreState()
 
 
@@ -215,6 +195,23 @@ class ImpresionPlan:
     t_fecha = Paragraph(u'Fecha término', negrita_custom_center(size))
     t_peso = Paragraph(u'Peso %', negrita_custom_center(size))
     t_fuente = Paragraph(u'Fuente', negrita_custom_center(size))
+
+
+    ts = ['T1','T2','T3','T4']
+    meses = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Set', 'Oct', 'Nov', 'Dic']
+    tsp,tsm,mesesp,mesesm = [],[],[],[]
+    
+    for t in ts:
+        tsp.append(Paragraph(t, negrita_custom_center(size)))
+        tsm.append(Paragraph('Monto ' + t, negrita_custom_center(size)))
+
+    for mes in meses:
+        mesesp.append(Paragraph(mes, negrita_custom_center(size)))
+        mesesm.append(Paragraph('Monto' + mes, negrita_custom_center(size)))
+
+    t_total = Paragraph(u'Total Periodos', negrita_custom_center(size))
+    t_distri = Paragraph(u'Dist. Presupuestal', negrita_custom_center(size))
+
 
 
     conteo = 1
@@ -245,7 +242,83 @@ class ImpresionPlan:
 
         elements.append(detalles_tabla)
 
+
+        if plan.periodo == '1':
+
+            t1 = Paragraph(str(actividad.t1), normal_custom_center(size))
+            t2 = Paragraph(str(actividad.t2), normal_custom_center(size))
+            t3 = Paragraph(str(actividad.t3), normal_custom_center(size))
+            t4 = Paragraph(str(actividad.t4), normal_custom_center(size))
+            total = Paragraph(str(actividad.total), normal_custom_center(size))
+
+            p1 = Paragraph(number_format('S/ ' + str(actividad.p1), 2), normal_custom_center(size))
+            p2 = Paragraph(number_format('S/ ' + str(actividad.p2), 2), normal_custom_center(size))
+            p3 = Paragraph(number_format('S/ ' + str(actividad.p3), 2), normal_custom_center(size))
+            p4 = Paragraph(number_format('S/ ' + str(actividad.p4), 2), normal_custom_center(size))
+            distribucion = Paragraph('S/ ' + number_format(actividad.distribucion_presupuestal, 2), normal_custom_center(size))
+
+            detalles_data = [
+                [tsp[0], tsp[1], tsp[2], tsp[3], t_total],
+                [t1, t2, t3, t4, total],
+                [tsm[0], tsm[1], tsm[2], tsm[3], t_distri],
+                [p1, p2, p3, p4, distribucion],
+            ]
+
+            detalles_tabla = Table(detalles_data, colWidths = [None], style = tabla_plan(plan))
+            elements.append(detalles_tabla)
+
+        else:
+            t1 = Paragraph(str(actividad.t1), normal_custom_center(size))
+            t2 = Paragraph(str(actividad.t2), normal_custom_center(size))
+            t3 = Paragraph(str(actividad.t3), normal_custom_center(size))
+            t4 = Paragraph(str(actividad.t4), normal_custom_center(size))
+            t5 = Paragraph(str(actividad.t5), normal_custom_center(size))
+            t6 = Paragraph(str(actividad.t6), normal_custom_center(size))
+            t7 = Paragraph(str(actividad.t7), normal_custom_center(size))
+            t8 = Paragraph(str(actividad.t8), normal_custom_center(size))
+            t9 = Paragraph(str(actividad.t9), normal_custom_center(size))
+            t10 = Paragraph(str(actividad.t10), normal_custom_center(size))
+            t11 = Paragraph(str(actividad.t11), normal_custom_center(size))
+            t12 = Paragraph(str(actividad.t12), normal_custom_center(size))
+            total = Paragraph(str(actividad.total), normal_custom_center(size))
+
+            p1 = Paragraph(number_format('S/ ' + str(actividad.p1), 2), normal_custom_center(size))
+            p2 = Paragraph(number_format('S/ ' + str(actividad.p2), 2), normal_custom_center(size))
+            p3 = Paragraph(number_format('S/ ' + str(actividad.p3), 2), normal_custom_center(size))
+            p4 = Paragraph(number_format('S/ ' + str(actividad.p4), 2), normal_custom_center(size))
+            p5 = Paragraph(number_format('S/ ' + str(actividad.p5), 2), normal_custom_center(size))
+            p6 = Paragraph(number_format('S/ ' + str(actividad.p6), 2), normal_custom_center(size))
+            p7 = Paragraph(number_format('S/ ' + str(actividad.p7), 2), normal_custom_center(size))
+            p8 = Paragraph(number_format('S/ ' + str(actividad.p8), 2), normal_custom_center(size))
+            p9 = Paragraph(number_format('S/ ' + str(actividad.p9), 2), normal_custom_center(size))
+            p10 = Paragraph(number_format('S/ ' + str(actividad.p10), 2), normal_custom_center(size))
+            p11 = Paragraph(number_format('S/ ' + str(actividad.p11), 2), normal_custom_center(size))
+            p12 = Paragraph(number_format('S/ ' + str(actividad.p12), 2), normal_custom_center(size))
+            distribucion = Paragraph('S/ ' + number_format(actividad.distribucion_presupuestal, 2), normal_custom_center(size))
+
+            detalles_data = [
+                [mesesp[0], mesesp[1], mesesp[2], mesesp[3], t_total],
+                [t1, t2, t3, t4, total],
+                [mesesm[0], mesesm[1], mesesm[2], mesesm[3], t_distri],
+                [p1, p2, p3, p4, distribucion],
+
+                [mesesp[4], mesesp[5], mesesp[6], mesesp[7], ''],
+                [t5, t6, t7, t8, ''],
+                [mesesm[4], mesesm[5], mesesm[6], mesesm[7], ''],
+                [p5, p6, p7, p8, ''],
+
+                [mesesp[8], mesesp[9], mesesp[10], mesesp[11], ''],
+                [t9, t10, t11, t12, ''],
+                [mesesm[8], mesesm[9], mesesm[10], mesesm[11], ''],
+                [p9, p10, p11, p12, ''],
+            ]
+
+            detalles_tabla = Table(detalles_data, colWidths = [None], style = tabla_plan_meses(plan))
+            elements.append(detalles_tabla)
+
         conteo = conteo + 1
+
+        elements.append(Spacer(0,2 * mm))
 
 
         

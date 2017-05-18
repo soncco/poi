@@ -142,7 +142,7 @@ var plan = plan || {};
         var r = confirm('¿Estás seguro de aprobar este plan?');
         if(r) {
             $('#id_aprobado').val('True');
-            $('form').submit();
+            $('.form-aprobar').submit();
         }
     })
 
@@ -150,8 +150,8 @@ var plan = plan || {};
         e.preventDefault();
         var r = confirm('¿Estás seguro de quitar la aprobación de este plan?');
         if(r) {
-            $('#id_aprobado').val('True');
-            $('form').submit();
+            $('#id_aprobado').val('False');
+            $('.form-aprobar').submit();
         }
     })
 

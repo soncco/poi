@@ -71,10 +71,10 @@ def planes_json(request):
         ],
     }
 
-    if grupo_administrador(request.user) or grupo_logistico(request.user):
-        planes = Plan.objects.all().order_by('-pk')
-    else:
+    if solo_responsable(request.user):
         planes = Plan.objects.filter(creado_por = request.user).order_by('-pk')
+    else:
+        planes = Plan.objects.all().order_by('-pk')
 
     if 'filter[0]' in filters:
         planes = planes.filter(unidad_organica__nombre__icontains = request.GET.get('filter[0]'))

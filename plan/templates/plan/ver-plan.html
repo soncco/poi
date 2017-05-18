@@ -16,11 +16,11 @@
 {% endblock actions %}
 
 {% block content %}
-    <form action="{% url 'plan:aprobar_plan' plan.pk %}" method="post">
+    <form action="{% url 'plan:aprobar_plan' plan.pk %}" method="post" class="form-aprobar">
         {% if  plan.aprobado %}
             <div class="alert alert-warning">
                 <p>Este plan está aprobado, no puede modificarse a menos que se quite la aprobación. {% ifusergroup Administrador %}
-                <button class="btn btn-sm btn-danger desaprobar" type="button" data-pk="{{ plan.pk }}"><i class="fa fa-times"></i> Quitar aprobación</button>
+                <button class="btn btn-sm btn-danger desaprobar" type="submit" data-pk="{{ plan.pk }}"><i class="fa fa-times"></i> Quitar aprobación</button>
                 <input type="hidden" name="aprobado" value="{{ plan.aprobado }}" id="id_aprobado">
                 {% endifusergroup %}</p>
             </div>

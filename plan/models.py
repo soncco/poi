@@ -22,6 +22,7 @@ class Plan(models.Model):
     presupuesto = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
     creado_por = models.ForeignKey(User, default=1)
     aprobado = models.BooleanField(default=False)
+    anio = models.TextField(default=0)
 
 class Actividad(models.Model):
     TIPOS = (

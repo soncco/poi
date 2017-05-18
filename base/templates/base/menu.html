@@ -1,5 +1,5 @@
 {% load user_groups %}
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -32,7 +32,7 @@
                 <li><a href="/admin" target="_blank">Admin</a></li>
                 {% endifusergroup %}
 
-                {% ifusergroup Logístico %}
+                {% ifusergroup Logistico %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Informes <span class="caret"></span></a>
                     <ul class="dropdown-menu">

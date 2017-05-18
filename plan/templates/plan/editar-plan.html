@@ -14,7 +14,7 @@
 {% endblock actions %}
 
 {% block content %}
-    <form action="{% url 'plan:ver_plan' plan.pk %}" method="post">
+    <form action="{% url 'plan:ver_plan' plan.pk %}" method="post" class="form-aprobar">
         {% if not plan.aprobado %}
             <div class="alert alert-warning">
                 <p>Este plan no está aprobado, puede modificarse hasta su aprobación. {% ifusergroup Administrador %}

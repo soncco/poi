@@ -137,6 +137,23 @@ var plan = plan || {};
 
 
 
+    $('.aprobar').click(function(e) {
+        e.preventDefault();
+        var r = confirm('¿Estás seguro de aprobar este plan?');
+        if(r) {
+            $('#id_aprobado').val('True');
+            $('form').submit();
+        }
+    })
+
+    $('.desaprobar').click(function(e) {
+        e.preventDefault();
+        var r = confirm('¿Estás seguro de quitar la aprobación de este plan?');
+        if(r) {
+            $('#id_aprobado').val('True');
+            $('form').submit();
+        }
+    })
 
 
 

@@ -11,7 +11,7 @@ from .models import Plan
 
 
 from .forms import PlanForm, ActividadForm, ActividadFormSet
-from .utils import crear_enlace
+from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable
 
 from base.models import AsignacionPresupuestal
 
@@ -68,7 +68,7 @@ def planes_json(request):
         ],
     }
 
-    if request.user.pk == 1: #TODO Grupo Admin
+    if grupo_administrador(request.user) or grupo_logistico(request.user):
         planes = Plan.objects.all().order_by('-pk')
     else:
         planes = Plan.objects.filter(creado_por = request.user).order_by('-pk')
@@ -132,6 +132,11 @@ def planes_json(request):
 @login_required
 def ver_plan(request, id):
     plan = Plan.objects.get(pk = id)
+    if solo_responsable(request.user):
+        if request.user != plan.creado_por:
+            messages.warning(request, 'No puedes ver planes que no te pertenecen.')
+            return HttpResponseRedirect(reverse('plan:planes'))
+
     if request.method == 'POST':
         form  = PlanForm(request.POST, instance = plan)
 
@@ -157,14 +162,33 @@ def ver_plan(request, id):
     detalle_form = ActividadFormSet()
     asignaciones = AsignacionPresupuestal.objects.all().order_by('rubro')
     context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'plan': plan}
-    return render(request, 'plan/ver-plan.html', context)
+
+    if not plan.aprobado:
+        return render(request, 'plan/editar-plan.html', context)
+    else:
+        return render(request, 'plan/ver-plan.html', context)
 
 
 @login_required
 def borrar_plan(request, id):
     plan = Plan.objects.get(pk = id)
-    plan.delete()
-    messages.success(request, 'Se ha borrado el Plan.')
+    if solo_responsable(request.user):
+        if plan.creado_por != request.user:
+            messages.error(request, u'¿Qué tratas de hacer? No puedes tocar otros planes.')
+    else:
+        plan.delete()
+        messages.success(request, u'Se ha borrado el plan.')
+
     return HttpResponseRedirect(reverse('plan:planes'))
 
+
+@login_required
+@user_passes_test(grupo_administrador)
+def aprobar_plan(request, id):
+    plan = Plan.objects.get(pk = id)
+    plan.aprobado = False
+    plan.save()
+    messages.success(request, u'Se ha quitado la aprobación el plan.')    
+
+    return HttpResponseRedirect(reverse('plan:planes'))
 

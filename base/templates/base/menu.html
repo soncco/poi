@@ -1,3 +1,4 @@
+{% load user_groups %}
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -9,8 +10,9 @@
             </button>
             <a class="navbar-brand" href="{% url 'base:index' %}">POI - MPU</a>
         </div>
-
+            
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {% if user.is_authenticated %}
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Planes <span class="caret"></span></a>
@@ -19,7 +21,8 @@
                         <li><a href="{% url 'plan:planes' %}">Lista de planes</a></li>
                     </ul>
                 </li>
-                {# if request.user.groups.all.0.username == 'Admin' or request.user.pk == 1 #}
+                
+                {% ifusergroup Administrador %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Informes <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -27,8 +30,18 @@
                     </ul>
                 </li>
                 <li><a href="/admin" target="_blank">Admin</a></li>
-                {# endif #}
+                {% endifusergroup %}
+
+                {% ifusergroup Logístico %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Informes <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        
+                    </ul>
+                </li>
+                {% endifusergroup %}
             </ul>
+            {% endif %}
             <ul class="nav navbar-nav pull-right">
                 {% if user.is_authenticated %}
                 <li><a href="#">Hola {{ user.username }}</a></li>

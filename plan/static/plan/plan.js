@@ -159,7 +159,7 @@ var plan = plan || {};
 
     var calculoEvaluacion = function() {
 
-        $('.tabla-actividad').each(function(i) {
+        $('.actividad').each(function(i) {
 
             var resultadototal = 0;
             var resultadomonto = 0;
@@ -173,6 +173,51 @@ var plan = plan || {};
 
             $(this).find('.resultadototal').val(resultadototal.toFixed(2));
             $(this).find('.resultadomonto').val(resultadomonto.toFixed(2));
+
+            var actividad_total = $(this).find('.actividad-total').data('val') * 1;
+            var actividad_distribucion = $(this).find('.actividad-distribucion').data('val') * 1;
+
+            var porcentajet = resultadototal * 100 / actividad_total;
+            var porcentajep = resultadomonto * 100 / actividad_distribucion;
+
+            var clasep = 'text-success';
+            var alertap = 'Adecuado';
+            var claset = 'text-success';
+            var alertat = 'Adecuado';
+
+            if(porcentajet < 50) {
+                claset = 'text-danger';
+                alertat = 'Retrasado';
+            } else if (porcentajet >= 50 && porcentajet < 75) {
+                claset = 'text-warning';
+                alertat = 'Aceptable';
+            }
+
+            if(porcentajep < 50) {
+                clasep = 'text-danger';
+                alertap = 'Retrasado';
+            } else if (porcentajep >= 50 && porcentajep < 75) {
+                clasep = 'text-warning'
+                alertap = 'Aceptable';
+            }
+
+            $(this).find('.porcentajet span')
+                .text(porcentajet.toFixed(2) + '%')
+                .removeClass()
+                .addClass(claset);
+            $(this).find('.porcentajep span')
+                .text(porcentajep.toFixed(2) + '%')
+                .removeClass()
+                .addClass(clasep);
+
+            $(this).find('.alertat span')
+                .text(alertat)
+                .removeClass()
+                .addClass(claset);
+            $(this).find('.alertap span')
+                .text(alertap)
+                .removeClass()
+                .addClass(clasep);
 
         })
 

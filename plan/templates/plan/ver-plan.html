@@ -79,267 +79,274 @@
             <div class="actividades">
                 {% for actividad in plan.actividad_set.all %}
                 <div class="actividad small">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="">Tarea o actividad</label>
-                            <p>{{ actividad.tarea_actividad }}</p>
-                            
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">U. de medida</label>
-                            <p>{{ actividad.unidad_medida }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Peso (%)</label>
-                            <p>{{ actividad.peso|unlocalize }}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="">Fecha término</label>
-                            <p>{{ actividad.fecha_termino|date:"d-m-Y" }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Asignación presupuestal</label>
-                            <p>{{ actividad.asignacion_presupuestal.fuente }}</p>
-                        </div>
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                    <div class="col-md-7">
-                        <table class="table table-bordered table-striped tabla-actividad">
-                            <tbody>
-                                <tr>
-                                    <th><span class="t">T1</span><span class="m">Ene</span></th>
-                                    <th>Ejecución <span class="t">T1</span><span class="m">Ene</span></th>
-                                    <th>Monto <span class="t">T1</span><span class="m">Ene</span></th>
-                                    <th>Ejecución Monto <span class="t">T1</span><span class="m">Ene</span></th>
-                                </tr>
-                                <tr>
-                                    <td>{{ actividad.t1|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t1|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p1|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p1|unlocalize }}"></td>
-                                </tr>
-
-                                <tr>
-                                    <th><span class="t">T2</span><span class="m">Feb</span></th>
-                                    <th>Ejecución <span class="t">T2</span><span class="m">Feb</span></th>
-                                    <th>Monto <span class="t">T2</span><span class="m">Feb</span></th>
-                                    <th>Ejecución Monto <span class="t">T2</span><span class="m">Feb</span></th>
-                                </tr>
-                                <tr>
-                                    <td>{{ actividad.t2|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t2|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p2|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p2|unlocalize }}"></td>
-                                </tr>
-
-                                <tr>
-                                    <th><span class="t">T3</span><span class="m">Mar</span></th>
-                                    <th>Ejecución <span class="t">T3</span><span class="m">Mar</span></th>
-                                    <th>Monto <span class="t">T3</span><span class="m">Mar</span></th>
-                                    <th>Ejecución Monto <span class="t">T3</span><span class="m">Mar</span></th>
-                                </tr>
-                                <tr>
-                                    <td>{{ actividad.t3|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t3|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p3|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p3|unlocalize }}"></td>
-                                </tr>
-
-                                <tr>
-                                    <th><span class="t">T4</span><span class="m">Abr</span></th>
-                                    <th>Ejecución <span class="t">T4</span><span class="m">Abr</span></th>
-                                    <th>Monto <span class="t">T4</span><span class="m">Abr</span></th>
-                                    <th>Ejecución Monto <span class="t">T4</span><span class="m">Abr</span></th>
-                                </tr>
-                                <tr>
-                                    <td>{{ actividad.t4|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t4|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p4|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p4|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T5</span><span class="m">May</span></th>
-                                    <th>Ejecución <span class="t">T5</span><span class="m">May</span></th>
-                                    <th>Monto <span class="t">T5</span><span class="m">May</span></th>
-                                    <th>Ejecución Monto <span class="t">T5</span><span class="m">May</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t5|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t5|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p5|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p5|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T6</span><span class="m">Jun</span></th>
-                                    <th>Ejecución <span class="t">T6</span><span class="m">Jun</span></th>
-                                    <th>Monto <span class="t">T6</span><span class="m">Jun</span></th>
-                                    <th>Ejecución Monto <span class="t">T6</span><span class="m">Jun</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t6|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t6|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p6|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p6|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T7</span><span class="m">Jul</span></th>
-                                    <th>Ejecución <span class="t">T7</span><span class="m">Jul</span></th>
-                                    <th>Monto <span class="t">T7</span><span class="m">Jul</span></th>
-                                    <th>Ejecución Monto <span class="t">T7</span><span class="m">Jul</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t7|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t7|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p7|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p7|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T8</span><span class="m">Ago</span></th>
-                                    <th>Ejecución <span class="t">T8</span><span class="m">Ago</span></th>
-                                    <th>Monto <span class="t">T8</span><span class="m">Ago</span></th>
-                                    <th>Ejecución Monto <span class="t">T8</span><span class="m">Ago</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t8|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t8|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p8|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p8|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T9</span><span class="m">Set</span></th>
-                                    <th>Ejecución <span class="t">T9</span><span class="m">Set</span></th>
-                                    <th>Monto <span class="t">T9</span><span class="m">Set</span></th>
-                                    <th>Ejecución Monto <span class="t">T9</span><span class="m">Set</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t9|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t9|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p9|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p9|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T10</span><span class="m">Oct</span></th>
-                                    <th>Ejecución <span class="t">T10</span><span class="m">Oct</span></th>
-                                    <th>Monto <span class="t">T10</span><span class="m">Oct</span></th>
-                                    <th>Ejecución Monto <span class="t">T10</span><span class="m">Oct</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t10|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t10|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p10|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p10|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T11</span><span class="m">Nov</span></th>
-                                    <th>Ejecución <span class="t">T11</span><span class="m">Nov</span></th>
-                                    <th>Monto <span class="t">T11</span><span class="m">Nov</span></th>
-                                    <th>Ejecución Monto <span class="t">T11</span><span class="m">Nov</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t11|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t11|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p11|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p11|unlocalize }}"></td>
-                                </tr>
-
-                                <tr class="periodo hidden">
-                                    <th><span class="t">T12</span><span class="m">Dic</span></th>
-                                    <th>Ejecución <span class="t">T12</span><span class="m">Dic</span></th>
-                                    <th>Monto <span class="t">T12</span><span class="m">Dic</span></th>
-                                    <th>Ejecución Monto <span class="t">T12</span><span class="m">Dic</span></th>
-                                </tr>
-                                <tr class="periodo hidden">
-                                    <td>{{ actividad.t12|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadot" value="{{ actividad.resultado.t12|unlocalize }}"></td>
-                                    <td>S/ {{ actividad.p12|unlocalize }}</td>
-                                    <td><input type="number" step="any" class="form-control input-sm resultadop" value="{{ actividad.resultado.p12|unlocalize }}"></td>
-                                </tr>
-
+                    <form action="" class="actividad-{{ actividad.pk }}">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Tarea o actividad</label>
+                                <p>{{ actividad.tarea_actividad }}</p>
                                 
-                            </tbody>
-
-                            <tfoot>
-                                <tr class="text-info">
-                                    <th>Programado</th>
-                                    <th>Ejecutado</th>
-                                    <th>Monto Programado</th>
-                                    <th>Monto Ejecutado</th>
-                                </tr>
-                                <tr>
-                                    <td>{{ actividad.total|unlocalize }}</td>
-                                    <td><input type="number" readonly class="form-control input-sm resultadototal" value="{{ actividad.resultado.total|unlocalize }}"></td>
-                                    <td>{{ actividad.distribucion_presupuestal|unlocalize }}</td>
-                                    <td><input type="number" readonly class="form-control input-sm resultadomonto" value="{{ actividad.resultado.distribucion_presupuestal|unlocalize }}"></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div class="col-md-5">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Total en <span class="t">periodos</span><span class="m">meses</span></label>
-                                    <p class="actividad-total" data-val="{{ actividad.total|unlocalize }}">{{ actividad.total|unlocalize }}</p>
-
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="">Tipo de medición</label>
-                                    <p>{{ actividad.get_tipo_t_display }}</p>
-                                </div>
                             </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="">Distribución presupuestal S/</label>
-                            <p class="actividad-distribucion" data-val="{{ actividad.distribucion_presupuestal|unlocalize }}">{{ actividad.distribucion_presupuestal|unlocalize }}</p>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">U. de medida</label>
+                                <p>{{ actividad.unidad_medida }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Peso (%)</label>
+                                <p>{{ actividad.peso|unlocalize }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Fecha término</label>
+                                <p>{{ actividad.fecha_termino|date:"d-m-Y" }}</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Asignación presupuestal</label>
+                                <p>{{ actividad.asignacion_presupuestal.fuente }}</p>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="well">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="">Grado de cumplimiento</label>
-                                        <h3 class="porcentajet"><span></span></h3>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-7">
+                            <table class="table table-bordered table-striped tabla-actividad">
+                                <tbody>
+                                    <tr>
+                                        <th><span class="t">T1</span><span class="m">Ene</span></th>
+                                        <th>Ejecución <span class="t">T1</span><span class="m">Ene</span></th>
+                                        <th>Monto <span class="t">T1</span><span class="m">Ene</span></th>
+                                        <th>Ejecución Monto <span class="t">T1</span><span class="m">Ene</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ actividad.t1|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t1" class="form-control input-sm resultadot" value="{{ actividad.resultado.t1|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p1|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p1" class="form-control input-sm resultadop" value="{{ actividad.resultado.p1|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th><span class="t">T2</span><span class="m">Feb</span></th>
+                                        <th>Ejecución <span class="t">T2</span><span class="m">Feb</span></th>
+                                        <th>Monto <span class="t">T2</span><span class="m">Feb</span></th>
+                                        <th>Ejecución Monto <span class="t">T2</span><span class="m">Feb</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ actividad.t2|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t2" class="form-control input-sm resultadot" value="{{ actividad.resultado.t2|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p2|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p2" class="form-control input-sm resultadop" value="{{ actividad.resultado.p2|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th><span class="t">T3</span><span class="m">Mar</span></th>
+                                        <th>Ejecución <span class="t">T3</span><span class="m">Mar</span></th>
+                                        <th>Monto <span class="t">T3</span><span class="m">Mar</span></th>
+                                        <th>Ejecución Monto <span class="t">T3</span><span class="m">Mar</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ actividad.t3|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t3" class="form-control input-sm resultadot" value="{{ actividad.resultado.t3|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p3|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p3" class="form-control input-sm resultadop" value="{{ actividad.resultado.p3|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr>
+                                        <th><span class="t">T4</span><span class="m">Abr</span></th>
+                                        <th>Ejecución <span class="t">T4</span><span class="m">Abr</span></th>
+                                        <th>Monto <span class="t">T4</span><span class="m">Abr</span></th>
+                                        <th>Ejecución Monto <span class="t">T4</span><span class="m">Abr</span></th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ actividad.t4|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t4" class="form-control input-sm resultadot" value="{{ actividad.resultado.t4|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p4|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p4" class="form-control input-sm resultadop" value="{{ actividad.resultado.p4|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T5</span><span class="m">May</span></th>
+                                        <th>Ejecución <span class="t">T5</span><span class="m">May</span></th>
+                                        <th>Monto <span class="t">T5</span><span class="m">May</span></th>
+                                        <th>Ejecución Monto <span class="t">T5</span><span class="m">May</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t5|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t5" class="form-control input-sm resultadot" value="{{ actividad.resultado.t5|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p5|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p5" class="form-control input-sm resultadop" value="{{ actividad.resultado.p5|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T6</span><span class="m">Jun</span></th>
+                                        <th>Ejecución <span class="t">T6</span><span class="m">Jun</span></th>
+                                        <th>Monto <span class="t">T6</span><span class="m">Jun</span></th>
+                                        <th>Ejecución Monto <span class="t">T6</span><span class="m">Jun</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t6|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t6" class="form-control input-sm resultadot" value="{{ actividad.resultado.t6|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p6|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p6" class="form-control input-sm resultadop" value="{{ actividad.resultado.p6|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T7</span><span class="m">Jul</span></th>
+                                        <th>Ejecución <span class="t">T7</span><span class="m">Jul</span></th>
+                                        <th>Monto <span class="t">T7</span><span class="m">Jul</span></th>
+                                        <th>Ejecución Monto <span class="t">T7</span><span class="m">Jul</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t7|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t7" class="form-control input-sm resultadot" value="{{ actividad.resultado.t7|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p7|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p7" class="form-control input-sm resultadop" value="{{ actividad.resultado.p7|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T8</span><span class="m">Ago</span></th>
+                                        <th>Ejecución <span class="t">T8</span><span class="m">Ago</span></th>
+                                        <th>Monto <span class="t">T8</span><span class="m">Ago</span></th>
+                                        <th>Ejecución Monto <span class="t">T8</span><span class="m">Ago</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t8|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t8" class="form-control input-sm resultadot" value="{{ actividad.resultado.t8|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p8|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p8" class="form-control input-sm resultadop" value="{{ actividad.resultado.p8|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T9</span><span class="m">Set</span></th>
+                                        <th>Ejecución <span class="t">T9</span><span class="m">Set</span></th>
+                                        <th>Monto <span class="t">T9</span><span class="m">Set</span></th>
+                                        <th>Ejecución Monto <span class="t">T9</span><span class="m">Set</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t9|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t9" class="form-control input-sm resultadot" value="{{ actividad.resultado.t9|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p9|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p9" class="form-control input-sm resultadop" value="{{ actividad.resultado.p9|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T10</span><span class="m">Oct</span></th>
+                                        <th>Ejecución <span class="t">T10</span><span class="m">Oct</span></th>
+                                        <th>Monto <span class="t">T10</span><span class="m">Oct</span></th>
+                                        <th>Ejecución Monto <span class="t">T10</span><span class="m">Oct</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t10|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t10" class="form-control input-sm resultadot" value="{{ actividad.resultado.t10|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p10|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p10" class="form-control input-sm resultadop" value="{{ actividad.resultado.p10|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T11</span><span class="m">Nov</span></th>
+                                        <th>Ejecución <span class="t">T11</span><span class="m">Nov</span></th>
+                                        <th>Monto <span class="t">T11</span><span class="m">Nov</span></th>
+                                        <th>Ejecución Monto <span class="t">T11</span><span class="m">Nov</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t11|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t11" class="form-control input-sm resultadot" value="{{ actividad.resultado.t11|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p11|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p11" class="form-control input-sm resultadop" value="{{ actividad.resultado.p11|unlocalize }}" required></td>
+                                    </tr>
+
+                                    <tr class="periodo hidden">
+                                        <th><span class="t">T12</span><span class="m">Dic</span></th>
+                                        <th>Ejecución <span class="t">T12</span><span class="m">Dic</span></th>
+                                        <th>Monto <span class="t">T12</span><span class="m">Dic</span></th>
+                                        <th>Ejecución Monto <span class="t">T12</span><span class="m">Dic</span></th>
+                                    </tr>
+                                    <tr class="periodo hidden">
+                                        <td>{{ actividad.t12|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="t12" class="form-control input-sm resultadot" value="{{ actividad.resultado.t12|unlocalize }}" required></td>
+                                        <td>S/ {{ actividad.p12|unlocalize }}</td>
+                                        <td><input type="number" step="any" min="0" name="p12" class="form-control input-sm resultadop" value="{{ actividad.resultado.p12|unlocalize }}" required></td>
+                                    </tr>
+
+                                    
+                                </tbody>
+
+                                <tfoot>
+                                    <tr class="text-info">
+                                        <th>Programado</th>
+                                        <th>Ejecutado</th>
+                                        <th>Monto Programado</th>
+                                        <th>Monto Ejecutado</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ actividad.total|unlocalize }}</td>
+                                        <td><input type="number" readonly class="form-control input-sm resultadototal" name="total" value="{{ actividad.resultado.total|unlocalize }}"></td>
+                                        <td>{{ actividad.distribucion_presupuestal|unlocalize }}</td>
+                                        <td><input type="number" readonly class="form-control input-sm resultadomonto" name="distribucion_presupuestal" value="{{ actividad.resultado.distribucion_presupuestal|unlocalize }}"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Total en <span class="t">periodos</span><span class="m">meses</span></label>
+                                        <p class="actividad-total" data-val="{{ actividad.total|unlocalize }}">{{ actividad.total|unlocalize }}</p>
+
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="">Alerta de gestión total</label>
-                                        <h3 class="alertat"><span></span></h3>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Tipo de medición</label>
+                                        <p>{{ actividad.get_tipo_t_display }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="well">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="">Grado de cumplimiento</label>
-                                        <h3 class="porcentajep"><span></span></h3>
+                            
+                            <div class="form-group">
+                                <label for="">Distribución presupuestal S/</label>
+                                <p class="actividad-distribucion" data-val="{{ actividad.distribucion_presupuestal|unlocalize }}">{{ actividad.distribucion_presupuestal|unlocalize }}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="well">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">Grado de cumplimiento</label>
+                                            <h3 class="porcentajet"><span></span></h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="">Alerta de gestión total</label>
+                                            <h3 class="alertat"><span></span></h3>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="">Alerta de gestión monto</label>
-                                        <h3 class="alertap"><span></span></h3>
+                                </div>
+                                <div class="well">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="">Grado de cumplimiento</label>
+                                            <h3 class="porcentajep"><span></span></h3>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="">Alerta de gestión monto</label>
+                                            <h3 class="alertap"><span></span></h3>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="col-md-12">
-                        <hr>
-                    </div>
+                            <button class="btn btn-block btn-info guardar-actividad" data-actividad="{{ actividad.pk }}" type="submit"><i class="fa fa-save"></i> Guardar datos de esta actividad</button>
+                            <input type="hidden" name="pertenece_a" value="{{ actividad.pk }}">
+                            <input type="hidden" name="pk" value="{{ actividad.resultado.pk }}">
+                            {% csrf_token %}
+                        </div>
+
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                    </form>
                 </div>                    
                 {% endfor %}
             </div>

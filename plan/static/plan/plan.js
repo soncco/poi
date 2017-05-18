@@ -228,6 +228,22 @@ var plan = plan || {};
     $('.resultadop').bind('keyup mouseup', calculoEvaluacion);
 
 
+    $('.guardar-actividad').click(function(e) {
+        var pk = $(this).data('actividad');
+        $.ajax({
+            url: '/actividad/guardar/',
+            type: 'POST',
+            data: $('.actividad-' + pk).serialize(),
+            success: function(data) {
+                alert('Se guardaron los datos de esta actividad.');
+            },
+            error: function(data) {
+                alert('No se pudo guardar los datos de la actividad, intente nuevamente.')
+            }
+        });
+        
+        return false;
+    });
 
 
 })(jQuery)

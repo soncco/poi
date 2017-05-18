@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Plan, Resultado
 
 
-from .forms import PlanForm, ActividadForm, ActividadFormSet
+from .forms import PlanForm, ActividadForm, ActividadFormSet, ResultadoForm
 from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado
 
 from base.models import AsignacionPresupuestal
@@ -201,3 +201,11 @@ def aprobar_plan(request, id):
 
     return HttpResponseRedirect(reverse('plan:planes'))
 
+@login_required
+@user_passes_test(grupo_administrador)
+def guardar_actividad(request):
+    pk = request.POST.get('pk')
+    resultado = Resultado.objects.get(pk = pk)
+    form  = ResultadoForm(request.POST, instance = resultado)
+    form.save()
+    return HttpResponse(pk)

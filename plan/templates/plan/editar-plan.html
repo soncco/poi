@@ -71,7 +71,7 @@
 
             <div class="actividades">
                 {% for actividad in plan.actividad_set.all %}
-                <div class="actividad">
+                <div class="actividad small">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Tarea o actividad</label>
@@ -117,9 +117,9 @@
                                     <input type="number" class="t-input input-sm form-control" min="0" step="any"  name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-t1" required  value="{{ actividad.t1|unlocalize }}">
                                 </div>
                                 <div class="form-group">
-                            <label for="">Monto <span class="t">T1</span><span class="m">Ene</span></label>
-                            <input type="number" class="input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p1" required  value="{{ actividad.p1|unlocalize }}">
-                        </div>
+                                    <label for="">Monto <span class="t">T1</span><span class="m">Ene</span></label>
+                                    <input type="number" class="input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p1" required  value="{{ actividad.p1|unlocalize }}">
+                                </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">

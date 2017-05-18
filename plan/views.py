@@ -7,11 +7,11 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from .models import Plan
+from .models import Plan, Resultado
 
 
 from .forms import PlanForm, ActividadForm, ActividadFormSet
-from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable
+from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado
 
 from base.models import AsignacionPresupuestal
 
@@ -29,6 +29,9 @@ def plan(request):
             plan.save()
             detalle_form.instance = plan
             detalle_form.save()
+
+            for actividad in plan.actividad_set.all():
+                crear_resultado(actividad)
             messages.success(request, 'Se ha creado un plan.')
             return HttpResponseRedirect('%s%s%s' % (reverse('plan:planes'), '?imprimir=', plan.pk))
 
@@ -111,7 +114,10 @@ def planes_json(request):
     rows = []
     for plan in planes:
 
-        links = crear_enlace(reverse('plan:ver_plan', args=[plan.pk]), 'warning', 'Ver o Editar', 'edit')
+        if not plan.aprobado:
+            links = crear_enlace(reverse('plan:ver_plan', args=[plan.pk]), 'warning', 'Ver o Editar', 'edit')
+        else:
+            links = crear_enlace(reverse('plan:ver_plan', args=[plan.pk]), 'primary', 'Ver o evaluar', 'eye')
         links += crear_enlace(reverse('reporte:imprimir_plan', args=[plan.pk]), 'info print', 'Imprimir', 'print')
         links += crear_enlace(reverse('plan:borrar_plan', args=[plan.pk]), 'danger', 'Borrar', 'times')
 
@@ -148,6 +154,9 @@ def ver_plan(request, id):
                 for actividad in plan.actividad_set.all():
                     actividad.delete()
                 detalle_form.save()
+
+                for actividad in plan.actividad_set.all():
+                    crear_resultado(actividad)
 
                 messages.success(request, 'Se ha modificado el Plan.')
                 return HttpResponseRedirect(reverse('plan:planes'))

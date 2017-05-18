@@ -155,6 +155,33 @@ var plan = plan || {};
         }
     })
 
+    // Evaluación
+
+    var calculoEvaluacion = function() {
+
+        $('.tabla-actividad').each(function(i) {
+
+            var resultadototal = 0;
+            var resultadomonto = 0;
+
+            $(this).find('.resultadot').each(function(i) {
+                resultadototal += $(this).val() * 1;
+            });
+            $(this).find('.resultadop').each(function(i) {
+                resultadomonto += $(this).val() * 1;
+            });
+
+            $(this).find('.resultadototal').val(resultadototal.toFixed(2));
+            $(this).find('.resultadomonto').val(resultadomonto.toFixed(2));
+
+        })
+
+    }
+
+    calculoEvaluacion();
+    $('.resultadot').bind('keyup mouseup', calculoEvaluacion);
+    $('.resultadop').bind('keyup mouseup', calculoEvaluacion);
+
 
 
 

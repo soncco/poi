@@ -3,7 +3,7 @@
 from django.forms import ModelForm, TextInput, DateInput, Select, Textarea, HiddenInput, NumberInput, EmailInput, DateField
 from django.forms.models import inlineformset_factory
 
-from models import Plan, Actividad
+from models import Plan, Actividad, Resultado
 
 class PlanForm(ModelForm):
     class Meta:
@@ -64,3 +64,8 @@ class ActividadForm(ModelForm):
         fields = '__all__'
 
 ActividadFormSet = inlineformset_factory(Plan, Actividad, fields='__all__', form=ActividadForm)
+
+class ResultadoForm(ModelForm):
+    class Meta:
+        model = Resultado
+        fields = '__all__'

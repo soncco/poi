@@ -15,6 +15,7 @@ class PlanForm(ModelForm):
             'accion_central': u'Acción central',
             'objetivo_especifico_institucional': u'Objetivo específico institucional',
             'periodo': u'Tipo de ejecución',
+            'anio': u'Año',
         }
 
         widgets = {
@@ -54,6 +55,12 @@ class PlanForm(ModelForm):
                 'class': 'form-control',
                 'required': 'required',
                 'autocomplete': 'off',
+            }),
+            'anio': TextInput(attrs={
+                'class': 'form-control',
+                'required': 'required',
+                'autocomplete': 'off',
+                'placeholder': 'Año'
             }),
         }
 

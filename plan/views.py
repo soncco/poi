@@ -13,7 +13,7 @@ from .models import Plan, Resultado
 from .forms import PlanForm, ActividadForm, ActividadFormSet, ResultadoForm
 from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado
 
-from base.models import AsignacionPresupuestal
+from base.models import Unidad, AsignacionPresupuestal
 
 from collections import OrderedDict
 import json, datetime
@@ -209,3 +209,12 @@ def guardar_actividad(request):
     form  = ResultadoForm(request.POST, instance = resultado)
     form.save()
     return HttpResponse(pk)
+
+
+# Informes
+@login_required
+@user_passes_test(grupo_administrador)
+def informe_dependencia(request):
+    unidades = Unidad.objects.all()
+    context = {'unidades': unidades}
+    return render(request, 'plan/informe-dependencia.html', context)

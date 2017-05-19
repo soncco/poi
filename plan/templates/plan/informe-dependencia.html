@@ -10,15 +10,27 @@
 {% block content %}
 
     <div class="well">
-        <form action="">
-            <div class="form-group">
-                <label for="unidades">Escoja una dependencia</label>
-                <select name="unidad" id="unidades" class="form-control" required>
-                    {% for unidad in unidades %}
-                        <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
-                    {% endfor %}
-                </select>
+        <form action="{% url 'reporte:reporte_dependencia_excel' %}" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="unidades">Escoja una dependencia</label>
+                        <select name="unidad" id="unidades" class="form-control" required>
+                            {% for unidad in unidades %}
+                                <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="unidades">Escriba el año</label>
+                        <input type="text" name="anio" class="form-control">
+                    </div>
+                </div>
             </div>
+            
+            {% csrf_token %}
             <button class="btn btn-block btn-success"><i class="fa fa-file-excel-o"></i> Exportar a Excel</button>
         </form>
     </div>

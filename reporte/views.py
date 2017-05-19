@@ -12,7 +12,7 @@ from plan.models import Plan
 from printable import ImpresionPlan
 from plan.utils import solo_responsable, grupo_administrador, grupo_logistico
 
-from base.models import Unidad
+from base.models import Unidad, UnidadOrganica
 
 from xlsxwriter.workbook import Workbook
 try:
@@ -49,14 +49,26 @@ def imprimir_plan(request, id):
 @login_required
 @user_passes_test(grupo_administrador)
 def reporte_dependencia_excel(request):
-    oficina = Unidad.objects.get(pk = request.POST.get('unidad'))
+    unidad = request.POST.get('unidad')
     anio = request.POST.get('anio')
-    planes = Plan.objects.filter(area_ejecutora = oficina, anio = anio)
+    tipo = request.POST.get('tipo')
+
+    if tipo == 'dependencia':
+        oficina = Unidad.objects.get(pk = unidad)
+        planes = Plan.objects.filter(area_ejecutora = oficina, anio = anio)
+        nombre = oficina.nombre
+    elif tipo == 'organica':
+        unidad_organica = UnidadOrganica.objects.get(pk = unidad)
+        planes = Plan.objects.filter(unidad_organica = unidad_organica, anio = anio)
+        nombre = unidad_organica.nombre
+    elif tipo == 'institucion':
+        planes = Plan.objects.filter(anio = anio)
+        nombre = 'Municipalidad'
     
     output = StringIO.StringIO()
 
     book = Workbook(output)
-    sheet = book.add_worksheet(oficina.nombre)
+    sheet = book.add_worksheet(nombre)
     sheet.set_landscape()
     sheet.set_paper(9)
 
@@ -347,6 +359,6 @@ def reporte_dependencia_excel(request):
 
     output.seek(0)
     response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    response['Content-Disposition'] = "attachment; filename=reporte-%s.xlsx" % oficina.nombre
+    response['Content-Disposition'] = "attachment; filename=reporte-%s.xlsx" % nombre
 
     return response

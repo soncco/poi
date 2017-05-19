@@ -13,5 +13,7 @@ urlpatterns = [
     url(r'^actividad/guardar/$', views.guardar_actividad, name='guardar_actividad'),
 
     # Informes.
-    url(r'^informe/dependiencia/$', views.informe_dependencia, name='informe_dependencia'),    
+    url(r'^informe/dependiencia/$', views.informe_dependencia, name='informe_dependencia'),
+    url(r'^informe/organica/$', views.informe_organica, name='informe_organica'),
+    url(r'^informe/institucion/$', views.informe_institucion, name='informe_institucion'),
 ]

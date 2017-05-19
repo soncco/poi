@@ -2,9 +2,9 @@
 
 {% load static %}
 
-{% block title %}Informe por dependencia{% endblock title %}
+{% block title %}Informe por Unidad Orgánica{% endblock title %}
 
-{% block header %}Informe por dependencia{% endblock header %}
+{% block header %}Informe por Unidad Orgánica{% endblock header %}
 
 
 {% block content %}
@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="unidades">Escoja una dependencia</label>
+                        <label for="unidades">Escoja una unidad orgánica</label>
                         <select name="unidad" id="unidades" class="form-control" required>
                             {% for unidad in unidades %}
                                 <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
@@ -32,7 +32,7 @@
             
             {% csrf_token %}
             <button class="btn btn-block btn-success"><i class="fa fa-file-excel-o"></i> Exportar a Excel</button>
-            <input type="hidden" name="tipo" value="dependencia">
+            <input type="hidden" name="tipo" value="organica">
         </form>
     </div>
     

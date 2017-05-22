@@ -119,6 +119,7 @@ def planes_json(request):
         else:
             links = crear_enlace(reverse('plan:ver_plan', args=[plan.pk]), 'primary', 'Ver o evaluar', 'eye')
         links += crear_enlace(reverse('reporte:imprimir_plan', args=[plan.pk]), 'info print', 'Imprimir', 'print')
+        links += crear_enlace('%s?pk=%s&amp;tipo=single' % (reverse('reporte:reporte_dependencia_excel',), plan.pk), 'success', 'Exportar a Excel', 'file-excel-o')
         links += crear_enlace(reverse('plan:borrar_plan', args=[plan.pk]), 'danger', 'Borrar', 'times')
 
         obj = OrderedDict({

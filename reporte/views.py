@@ -57,13 +57,26 @@ def reporte_dependencia_excel(request):
         oficina = Unidad.objects.get(pk = unidad)
         planes = Plan.objects.filter(area_ejecutora = oficina, anio = anio)
         nombre = oficina.nombre
+        titulo_hoja = 'Trabajos por Dependencia'
     elif tipo == 'organica':
         unidad_organica = UnidadOrganica.objects.get(pk = unidad)
         planes = Plan.objects.filter(unidad_organica = unidad_organica, anio = anio)
         nombre = unidad_organica.nombre
+        titulo_hoja = u'Trabajos por Unidad Orgánica'
     elif tipo == 'institucion':
         planes = Plan.objects.filter(anio = anio)
         nombre = 'Municipalidad'
+        titulo_hoja = u'Trabajos por Institución'
+    else:
+        pk = request.GET.get('pk')
+        tipo = request.GET.get('tipo')
+        if tipo == 'single':
+            planes = Plan.objects.filter(pk = pk)
+            nombre = 'simple-' + str(planes[0].pk)
+            titulo_hoja = 'Plan operativo'
+        else:
+            messages.warning(request, 'El tipo de reporte no es correcto.')
+            return HttpResponseRedirect(reverse('plan:planes'))
     
     output = StringIO.StringIO()
 
@@ -92,7 +105,7 @@ def reporte_dependencia_excel(request):
 
     hasta = 'Y'
 
-    sheet.merge_range('A1:%s1' % hasta, 'Trabajos por Dependencia', titulo)
+    sheet.merge_range('A1:%s1' % hasta, titulo_hoja, titulo)
     sheet.merge_range('B2:%s2' % hasta, 'ACCIONES CENTRALES', titulo)
 
     k = 4

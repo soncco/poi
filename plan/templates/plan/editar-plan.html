@@ -26,12 +26,33 @@
         {% endif %}
         <div class="row">
             <h2 class="page-sub-header text-success">Datos del Plan</h2>
-            <div class="col-md-4">
+            {% ifusergroup Administrador %}
+            <div class="col-md-2">
                 <div class="form-group">
-                    {{ form.unidad_organica.label_tag }}
-                    {{ form.unidad_organica }}
+                    <label for="">Número</label>
+                    <input type="text" name="numero" value="{{ plan.numero }}" class="form-control">
                 </div>
             </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {{ form.anio.label_tag }}
+                    {{ form.anio }}
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="">Número</label>
+                    <input type="text" name="numero" value="{{ plan.numero }}" class="form-control" readonly>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    {{ form.anio.label_tag }}
+                    {{ form.anio }}
+                </div>
+            </div>
+            {% endifusergroup %}
             <div class="col-md-4">
                 <div class="form-group">
                     {{ form.area_ejecutora.label_tag }}
@@ -66,12 +87,6 @@
                 <div class="form-group">
                     {{ form.periodo.label_tag }}
                     {{ form.periodo }}
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {{ form.anio.label_tag }}
-                    {{ form.anio }}
                 </div>
             </div>
             <h2 class="page-sub-header text-info">Actividades o Proyectos</h2>

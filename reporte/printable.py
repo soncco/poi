@@ -152,6 +152,11 @@ class ImpresionPlan:
     
 
     # Cabecera
+    header = Paragraph(u'Nro: %s' % plan.numero, negrita_custom(10))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top)
+
+
     header = Paragraph(u'Municipalidad Provincial de Urubamba', negrita_custom_center(15))
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top)

@@ -12,6 +12,7 @@ from .models import Plan, Resultado
 
 from .forms import PlanForm, ActividadForm, ActividadFormSet, ResultadoForm
 from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado
+from .utils import numero_plan, verificar_numero
 
 from base.models import Unidad, AsignacionPresupuestal, UnidadOrganica
 
@@ -26,7 +27,9 @@ def plan(request):
 
         if form.is_valid() and detalle_form.is_valid():
             plan = form.save(commit=False)
+            plan.numero = numero_plan(plan)
             plan.save()
+            verificar_numero(plan, request)
             detalle_form.instance = plan
             detalle_form.save()
 
@@ -67,7 +70,7 @@ def planes_json(request):
 
     data = {
         'headers': [
-            u'Unidad Orgánica', 'Unidad Ejecutora', 'Responsable', 'Estado', 'Acciones'
+            u'Número', u'Año', u'Unidad Orgánica', 'Unidad Ejecutora', 'Responsable', 'Estado', 'Acciones'
         ],
     }
 
@@ -77,33 +80,46 @@ def planes_json(request):
         planes = Plan.objects.all().order_by('-pk')
 
     if 'filter[0]' in filters:
-        planes = planes.filter(unidad_organica__nombre__icontains = request.GET.get('filter[0]'))
+        planes = planes.filter(numero = request.GET.get('filter[0]'))
 
     if 'filter[1]' in filters:
-        planes = planes.filter(area_ejecutora__nombre__icontains = request.GET.get('filter[1]'))
+        planes = planes.filter(anio = request.GET.get('filter[0]'))
 
     if 'filter[2]' in filters:
-        planes = planes.filter(responsable__icontains = request.GET.get('filter[2]'))
+        planes = planes.filter(unidad_organica__nombre__icontains = request.GET.get('filter[0]'))
 
     if 'filter[3]' in filters:
+        planes = planes.filter(area_ejecutora__nombre__icontains = request.GET.get('filter[1]'))
+
+    if 'filter[4]' in filters:
+        planes = planes.filter(responsable__icontains = request.GET.get('filter[2]'))
+
+    if 'filter[5]' in filters:
         estado = True if request.GET.get('filter[3]') == 'Aprobado' else False
         planes = planes.filter(aprobado = estado)
 
 
-
     if 'column[0]' in cols:
+        signo = '' if request.GET.get('column[0]') == '0' else '-'
+        planes = planes.order_by('%snumero' % signo)
+
+    if 'column[1]' in cols:
+        signo = '' if request.GET.get('column[0]') == '0' else '-'
+        planes = planes.order_by('%sanio' % signo)
+
+    if 'column[2]' in cols:
         signo = '' if request.GET.get('column[0]') == '0' else '-'
         planes = planes.order_by('%sunidad_organica' % signo)
 
-    if 'column[1]' in cols:
+    if 'column[3]' in cols:
         signo = '' if request.GET.get('column[1]') == '0' else '-'
         planes = planes.order_by('%sarea_ejecutora' % signo)
 
-    if 'column[2]' in cols:
+    if 'column[4]' in cols:
         signo = '' if request.GET.get('column[2]') == '0' else '-'
         planes = planes.order_by('%sresponsable' % signo)
 
-    if 'column[2]' in cols:
+    if 'column[5]' in cols:
         signo = '' if request.GET.get('column[3]') == '0' else '-'
         planes = planes.order_by('%saprobado' % signo)
 
@@ -123,11 +139,13 @@ def planes_json(request):
         links += crear_enlace(reverse('plan:borrar_plan', args=[plan.pk]), 'danger', 'Borrar', 'times')
 
         obj = OrderedDict({
-            '0': plan.unidad_organica.nombre,
-            '1': plan.area_ejecutora.nombre,
-            '2': plan.responsable,
-            '3': "Aprobado" if plan.aprobado else "Sin aprobar",
-            '4': links,
+            '0': plan.numero,
+            '1': plan.anio,
+            '2': plan.unidad_organica.nombre,
+            '3': plan.area_ejecutora.nombre,
+            '4': plan.responsable,
+            '5': "Aprobado" if plan.aprobado else "Sin aprobar",
+            '6': links,
         })
         rows.append(obj)
 
@@ -149,9 +167,11 @@ def ver_plan(request, id):
 
         if form.is_valid():
             plan = form.save(commit=False)
+            plan.numero = request.POST.get('numero')
             detalle_form = ActividadFormSet(request.POST, instance = plan)
             if detalle_form.is_valid():
                 plan.save()
+                verificar_numero(plan, request)
                 for actividad in plan.actividad_set.all():
                     actividad.delete()
                 detalle_form.save()

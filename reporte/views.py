@@ -72,7 +72,7 @@ def reporte_dependencia_excel(request):
         tipo = request.GET.get('tipo')
         if tipo == 'single':
             planes = Plan.objects.filter(pk = pk)
-            nombre = 'simple-' + str(planes[0].pk)
+            nombre = 'simple-' + str(planes[0].numero)
             titulo_hoja = 'Plan operativo'
         else:
             messages.warning(request, 'El tipo de reporte no es correcto.')
@@ -111,6 +111,9 @@ def reporte_dependencia_excel(request):
     k = 4
 
     for plan in planes:
+        sheet.write('A%s' % str(k-1), u'Número de Plan', negrita)
+        sheet.write('B%s' % str(k-1), plan.numero)
+
         sheet.write('A%s' % k, u'Unidad Orgánica', negrita)
         sheet.merge_range('B%s:H%s' % (k, k), plan.unidad_organica.nombre)
         

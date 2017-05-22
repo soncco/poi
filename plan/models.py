@@ -12,6 +12,7 @@ class Plan(models.Model):
         ('1', 'Trimestral'),
         ('2', 'Mensual'),
     )
+    numero = models.CharField(max_length=100, default='')
     unidad_organica = models.ForeignKey('base.UnidadOrganica')
     area_ejecutora = models.ForeignKey('base.Unidad')
     responsable = models.CharField(max_length=255)

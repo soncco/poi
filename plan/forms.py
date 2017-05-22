@@ -8,7 +8,7 @@ from models import Plan, Actividad, Resultado
 class PlanForm(ModelForm):
     class Meta:
         model = Plan
-        fields = '__all__'
+        exclude = ('numero', 'unidad_organica',)
 
         labels = {
             'unidad_organica': u'Unidad orgánica',
@@ -19,10 +19,6 @@ class PlanForm(ModelForm):
         }
 
         widgets = {
-            'unidad_organica': Select(attrs={
-                'class': 'form-control',
-                'required': 'required'  
-            }),
             'area_ejecutora': Select(attrs={
                 'class': 'form-control',
                 'required': 'required'

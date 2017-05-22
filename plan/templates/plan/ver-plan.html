@@ -30,24 +30,38 @@
     </form>
         <div class="row">
             <h2 class="page-sub-header text-success">Datos del Plan</h2>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 <div class="form-group">
-                    {{ form.unidad_organica.label_tag }}
-                    {{ form.unidad_organica.value }}
+                    <label for="">Número:</label>
+                    {{ plan.numero }}
+                </div>
+            </div>
+            <div class="col-md-1">
+                <div class="form-group">
+                    {{ form.anio.label_tag }}
+                    {{ form.anio.value }}
                 </div>
             </div>
             <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Unidad Orgánica:</label>
+                    {{ plan.unidad_organica }}
+                </div>
+            </div>
+            <div class="col-md-3">
                 <div class="form-group">
                     {{ form.area_ejecutora.label_tag }}
                     {{ form.area_ejecutora.value }}
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     {{ form.responsable.label_tag }}
                     {{ form.responsable.value }}
                 </div>
             </div>
+        </div>
+        <div class="row">            
             <div class="col-md-4">
                 <div class="form-group">
                     {{ form.accion_central.label_tag }}

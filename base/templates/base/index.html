@@ -1,6 +1,7 @@
 {% extends "base/base.html" %}
 
 {% load static %}
+{% load user_groups %}
 
 {% block title %}Planes{% endblock title %}
 
@@ -9,7 +10,51 @@
 
 {% block content %}
 
+<div class="row">
+    <div class="col-md-4 intro">
+        <h3 class="text-warning">¡BIENVENIDO {{ user.first_name }}!</h3>
+    </div>
+    <div class="col-md-8 padding">
+        <p>Tienes disponible las siguientes opciones:</p>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-circle text-danger"></i> Planes</div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'plan:plan' %}">Crear plan</a></li>
+                        <li class="list-group-item"><a href="{% url 'plan:planes' %}">Lista de planes</a></li>
+                    </ul>
+                </div>
+                {% ifusergroup Administrador %}
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-circle text-warning"></i> Informes</div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'plan:informe_dependencia' %}">Informe por Dependencia</a></li>
+                        <li class="list-group-item"><a href="{% url 'plan:informe_organica' %}">Informe por Unidad Orgánica</a></li>
+                        <li class="list-group-item"><a href="{% url 'plan:informe_institucion' %}">Informe por Institución</a></li>
+                    </ul>
+                </div>
+                {% endifusergroup %}
 
+            </div>
+
+            <div class="col-md-6">
+                {% ifusergroup Logistico %}
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-circle text-success"></i> Informes</div>
+                    <ul class="list-group">
+                        
+                    </ul>
+                </div>
+                {% endifusergroup %}
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
     
 {% endblock content %}
 

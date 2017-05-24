@@ -60,7 +60,7 @@ def reporte_dependencia_excel(request):
         titulo_hoja = 'Trabajos por Dependencia'
     elif tipo == 'organica':
         unidad_organica = UnidadOrganica.objects.get(pk = unidad)
-        planes = Plan.objects.filter(unidad_organica = unidad_organica, anio = anio)
+        planes = Plan.objects.filter(area_ejecutora__pertenece_a = unidad_organica, anio = anio)
         nombre = unidad_organica.nombre
         titulo_hoja = u'Trabajos por Unidad Orgánica'
     elif tipo == 'institucion':
@@ -115,7 +115,7 @@ def reporte_dependencia_excel(request):
         sheet.write('B%s' % str(k-1), plan.numero)
 
         sheet.write('A%s' % k, u'Unidad Orgánica', negrita)
-        sheet.merge_range('B%s:H%s' % (k, k), plan.unidad_organica.nombre)
+        sheet.merge_range('B%s:H%s' % (k, k), plan.area_ejecutora.pertenece_a.nombre)
         
         sheet.write('I%s' % k, u'Presupuesto S/', negrita)
         sheet.merge_range('J%s:M%s' % (k, k), plan.presupuesto, dinero)

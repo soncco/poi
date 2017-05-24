@@ -167,7 +167,7 @@ class ImpresionPlan:
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 8 * mm)
 
 
-    header = Paragraph(u'<strong>Unidad Orgánica</strong>: %s' % (plan.unidad_organica), normal_custom(9))
+    header = Paragraph(u'<strong>Unidad Orgánica</strong>: %s' % (plan.area_ejecutora.pertenece_a.nombre), normal_custom(9))
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 15 * mm - h)
 

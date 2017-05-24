@@ -141,7 +141,7 @@ def planes_json(request):
         obj = OrderedDict({
             '0': plan.numero,
             '1': plan.anio,
-            '2': plan.unidad_organica.nombre,
+            '2': plan.area_ejecutora.pertenece_a.nombre,
             '3': plan.area_ejecutora.nombre,
             '4': plan.responsable,
             '5': "Aprobado" if plan.aprobado else "Sin aprobar",

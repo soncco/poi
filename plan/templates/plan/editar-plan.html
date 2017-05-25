@@ -120,9 +120,9 @@
                             <select id="" class="input-sm form-control" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-asignacion_presupuestal" required>
                                 {% for asignacion in asignaciones %}
                                     {% if asignacion.pk == actividad.asignacion_presupuestal.pk %}
-                                        <option value="{{ asignacion.pk }}" selected>{{ asignacion.fuente }}</option>                                        
+                                        <option value="{{ asignacion.pk }}" selected>{{ asignacion.rubro }}</option>                                        
                                     {% else %}
-                                        <option value="{{ asignacion.pk }}">{{ asignacion.fuente }}</option>                                        
+                                        <option value="{{ asignacion.pk }}">{{ asignacion.rubro }}</option>                                        
                                     {% endif %}
                                 {% endfor %}
                             </select>
@@ -356,7 +356,7 @@
                     <label for="">Asignación presupuestal</label>
                     <select id="" class="input-sm form-control" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-asignacion_presupuestal" required>
                         {% for asignacion in asignaciones %}
-                            <option value="{{ asignacion.pk }}">{{ asignacion.fuente }}</option>
+                            <option value="{{ asignacion.pk }}">{{ asignacion.rubro }}</option>
                         {% endfor %}
                     </select>
                 </div>

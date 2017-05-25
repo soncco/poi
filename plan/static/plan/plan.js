@@ -65,10 +65,19 @@ var plan = plan || {};
     var sumat = function() {
         $('.actividad').each(function(i) {
             var total = 0;
+            var totalmonto = 0;
+            // Totales tiempo.
             $(this).find('.t-input').each(function(k) {
                 total += $(this).val() * 1;
             })
             $(this).find('.total-t').val(total.toFixed(2));
+
+            // Totales monto.
+            $(this).find('.m-input').each(function(k) {
+                totalmonto += $(this).val() * 1;
+            })
+            $(this).find('.distribucion').val(totalmonto.toFixed(2));
+            $(this).find('.distribucion').trigger('change');
         })
     }
 
@@ -83,8 +92,9 @@ var plan = plan || {};
     }
 
 
-    $('.distribucion').bind('keyup mouseup', calculo);
+    $('.distribucion').bind('change', calculo);
     $('.t-input').bind('keyup mouseup', sumat);
+    $('.m-input').bind('keyup mouseup', sumat);
 
     var quitar = function() {
         if($('.actividad').length == 1) {
@@ -106,8 +116,9 @@ var plan = plan || {};
 
     var delegateEvents = function(row) {
         var $row = $(row);
-        $row.find('.distribucion').bind('keyup mouseup', calculo);
+        $row.find('.distribucion').bind('change', calculo);
         $row.find('.t-input').bind('keyup mouseup', sumat);
+        $row.find('.m-input').bind('keyup mouseup', sumat);
         $row.find('.quitar-actividad').bind('click', quitar);
         $row.find('.datepicker').datepicker(datepickerOptions);
         $row.find('.acunidadmedida').autocomplete(plan.acUnidadMedidaOptions);

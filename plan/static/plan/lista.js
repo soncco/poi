@@ -11,7 +11,7 @@ var plan = plan || {};
             widgetOptions : {
               filter_reset : ".reset",
               filter_functions : {
-                3: {
+                5: {
                   'Aprobado' : function() {
                     return 'Aprobado';
                   },

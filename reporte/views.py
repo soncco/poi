@@ -47,26 +47,37 @@ def imprimir_plan(request, id):
 
 
 @login_required
-@user_passes_test(grupo_administrador)
 def reporte_dependencia_excel(request):
     unidad = request.POST.get('unidad')
     anio = request.POST.get('anio')
     tipo = request.POST.get('tipo')
 
     if tipo == 'dependencia':
-        oficina = Unidad.objects.get(pk = unidad)
-        planes = Plan.objects.filter(area_ejecutora = oficina, anio = anio)
-        nombre = oficina.nombre
-        titulo_hoja = 'Trabajos por Dependencia'
+        if not solo_responsable(request.user):
+            oficina = Unidad.objects.get(pk = unidad)
+            planes = Plan.objects.filter(area_ejecutora = oficina, anio = anio)
+            nombre = oficina.nombre
+            titulo_hoja = 'Trabajos por Dependencia'
+        else:
+            messages.warning(request, 'El tipo de reporte no es correcto.')
+            return HttpResponseRedirect(reverse('plan:planes'))
     elif tipo == 'organica':
-        unidad_organica = UnidadOrganica.objects.get(pk = unidad)
-        planes = Plan.objects.filter(area_ejecutora__pertenece_a = unidad_organica, anio = anio)
-        nombre = unidad_organica.nombre
-        titulo_hoja = u'Trabajos por Unidad Orgánica'
+        if not solo_responsable(request.user):
+            unidad_organica = UnidadOrganica.objects.get(pk = unidad)
+            planes = Plan.objects.filter(area_ejecutora__pertenece_a = unidad_organica, anio = anio)
+            nombre = unidad_organica.nombre
+            titulo_hoja = u'Trabajos por Unidad Orgánica'
+        else:
+            messages.warning(request, 'El tipo de reporte no es correcto.')
+            return HttpResponseRedirect(reverse('plan:planes'))
     elif tipo == 'institucion':
-        planes = Plan.objects.filter(anio = anio)
-        nombre = 'Municipalidad'
-        titulo_hoja = u'Trabajos por Institución'
+        if not solo_responsable(request.user):
+            planes = Plan.objects.filter(anio = anio)
+            nombre = 'Municipalidad'
+            titulo_hoja = u'Trabajos por Institución'
+        else:
+            messages.warning(request, 'El tipo de reporte no es correcto.')
+            return HttpResponseRedirect(reverse('plan:planes'))
     else:
         pk = request.GET.get('pk')
         tipo = request.GET.get('tipo')

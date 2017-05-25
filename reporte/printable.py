@@ -208,10 +208,10 @@ class ImpresionPlan:
     elements.append(Paragraph(u'<strong>Acción Central</strong>: %s' % plan.accion_central, normal_custom(9)))
     elements.append(Spacer(0, spacer))
 
-    elements.append(Paragraph(u'<strong>Objetivo General Institucional</strong>: %s' % plan.objetivo_general_institucional, normal_custom(9)))
+    elements.append(Paragraph(u'<strong>Objetivo General</strong>: %s' % plan.objetivo_general_institucional, normal_custom(9)))
     elements.append(Spacer(0, spacer))
 
-    elements.append(Paragraph(u'<strong>Objetivo Específico Institucional</strong>: %s' % plan.objetivo_especifico_institucional, normal_custom(9)))
+    elements.append(Paragraph(u'<strong>Objetivo Específico</strong>: %s' % plan.objetivo_especifico_institucional, normal_custom(9)))
     elements.append(Spacer(0, spacer))
 
 

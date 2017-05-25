@@ -13,7 +13,8 @@ class PlanForm(ModelForm):
         labels = {
             'unidad_organica': u'Unidad orgánica',
             'accion_central': u'Acción central',
-            'objetivo_especifico_institucional': u'Objetivo específico institucional',
+            'objetivo_general_institucional': u'Objetivo general',
+            'objetivo_especifico_institucional': u'Objetivo específico',
             'periodo': u'Tipo de ejecución',
             'anio': u'Año',
         }

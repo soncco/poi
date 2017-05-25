@@ -20,6 +20,7 @@ class UnidadOrganica(models.Model):
 class Unidad(models.Model):
     pertenece_a = models.ForeignKey(UnidadOrganica)
     nombre = models.CharField(max_length=255)
+    abreviatura = models.CharField(max_length=20, default='')
 
     class Meta:
         verbose_name='Unidad'

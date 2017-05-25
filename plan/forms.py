@@ -40,13 +40,13 @@ class PlanForm(ModelForm):
                 'class': 'form-control',
                 'required': 'required',
                 'autocomplete': 'off',
-                'placeholder': 'Objetivo general institucional'
+                'placeholder': 'Objetivo general'
             }),
             'objetivo_especifico_institucional': Textarea(attrs={
                 'class': 'form-control',
                 'required': 'required',
                 'autocomplete': 'off',
-                'placeholder': 'Objetivo específico institucional'
+                'placeholder': 'Objetivo específico'
             }),
             'periodo': Select(attrs={
                 'class': 'form-control',

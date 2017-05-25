@@ -12,6 +12,7 @@ class UnidadOrganica(models.Model):
     class Meta:
         verbose_name=u'Unidad orgánica'
         verbose_name_plural=u'Unidades orgánicas'
+        ordering = ['nombre']
 
     def __str__(self):
         return self.nombre
@@ -25,6 +26,7 @@ class Unidad(models.Model):
     class Meta:
         verbose_name='Unidad'
         verbose_name_plural='Unidades'
+        ordering = ['nombre']
 
     def __str__(self):
         return self.nombre

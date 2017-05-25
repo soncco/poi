@@ -205,6 +205,9 @@ def borrar_plan(request, id):
     if solo_responsable(request.user):
         if plan.creado_por != request.user:
             messages.error(request, u'¿Qué tratas de hacer? No puedes tocar otros planes.')
+        else:
+            plan.delete()
+            messages.success(request, u'Se ha borrado el plan.')
     else:
         plan.delete()
         messages.success(request, u'Se ha borrado el plan.')

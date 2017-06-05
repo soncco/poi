@@ -1,0 +1,383 @@
+{% extends "base/base.html" %}
+{% load l10n %}
+{% load static %}
+
+{% block header %}Nuevo Cuadro de Necesidades{% endblock header %}
+
+{% block actions %}
+    <span class="small pull-right">
+        <a href="{% url 'plan:actividades' actividad.pertenece_a.pk %}" class="btn btn-primary btn-sm"><i class="fa fa-list"></i> Volver a la lista de actividades</a>
+    </span>
+{% endblock actions %}
+
+{% block content %}
+    <form action="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" method="post">
+        <div class="well">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Unidad Orgánica</label>: <br>
+                        {{ actividad.pertenece_a.area_ejecutora.pertenece_a }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Área Ejecutora</label>: <br>
+                        {{ actividad.pertenece_a.area_ejecutora }}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Distribución Presupuestal</label>: <br>
+                        <strong class="text-success">S/ {{ actividad.distribucion_presupuestal|unlocalize }}</strong>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        {{ form.sec_func.label_tag }} <br>
+                        {{ form.sec_func }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h3 class="text-success">Productos o servicios</h3>
+
+        <div class="productos">
+            <div class="producto small">
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label for="">Descripción</label>: <span class="text-info">Escriba el detalle del bien o servicio.</span>
+                            <textarea name="" id="" cols="30" rows="4" class="form-control input-sm ac-producto" required></textarea>
+                            <input type="hidden" class="id_producto" name="producto" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Unidad de Medida</label>
+                            <input type="text" class="form-control input-sm" name="{{ detalle_form.prefix }}-0-unidad_medida" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Precio Unitario S/</label>
+                            <input type="number" step="any" min="0" class="form-control input-sm unitario" name="{{ detalle_form.prefix }}-0-precio" required>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+                        {% if actividad.pertenece_a.periodo == '1' %}
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">T1</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">T2</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p4" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">T3</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p7" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">T4</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p10" required>
+                            </div>
+                        </div>
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p2">
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p3">
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p5">
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p6">
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p8">
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p9">
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p11">
+                        <input type="hidden" value="0" name="{{ detalle_form.prefix }}-0-p12">
+
+                        {% else %}
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Ene</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p1" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Feb</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p2" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Mar</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p3" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Abr</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p4" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">May</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p5" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Jun</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p6" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Jul</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p7" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Ago</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p8" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Set</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p9" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Oct</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p10" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Nov</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p11" required>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Dic</label>
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-0-p12" required>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Total</label>
+                            <input type="number" step="any" min="0" class="form-control input-sm total-cantidades" name="{{ detalle_form.prefix }}-0-total_cantidades" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Total S/</label>
+                            <input type="number" step="any" min="0" class="form-control input-sm total" name="{{ detalle_form.prefix }}-0-total" readonly>
+                        </div>
+                        <button class="btn btn-block btn-danger quitar-producto" type="button"><i class="fa fa-times"></i> Quitar este producto</button>
+                    </div>
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="well text-center">
+                <h3>Total Cuadro: S/ <span class="text-primary presupuesto" id="presupuesto"></span></h3>
+                <input type="hidden" name="total" id="id_presupuesto" value="">
+            </div>
+        </div>
+
+
+        <div class="col-md-12">
+            <div class="well">
+                <button class="btn btn-block btn-success btn-sm agregar-producto" type="button"><i class="fa fa-plus"></i> Agregar producto</button>
+                <input id="id_{{ detalle_form.prefix }}-TOTAL_FORMS" name="{{ detalle_form.prefix }}-TOTAL_FORMS" type="hidden" value="1">
+                <input id="id_{{ detalle_form.prefix }}-INITIAL_FORMS" name="{{ detalle_form.prefix }}-INITIAL_FORMS" type="hidden" value="0">
+                <input id="id_{{ detalle_form.prefix }}-MIN_NUM_FORMS" name="{{ detalle_form.prefix }}-MIN_NUM_FORMS" type="hidden" value="0">
+                <input id="id_{{ detalle_form.prefix }}-MAX_NUM_FORMS" name="{{ detalle_form.prefix }}-MAX_NUM_FORMS" type="hidden" value="1000">
+                {% csrf_token %}
+                <input type="hidden" name="creado_por" value="{{ request.user.pk }}">
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="well">
+                <button class="btn btn-lg btn-block btn-primary" type="submit"><i class="fa fa-save"></i> Guardar</button>
+            </div>
+        </div>
+    </form>    
+{% endblock content %}
+
+{% block js %}
+    <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="{% static "cuadro/producto.js" %}"></script>
+    <script src="{% static "cuadro/cuadro.js" %}"></script>
+{% endblock js %}
+
+
+{% block template %}
+    <script type="text/template" id="template">
+        <div class="producto small">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label for="">Descripción</label>: <span class="text-info">Escriba el detalle del bien o servicio.</span>
+                        <textarea name="" id="" cols="30" rows="4" class="form-control input-sm ac-producto" required></textarea>
+                        <input type="hidden" class="id_producto" name="producto" value="">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Unidad de Medida</label>
+                        <input type="text" class="form-control input-sm" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-unidad_medida" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Precio Unitario S/</label>
+                        <input type="number" step="any" min="0" class="form-control input-sm unitario" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-precio" required>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    {% if actividad.pertenece_a.periodo == '1' %}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">T1</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p1" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">T2</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p4" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">T3</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p7" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">T4</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p10" required>
+                        </div>
+                    </div>
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p2">
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p3">
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p5">
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p6">
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p8">
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p9">
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p11">
+                    <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p12">
+
+                    {% else %}
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Ene</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p1" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Feb</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p2" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Mar</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p3" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Abr</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p4" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">May</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p5" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Jun</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p6" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Jul</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p7" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Ago</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p8" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Set</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p9" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Oct</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p10" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Nov</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p11" required>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Dic</label>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p12" required>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="">Total</label>
+                        <input type="number" step="any" min="0" class="form-control input-sm total-cantidades" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-total_cantidades" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Total S/</label>
+                        <input type="number" step="any" min="0" class="form-control input-sm total" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-total" readonly>
+                    </div>
+                    <button class="btn btn-block btn-danger quitar-producto" type="button"><i class="fa fa-times"></i> Quitar este producto</button>
+                </div>
+                <div class="col-md-12">
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </script>
+{% endblock template %}
+
+{% block css %}
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">
+{% endblock css %}

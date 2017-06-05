@@ -8,8 +8,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from rest_framework import viewsets, generics
-
 @login_required
 def index(request):
     return render(request, 'base/index.html')

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     'plan.apps.PlanConfig',
     'reporte.apps.ReporteConfig',
+    'cuadro.apps.CuadroConfig',
     'rest_framework',
 ]
 

@@ -2,7 +2,7 @@
 var plan = plan || {};
 
 (function($) {
-    plan.acUnidadMedidaOptions = {
+    plan.acProductoOptions = {
         minLength: 1,
         open: function() {
             var acData = $(this).data('uiAutocomplete');
@@ -18,7 +18,7 @@ var plan = plan || {};
         },
         source: function(request, response) {
             $.ajax({
-                url: '/api/base/unidad/filter/',
+                url: '/api/cuadro/producto/filter/',
                 dataType: 'json',
                 data: {
                     term: request.term
@@ -28,8 +28,8 @@ var plan = plan || {};
                     response($.map(data, function (item) {
                         return {
                             data: item,
-                            label: item.nombre,
-                            value: item.nombre
+                            label: item.descripcion,
+                            value: item.descripcion
                         }
                     }));
                 }
@@ -38,23 +38,23 @@ var plan = plan || {};
         response: function(e, ui) {
             if(ui.content.length === 0) {
                 var parent = $(e.target).parent();
-                parent.find('.acunidadmedida').val('');
-                parent.find('.id_unidad_medida').val('');
+                parent.find('.ac-producto').val('');
+                parent.find('.id_producto').val('');
             }
         },
         select: function(e, ui) {
             var parent = $(e.target).parent().parent();
-            parent.find('.id_unidad_medida').val(ui.item.data.pk);
+            parent.find('.id_producto').val(ui.item.data.id);
         },
         change: function(e,ui) {
             if(!ui.item) {
                 var parent = $(e.target).parent();
-                parent.find('.acunidadmedida').val('');
-                parent.find('.id_unidad_medida').val('');
+                parent.find('.ac-producto').val('');
+                parent.find('.id_producto').val('');
             }
         }
     };
 
-    $('.acunidadmedida').autocomplete(plan.acUnidadMedidaOptions);
+    $('.ac-producto').autocomplete(plan.acProductoOptions);
 
 })(jQuery);

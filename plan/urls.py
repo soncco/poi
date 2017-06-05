@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^plan/borrar/(?P<id>.*)$', views.borrar_plan, name='borrar_plan'),
     url(r'^plan/aprobar/(?P<id>.*)$', views.aprobar_plan, name='aprobar_plan'),
     url(r'^actividad/guardar/$', views.guardar_actividad, name='guardar_actividad'),
+    url(r'^plan/actividades/(?P<id>.*)$', views.actividades, name='actividades'),
 
     # Informes.
     url(r'^informe/dependiencia/$', views.informe_dependencia, name='informe_dependencia'),

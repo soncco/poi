@@ -1,4 +1,5 @@
 {% extends "base/base.html" %}
+{% load static %}
 
 {% block header %}Nuevo Plan{% endblock header %}
 
@@ -272,7 +273,7 @@
 
             <div class="col-md-12">
                 <div class="well">
-                    <button class="btn btn-lg btn-block btn-primary" type="submit">Guardar</button>
+                    <button class="btn btn-lg btn-block btn-primary" type="submit"><i class="fa fa-save"></i> Guardar</button>
                 </div>
             </div>
 
@@ -283,8 +284,8 @@
 {% block js %}
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-    <script src="/static/plan/unidad-medida.js"></script>
-    <script src="/static/plan/plan.js"></script>
+    <script src="{% static "plan/unidad-medida.js" %}"></script>
+    <script src="{% static "plan/plan.js" %}"></script>
 {% endblock js %}
 
 

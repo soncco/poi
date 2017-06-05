@@ -1,0 +1,73 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block title %}Actividades del plan Nro {{ plan.numero}} {% endblock title %}
+
+{% block header %}Actividades del plan Nro {{ plan.numero}} {% endblock header %}
+
+{% block actions %}
+    <span class="small pull-right">
+        <a href="{% url 'plan:planes' %}" class="btn btn-primary btn-sm"><i class="fa fa-list"></i> Ver todos los planes</a>
+    </span>
+{% endblock actions %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="form-group">
+        <label for="">Año</label>: {{ plan.anio }}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+        <label for="">Responsable</label>: {{ plan.responsable }}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+        <label for="">Unidad Orgánica</label>: {{ plan.area_ejecutora.pertenece_a }}
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+        <label for="">Unidad Ejecutora</label>: {{ plan.area_ejecutora }}
+    </div>
+  </div>
+
+</div>
+
+<table class="table table-hover table-bordered small" id="table">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Tarea o Actividad</th>
+      <th>U. Medida</th>
+      <th>Total</th>
+      <th class="text-center">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for actividad in plan.actividad_set.all %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ actividad.tarea_actividad }}</td>
+        <td>{{ actividad.unidad_medida }}</td>
+        <td>{{ actividad.distribucion_presupuestal }}</td>
+        <td class="text-center"><a href="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" class="btn btn-success btn-xs"><i class="fa fa-table"></i> Crear Cuadro de necesidades</a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+  
+</table>
+
+   
+{% endblock content %}
+
+
+
+{% block css %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/css/theme.bootstrap.min.css">
+{% endblock css %}
+

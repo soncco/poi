@@ -1,6 +1,7 @@
 {% extends "base/base.html" %}
 {% load l10n %}
 {% load user_groups %}
+{% load static %}
 
 {% block header %}Ver Plan{% endblock header %}
 
@@ -188,9 +189,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t5|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t5" class="form-control input-sm resultadot" value="{{ actividad.resultado.t5|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t5" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t5|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p5|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p5" class="form-control input-sm resultadop" value="{{ actividad.resultado.p5|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p5" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p5|unlocalize }}" readonly></td>
                                     </tr>
 
                                     <tr class="periodo hidden">
@@ -201,9 +202,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t6|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t6" class="form-control input-sm resultadot" value="{{ actividad.resultado.t6|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t6" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t6|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p6|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p6" class="form-control input-sm resultadop" value="{{ actividad.resultado.p6|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p6" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p6|unlocalize }}" readonly></td>
                                     </tr>
 
                                     <tr class="periodo hidden">
@@ -214,9 +215,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t7|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t7" class="form-control input-sm resultadot" value="{{ actividad.resultado.t7|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t7" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t7|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p7|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p7" class="form-control input-sm resultadop" value="{{ actividad.resultado.p7|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p7" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p7|unlocalize }}" readonly></td>
                                     </tr>
 
                                     <tr class="periodo hidden">
@@ -227,9 +228,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t8|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t8" class="form-control input-sm resultadot" value="{{ actividad.resultado.t8|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t8" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t8|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p8|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p8" class="form-control input-sm resultadop" value="{{ actividad.resultado.p8|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p8" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p8|unlocalize }}" readonly></td>
                                     </tr>
 
                                     <tr class="periodo hidden">
@@ -240,9 +241,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t9|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t9" class="form-control input-sm resultadot" value="{{ actividad.resultado.t9|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t9" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t9|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p9|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p9" class="form-control input-sm resultadop" value="{{ actividad.resultado.p9|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p9" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p9|unlocalize }}" readonly></td>
                                     </tr>
 
                                     <tr class="periodo hidden">
@@ -253,9 +254,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t10|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t10" class="form-control input-sm resultadot" value="{{ actividad.resultado.t10|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t10" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t10|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p10|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p10" class="form-control input-sm resultadop" value="{{ actividad.resultado.p10|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p10" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p10|unlocalize }}" readonly></td>
                                     </tr>
 
                                     <tr class="periodo hidden">
@@ -266,9 +267,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t11|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t11" class="form-control input-sm resultadot" value="{{ actividad.resultado.t11|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t11" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t11|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p11|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p11" class="form-control input-sm resultadop" value="{{ actividad.resultado.p11|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p11" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p11|unlocalize }}" readonly></td>
                                     </tr>
 
                                     <tr class="periodo hidden">
@@ -279,9 +280,9 @@
                                     </tr>
                                     <tr class="periodo hidden">
                                         <td>{{ actividad.t12|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="t12" class="form-control input-sm resultadot" value="{{ actividad.resultado.t12|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="t12" class="form-control input-sm resultadot opcional" value="{{ actividad.resultado.t12|unlocalize }}" readonly></td>
                                         <td>S/ {{ actividad.p12|unlocalize }}</td>
-                                        <td><input type="number" step="any" min="0" name="p12" class="form-control input-sm resultadop" value="{{ actividad.resultado.p12|unlocalize }}" readonly></td>
+                                        <td><input type="number" step="any" min="0" name="p12" class="form-control input-sm resultadop opcional" value="{{ actividad.resultado.p12|unlocalize }}" readonly></td>
                                     </tr>
 
                                     
@@ -383,8 +384,7 @@
 {% block js %}
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-    <script src="/static/plan/unidad-medida.js"></script>
-    <script src="/static/plan/plan.js"></script>
+    <script src="{% static "plan/plan.js" %}"></script>
 {% endblock js %}
 
 

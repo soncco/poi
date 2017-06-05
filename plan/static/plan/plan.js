@@ -37,6 +37,7 @@ var plan = plan || {};
                 .removeAttr('required')
                 .attr('readonly', 'readonly');
         }
+        console.log($('#id_periodo').val());
         sumat();
     }
 

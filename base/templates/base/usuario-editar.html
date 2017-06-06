@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load mis_tags %}
+{% load static %}
+
+{% block header %}
+  <i class="fa fa-user text-primary"></i> Editar Usuario
+{% endblock header %}
+
+{% block actions %}
+  <span class="small pull-right">
+    <a class="btn btn-primary btn-sm" href="{% url 'base:usuarios' %}"><i class="fa fa-users"></i> Ver todos los usuarios</a>
+    {% if request.user.pk == 1 %}
+    <a class="btn btn-danger btn-sm" href="/admin/auth/user/{{ usuario.pk }}" target="_blank"><i class="fa fa-bicycle"></i> Ver en Admin</a>
+    {% endif %}
+  </span>  
+{% endblock actions %}
+
+{% block content %}
+<form action="{% url 'base:usuario_editar' usuario.pk %}" role="form" method="post" id="the-form">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="page-header mini">
+        <h5>Información</h5>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon ancho">Usuario</span>
+          <input type="text" class="form-control" name="username" placeholder="Nombre de Usuario *" autofocus value="{{ usuario.username }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon ancho">Nombres</span>
+          <input type="text" class="form-control" name="first_name" placeholder="Nombres *" required value="{{ usuario.first_name }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon ancho">Apellidos</span>
+          <input type="text" class="form-control" name="last_name" placeholder="Apellidos *" required value="{{ usuario.last_name }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon ancho">E-Mail</span>
+          <input type="email" class="form-control" name="email" placeholder="E-mail *" required value="{{ usuario.email }}">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-addon ancho">Estado</span>
+          <select name="is_active" class="form-control">
+            <option value="1"{% if usuario.is_active %} selected{% endif %}>Activo</option>
+            <option value="0"{% if not usuario.is_active %} selected{% endif %}>Inactivo</option>
+          </select>
+        </div>
+      </div>
+      <div class="page-header mini">
+        <h5>Cambiar Password</h5>
+      </div>
+      <p class="help-block">Si no va a cambiar la contraseña, deje estos campos en blanco.</p>
+      <div class="form-group">
+        <input id="password" name="password" type="password" class="form-control" placeholder="Contraseña">
+      </div>
+      <div class="form-group">
+        <input id="password2" name="password2" type="password" class="form-control" placeholder="Contraseña otra vez">
+      </div>
+    </div>
+    <div class="col-md-6">
+
+      <div class="page-header mini">
+        <h5>Accesos</h5>
+      </div>
+      <div class="form-group">
+        {% for grupo in grupos %}
+        {% tag_mi_grupo grupo usuario as mi_grupo %}
+        <div class="checkbox">
+          <label for="chk-{{ grupo.pk }}">
+            <input type="checkbox" name="grupos[]" id="chk-{{ grupo.pk }}" class="grupo" value="{{ grupo.pk }}" {% if mi_grupo%}checked="checked"{% endif %}>{{ grupo.name }}
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+  <div class="well">
+    <p class="text-center">
+      <button class="btn btn-primary btn-block btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>
+      {% csrf_token %}
+    </p>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block title %}Editar un usuario{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "base/usuario.js" %}"></script>
+{% endblock %}

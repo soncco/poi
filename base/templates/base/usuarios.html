@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block header %}<i class="fa fa-table text-primary"></i> Usuarios{% endblock header %}
+{% block actions %}
+  <span class="small pull-right">
+    <a class="btn btn-primary btn-sm" href="{% url 'base:usuario' %}"><i class="fa fa-user"></i> Agregar usuario</a>
+    <button class="btn btn-default btn-sm reset"><i class="fa fa-filter"></i> Quitar Filtros</button>
+  </span>
+{% endblock actions %}
+
+{% block content %}
+<table class="table table-hover table-striped table-bordered flyUp" id="table">
+  <thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Nombres</th>
+      <th>Grupos</th>
+      <th>Activo</th>
+      <th class="sorter-false filter-false">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for usuario in usuarios %}
+    <tr class="small">
+      <td>{{ usuario.username }}</td>
+      <td>{{ usuario.first_name }} {{ usuario.last_name }}</td>
+      <td>
+        {% for privilegio in usuario.groups.all %}
+        {{ privilegio }}
+        {% empty %}
+        Sin privilegios
+        {% endfor %}
+      </td>
+      <td class="text-center">
+        {% if usuario.is_active %}
+        <span class="text-success big" title="Activo"><i class="fa fa-check-circle"></i></span>
+        {% else %}
+        <span class="text-danger big" title="Inactivo"><i class="fa fa-times-circle"></i></span>
+        {% endif %}
+      </td>
+      <td>
+        <a href="{% url 'base:usuario_editar' usuario.pk %}" class="btn btn-xs btn-warning" title="Ver o Editar"><i class="fa fa-edit"></i></a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="7">No existen usuarios</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <th colspan="5" class="ts-pager form-horizontal">
+        <button type="button" class="btn first"><i class="icon-step-backward glyphicon glyphicon-step-backward"></i></button>
+        <button type="button" class="btn prev"><i class="icon-arrow-left glyphicon glyphicon-backward"></i></button>
+        <span class="pagedisplay"></span> <!-- this can be any element, including an input -->
+        <button type="button" class="btn next"><i class="icon-arrow-right glyphicon glyphicon-forward"></i></button>
+        <button type="button" class="btn last"><i class="icon-step-forward glyphicon glyphicon-step-forward"></i></button>
+        <select class="pagesize input-mini" title="Elementos a mostrar ">
+          <option selected="selected" value="10">10</option>
+          <option value="20">20</option>
+          <option value="30">30</option>
+          <option value="40">40</option>
+          <option value="9999">Todos</option>
+        </select>
+        <select class="pagenum input-mini" title="Número de página"></select>
+      </th>
+    </tr>
+  </tfoot>
+</table>
+
+{% endblock %}
+
+{% block title %}Lista de Usuarios{% endblock %}
+
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/js/jquery.tablesorter.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/js/jquery.tablesorter.widgets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/js/widgets/widget-filter-formatter-jui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/js/extras/jquery.tablesorter.pager.min.js"></script>
+<script src="{% static "base/usuarios.js" %}"></script>
+{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/css/theme.bootstrap.min.css">
+{% endblock css %}

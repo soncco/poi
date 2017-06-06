@@ -20,6 +20,13 @@ from collections import OrderedDict
 import json, datetime
 
 @login_required
+def pre_plan(request):
+    unidades = UnidadOrganica.objects.all()
+    context = {'unidades': unidades}
+    return render(request, 'plan/pre-plan.html', context)
+
+
+@login_required
 def plan(request):
     if request.method == 'POST':
         form = PlanForm(request.POST)
@@ -28,6 +35,16 @@ def plan(request):
         if form.is_valid() and detalle_form.is_valid():
             plan = form.save(commit=False)
             plan.numero = numero_plan(plan)
+
+            area_ejecutora = request.POST.get('area_ejecutora')
+            if area_ejecutora is not None:
+                area = Unidad.objects.get(pk = request.POST.get('area_ejecutora'))
+                plan.area_ejecutora = area
+
+            proyecto = request.POST.get('proyecto')
+            if proyecto is not None:
+                plan.proyecto = proyecto
+
             plan.save()
             verificar_numero(plan, request)
             detalle_form.instance = plan
@@ -42,10 +59,17 @@ def plan(request):
             print form.errors
             print detalle_form.errors
 
+    organica = request.GET.get('unidad')
+    if organica is None:
+        return HttpResponseRedirect(reverse('plan:pre_plan'))
+    else:
+        organica = UnidadOrganica.objects.get(pk = organica)
+
     form = PlanForm()
     detalle_form = ActividadFormSet()
     asignaciones = AsignacionPresupuestal.objects.all().order_by('rubro')
-    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones}
+    unidades = Unidad.objects.filter(pertenece_a = organica).order_by('nombre')
+    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'unidades': unidades, 'organica': organica}
     return render(request, 'plan/nuevo-plan.html', context)
 
 @login_required
@@ -70,7 +94,7 @@ def planes_json(request):
 
     data = {
         'headers': [
-            u'Número', u'Año', u'Unidad Orgánica', 'Unidad Ejecutora', 'Responsable', 'Estado', 'Acciones'
+            u'Número', u'Año', u'Unidad Orgánica', 'Unidad Ejecutora o Proyecto', 'Responsable', 'Estado', 'Acciones'
         ],
     }
 
@@ -83,19 +107,19 @@ def planes_json(request):
         planes = planes.filter(numero = request.GET.get('filter[0]'))
 
     if 'filter[1]' in filters:
-        planes = planes.filter(anio = request.GET.get('filter[0]'))
+        planes = planes.filter(anio = request.GET.get('filter[1]'))
 
     if 'filter[2]' in filters:
-        planes = planes.filter(unidad_organica__nombre__icontains = request.GET.get('filter[0]'))
+        planes = planes.filter(unidad_organica__nombre__icontains = request.GET.get('filter[2]'))
 
     if 'filter[3]' in filters:
-        planes = planes.filter(area_ejecutora__nombre__icontains = request.GET.get('filter[1]'))
+        planes = planes.filter(area_ejecutora__nombre__icontains = request.GET.get('filter[3]'))
 
     if 'filter[4]' in filters:
-        planes = planes.filter(responsable__icontains = request.GET.get('filter[2]'))
+        planes = planes.filter(responsable__icontains = request.GET.get('filter[4]'))
 
     if 'filter[5]' in filters:
-        estado = True if request.GET.get('filter[3]') == 'Aprobado' else False
+        estado = True if request.GET.get('filter[5]') == 'Aprobado' else False
         planes = planes.filter(aprobado = estado)
 
 
@@ -104,23 +128,23 @@ def planes_json(request):
         planes = planes.order_by('%snumero' % signo)
 
     if 'column[1]' in cols:
-        signo = '' if request.GET.get('column[0]') == '0' else '-'
+        signo = '' if request.GET.get('column[1]') == '0' else '-'
         planes = planes.order_by('%sanio' % signo)
 
     if 'column[2]' in cols:
-        signo = '' if request.GET.get('column[0]') == '0' else '-'
+        signo = '' if request.GET.get('column[2]') == '0' else '-'
         planes = planes.order_by('%sunidad_organica' % signo)
 
     if 'column[3]' in cols:
-        signo = '' if request.GET.get('column[1]') == '0' else '-'
+        signo = '' if request.GET.get('column[3]') == '0' else '-'
         planes = planes.order_by('%sarea_ejecutora' % signo)
 
     if 'column[4]' in cols:
-        signo = '' if request.GET.get('column[2]') == '0' else '-'
+        signo = '' if request.GET.get('column[4]') == '0' else '-'
         planes = planes.order_by('%sresponsable' % signo)
 
     if 'column[5]' in cols:
-        signo = '' if request.GET.get('column[3]') == '0' else '-'
+        signo = '' if request.GET.get('column[5]') == '0' else '-'
         planes = planes.order_by('%saprobado' % signo)
 
     total_rows = planes.count()
@@ -140,11 +164,18 @@ def planes_json(request):
         if not plan.aprobado:
             links += crear_enlace(reverse('plan:borrar_plan', args=[plan.pk]), 'danger', 'Borrar', 'times')
 
+        if plan.area_ejecutora is None:
+            organica = plan.unidad_organica.nombre
+            proyecto = plan.proyecto
+        else:
+            organica = plan.area_ejecutora.pertenece_a.nombre
+            proyecto = plan.area_ejecutora.nombre
+
         obj = OrderedDict({
             '0': plan.numero,
             '1': plan.anio,
-            '2': plan.area_ejecutora.pertenece_a.nombre,
-            '3': plan.area_ejecutora.nombre,
+            '2': organica,
+            '3': proyecto,
             '4': plan.responsable,
             '5': "Aprobado" if plan.aprobado else "Sin aprobar",
             '6': links,
@@ -170,6 +201,16 @@ def ver_plan(request, id):
         if form.is_valid():
             plan = form.save(commit=False)
             plan.numero = request.POST.get('numero')
+
+            area_ejecutora = request.POST.get('area_ejecutora')
+            if area_ejecutora is not None:
+                area = Unidad.objects.get(pk = request.POST.get('area_ejecutora'))
+                plan.area_ejecutora = area
+
+            proyecto = request.POST.get('proyecto')
+            if proyecto is not None:
+                plan.proyecto = proyecto
+
             detalle_form = ActividadFormSet(request.POST, instance = plan)
             if detalle_form.is_valid():
                 plan.save()

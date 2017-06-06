@@ -166,16 +166,21 @@ class ImpresionPlan:
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 8 * mm)
 
-
-    header = Paragraph(u'<strong>Unidad Orgánica</strong>: %s' % (plan.area_ejecutora.pertenece_a.nombre), normal_custom(9))
+    header = Paragraph(u'<strong>Unidad Orgánica</strong>: %s' % (plan.unidad_organica.nombre), normal_custom(9))
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 15 * mm - h)
 
-    header = Paragraph(u'<strong>Área Ejecutora</strong>: %s' % (plan.area_ejecutora), normal_custom(9))
+    if plan.area_ejecutora is not None:
+        header = Paragraph(u'<strong>Área Ejecutora</strong>: %s' % (plan.area_ejecutora.nombre), normal_custom(9))
+    else:
+        header = Paragraph(u'<strong>Proyecto</strong>: %s' % (plan.proyecto), normal_custom(9))
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 21 * mm - h)
 
-    header = Paragraph(u'<strong>Responsable</strong>: %s' % (plan.responsable), normal_custom(9))
+    if plan.area_ejecutora is not None:
+        header = Paragraph(u'<strong>Responsable</strong>: %s' % (plan.responsable), normal_custom(9))
+    else:
+        header = Paragraph(u'<strong>Residente</strong>: %s' % (plan.responsable), normal_custom(9))
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 27 * mm - h)
 

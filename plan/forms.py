@@ -8,7 +8,7 @@ from models import Plan, Actividad, Resultado
 class PlanForm(ModelForm):
     class Meta:
         model = Plan
-        exclude = ('numero', 'unidad_organica',)
+        exclude = ('numero', 'proyecto', 'area_ejecutora',)
 
         labels = {
             'unidad_organica': u'Unidad orgánica',
@@ -28,7 +28,7 @@ class PlanForm(ModelForm):
                 'class': 'form-control',
                 'required': 'required',
                 'autocomplete': 'off',
-                'placeholder': 'Responsable'
+                'placeholder': ''
             }),
             'accion_central': Textarea(attrs={
                 'class': 'form-control',

@@ -4,6 +4,7 @@ from . import views
 
 app_name = 'plan'
 urlpatterns = [
+    url(r'^plan/pre/$', views.pre_plan, name='pre_plan'),
     url(r'^plan/nuevo/$', views.plan, name='plan'),
     url(r'^plan/lista/$', views.planes, name='planes'),
     url(r'^plan/lista/json/$', views.planes_json, name='planes_json'),

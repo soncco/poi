@@ -13,7 +13,9 @@ class Plan(models.Model):
         ('2', 'Mensual'),
     )
     numero = models.CharField(max_length=100, default='')
-    area_ejecutora = models.ForeignKey('base.Unidad')
+    unidad_organica = models.ForeignKey('base.UnidadOrganica', null=True)
+    area_ejecutora = models.ForeignKey('base.Unidad', null=True,blank=True)
+    proyecto = models.CharField(max_length=255, null=True,blank=True)
     responsable = models.CharField(max_length=255)
     accion_central = models.TextField()
     objetivo_general_institucional = models.TextField()

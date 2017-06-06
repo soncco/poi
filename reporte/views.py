@@ -126,20 +126,27 @@ def reporte_dependencia_excel(request):
         sheet.write('B%s' % str(k-1), plan.numero)
 
         sheet.write('A%s' % k, u'Unidad Orgánica', negrita)
-        sheet.merge_range('B%s:H%s' % (k, k), plan.area_ejecutora.pertenece_a.nombre)
+        sheet.merge_range('B%s:H%s' % (k, k), plan.unidad_organica.nombre)
         
         sheet.write('I%s' % k, u'Presupuesto S/', negrita)
         sheet.merge_range('J%s:M%s' % (k, k), plan.presupuesto, dinero)
         k += 1
 
-        sheet.write('A%s' % k, u'Area Ejecutora', negrita)
-        sheet.merge_range('B%s:H%s' % (k, k), plan.area_ejecutora.nombre)
+        if plan.area_ejecutora is not None:
+            sheet.write('A%s' % k, u'Area Ejecutora', negrita)
+            sheet.merge_range('B%s:H%s' % (k, k), plan.area_ejecutora.nombre)
+        else:
+            sheet.write('A%s' % k, u'Proyecto', negrita)
+            sheet.merge_range('B%s:H%s' % (k, k), plan.proyecto)
         
         sheet.write('I%s' % k, u'Año', negrita)
         sheet.merge_range('J%s:M%s' % (k, k), plan.anio)
         k += 1
 
-        sheet.write('A%s' % k, u'Responsable', negrita)
+        if plan.area_ejecutora is not None:
+            sheet.write('A%s' % k, u'Responsable', negrita)
+        else:
+            sheet.write('A%s' % k, u'Residente', negrita)
         sheet.merge_range('B%s:H%s' % (k, k), plan.responsable)
         k += 1
 

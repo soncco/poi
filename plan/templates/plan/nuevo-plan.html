@@ -1,7 +1,7 @@
 {% extends "base/base.html" %}
 {% load static %}
 
-{% block header %}Nuevo Plan{% endblock header %}
+{% block header %}Nuevo Plan (paso 2){% endblock header %}
 
 {% block actions %}
     <span class="small pull-right">
@@ -13,6 +13,12 @@
     <form action="{% url 'plan:plan' %}" method="post">
         <div class="row">
             <h2 class="page-sub-header text-success">Datos del Plan</h2>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Unidad Orgánica</label>: {{ organica.nombre }}
+                    <input type="hidden" name="unidad_organica" value="{{ organica.pk }}"> 
+                </div>
+            </div>
             <div class="col-md-4">
                 <div class="form-group">
                     {{ form.anio.label_tag }}
@@ -20,14 +26,29 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="form-group">
-                    {{ form.area_ejecutora.label_tag }}
-                    {{ form.area_ejecutora }}
+                    <div class="form-group">
+                {% if organica.especial == True %}
+                    <label for="id_proyecto">Proyecto:</label>
+                    <input type="text" name="proyecto" id="id_proyecto" maxlength="255" class="form-control" required>
+                {% else %}
+                    <label for="id_area_ejecutora">Area ejecutora:</label>
+                    <select name="area_ejecutora" required class="form-control" id="id_area_ejecutora">
+                        <option value="" selected>---------</option>
+                        {% for unidad in unidades  %}
+                            <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+                
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
+                    {% if organica.especial == True %}
+                    <label for="id_responsable">Residente:</label>
+                    {% else %}
                     {{ form.responsable.label_tag }}
+                    {% endif %}
                     {{ form.responsable }}
                 </div>
             </div>
@@ -56,7 +77,11 @@
                 </div>
             </div>
 
+            {% if organica.especial == True %}
+            <h2 class="page-sub-header text-info">Actividades</h2>
+            {% else %}
             <h2 class="page-sub-header text-info">Actividades o Proyectos</h2>
+            {% endif %}
 
             <div class="actividades">
                 <div class="actividad small">

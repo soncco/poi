@@ -8,6 +8,7 @@ from django.utils.encoding import python_2_unicode_compatible
 @python_2_unicode_compatible
 class UnidadOrganica(models.Model):
     nombre = models.CharField(max_length=255)
+    especial = models.BooleanField(default=False)
 
     class Meta:
         verbose_name=u'Unidad orgánica'

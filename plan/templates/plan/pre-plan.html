@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block header %}Nuevo Plan (paso 1){% endblock header %}
+
+{% block actions %}
+    <span class="small pull-right">
+        <a href="{% url 'plan:planes' %}" class="btn btn-primary btn-sm"><i class="fa fa-list"></i> Ver todos los planes</a>
+    </span>
+{% endblock actions %}
+
+{% block content %}
+   <div class="well">
+        <form action="{% url 'plan:plan' %}" method="get">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="unidades">Escoja una unidad orgánica</label>
+                        <select name="unidad" id="unidades" class="form-control" required>
+                                <option value="">Escoja una unidad</option>
+                            {% for unidad in unidades %}
+                                <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-block btn-info">Siguiente Paso <i class="fa fa-arrow-right"></i></button>
+        </form>
+    </div>
+{% endblock content %}
+

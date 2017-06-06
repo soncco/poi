@@ -45,6 +45,16 @@
                 </div>
                 {% endifusergroup %}
 
+                {% ifusergroup Administrador %}
+                <div class="panel panel-default">
+                    <div class="panel-heading"><i class="fa fa-circle"></i> Usuarios</div>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="{% url 'base:usuarios' %}">Lista de usuarios</a></li>
+                        <li class="list-group-item"><a href="{% url 'base:usuario' %}">Crear usuario</a></li>
+                    </ul>
+                </div>
+                {% endifusergroup %}
+
 
 
             </div>

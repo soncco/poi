@@ -27,6 +27,12 @@
         {% endif %}
         <div class="row">
             <h2 class="page-sub-header text-success">Datos del Plan</h2>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label>Unidad Orgánica</label>: {{ plan.unidad_organica.nombre }}
+                    <input type="hidden" name="unidad_organica" value="{{ plan.unidad_organica.pk }}"> 
+                </div>
+            </div>
             {% ifusergroup Administrador %}
             <div class="col-md-2">
                 <div class="form-group">
@@ -54,10 +60,33 @@
                 </div>
             </div>
             {% endifusergroup %}
+            
             <div class="col-md-4">
                 <div class="form-group">
-                    {{ form.area_ejecutora.label_tag }}
-                    {{ form.area_ejecutora }}
+                    {% if plan.unidad_organica.especial == True %}
+                        {% if plan.area_ejecutora != None %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            <input type="text" readonly value="{{ plan.area_ejecutora.nombre }}" class="form-control">
+                            <input type="hidden" value="{{ plan.area_ejecutora.pk }}" name="area_ejecutora">
+                        {% else %}
+                            {% if plan.proyecto != None %}
+                                <label for="id_proyecto">Proyecto:</label>
+                                <input type="text" name="proyecto" id="id_proyecto" maxlength="255" class="form-control" required value="{{ plan.proyecto }}">
+                            {% else %}
+                                <label for="id_area_ejecutora">Area ejecutora:</label>
+                                <input type="text" readonly value="{{ plan.unidad_organica.nombre }}" class="form-control">
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if plan.area_ejecutora != None %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            <input type="text" readonly value="{{ plan.area_ejecutora.nombre }}" class="form-control">
+                            <input type="hidden" value="{{ plan.area_ejecutora.pk }}" name="area_ejecutora">
+                        {% else %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            <input type="text" readonly value="{{ plan.unidad_organica.nombre }}" class="form-control">
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-4">

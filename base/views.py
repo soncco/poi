@@ -10,6 +10,11 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from plan.utils import grupo_administrador
 
+from .models import Unidad
+from .serializers import UnidadSerializer
+
+from rest_framework import viewsets, generics
+
 @login_required
 def index(request):
     return render(request, 'base/index.html')
@@ -171,3 +176,20 @@ def usuario_editar(request, id):
 
     context = {'grupos': grupos, 'usuario': usuario}
     return render(request, 'base/usuario-editar.html', context)
+
+# REST.
+class UnidadViewSet(viewsets.ModelViewSet):
+    queryset = Unidad.objects.all()
+    serializer_class = UnidadSerializer
+
+class UnidadFilterViewSet(generics.ListAPIView):
+    serializer_class = UnidadSerializer
+
+    def get_queryset(self):
+        queryset = Unidad.objects.all()
+        organica = self.request.query_params.get('organica', None)
+
+        if organica is not None:
+            queryset = queryset.filter(pertenece_a__pk = organica)
+
+        return queryset

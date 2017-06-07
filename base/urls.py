@@ -3,7 +3,8 @@ from django.conf.urls import url, include
 from rest_framework import routers
 from . import views
 
-#router = routers.DefaultRouter()
+router = routers.DefaultRouter()
+router.register(r'unidades', views.UnidadViewSet)
 
 
 app_name = 'base'
@@ -15,4 +16,7 @@ urlpatterns = [
     url(r'^usuarios$', views.usuarios, name = 'usuarios'),
     url(r'^usuario$', views.usuario, name = 'usuario'),
     url(r'^usuario/(?P<id>.*)$', views.usuario_editar, name = 'usuario_editar'),
+
+    url(r'^api/base/', include(router.urls)),
+    url(r'^api/base/unidad/filter/$', views.UnidadFilterViewSet.as_view()),
 ]

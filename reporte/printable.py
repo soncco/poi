@@ -173,7 +173,11 @@ class ImpresionPlan:
     if plan.area_ejecutora is not None:
         header = Paragraph(u'<strong>Área Ejecutora</strong>: %s' % (plan.area_ejecutora.nombre), normal_custom(9))
     else:
-        header = Paragraph(u'<strong>Proyecto</strong>: %s' % (plan.proyecto), normal_custom(9))
+        if plan.proyecto is not None:
+            header = Paragraph(u'<strong>Proyecto</strong>: %s' % (plan.proyecto), normal_custom(9))
+        else:
+            header = Paragraph(u'<strong>Área Ejecutora</strong>: %s' % (plan.unidad_organica.nombre), normal_custom(9))
+
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top - 21 * mm - h)
 

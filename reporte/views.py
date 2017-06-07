@@ -133,11 +133,15 @@ def reporte_dependencia_excel(request):
         k += 1
 
         if plan.area_ejecutora is not None:
-            sheet.write('A%s' % k, u'Area Ejecutora', negrita)
+            sheet.write('A%s' % k, u'Área Ejecutora', negrita)
             sheet.merge_range('B%s:H%s' % (k, k), plan.area_ejecutora.nombre)
         else:
-            sheet.write('A%s' % k, u'Proyecto', negrita)
-            sheet.merge_range('B%s:H%s' % (k, k), plan.proyecto)
+            if plan.proyecto is not None:
+                sheet.write('A%s' % k, u'Proyecto', negrita)
+                sheet.merge_range('B%s:H%s' % (k, k), plan.proyecto)
+            else:
+                sheet.write('A%s' % k, u'Área Ejecutora', negrita)
+                sheet.merge_range('B%s:H%s' % (k, k), plan.unidad_organica.nombre)
         
         sheet.write('I%s' % k, u'Año', negrita)
         sheet.merge_range('J%s:M%s' % (k, k), plan.anio)

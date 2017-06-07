@@ -51,8 +51,28 @@
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    {{ form.area_ejecutora.label_tag }}
-                    {{ form.area_ejecutora.value }}
+                    {% if plan.unidad_organica.especial == True %}
+                        {% if plan.area_ejecutora != None %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            {{ plan.area_ejecutora.nombre }}
+                        {% else %}
+                            {% if plan.proyecto != None %}
+                                <label for="id_proyecto">Proyecto:</label>
+                                {{ plan.proyecto }}
+                            {% else %}
+                                <label for="id_area_ejecutora">Area ejecutora:</label>
+                                {{ plan.unidad_organica.nombre }}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if plan.area_ejecutora != None %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            {{ plan.area_ejecutora.nombre }}
+                        {% else %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            {{ plan.unidad_organica.nombre }}
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-3">

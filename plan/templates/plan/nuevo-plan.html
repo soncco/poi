@@ -5,6 +5,7 @@
 
 {% block actions %}
     <span class="small pull-right">
+        <a href="{% url 'plan:pre_plan' %}" class="btn btn-info btn-sm"><i class="fa fa-arrow-left"></i> Regresar al paso 1</a>
         <a href="{% url 'plan:planes' %}" class="btn btn-primary btn-sm"><i class="fa fa-list"></i> Ver todos los planes</a>
     </span>
 {% endblock actions %}
@@ -26,19 +27,31 @@
                 </div>
             </div>
             <div class="col-md-4">
-                    <div class="form-group">
-                {% if organica.especial == True %}
-                    <label for="id_proyecto">Proyecto:</label>
-                    <input type="text" name="proyecto" id="id_proyecto" maxlength="255" class="form-control" required>
-                {% else %}
-                    <label for="id_area_ejecutora">Area ejecutora:</label>
-                    <select name="area_ejecutora" required class="form-control" id="id_area_ejecutora">
-                        <option value="" selected>---------</option>
-                        {% for unidad in unidades  %}
-                            <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
-                        {% endfor %}
-                    </select>
-                {% endif %}
+                <div class="form-group">
+                    {% if organica.especial == True %}
+                        {% if ejecutora != None %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            <input type="text" readonly value="{{ ejecutora.nombre }}" class="form-control">
+                            <input type="hidden" value="{{ ejecutora.pk }}" name="area_ejecutora">
+                        {% else %}
+                            {% if myself == 'no' %}
+                                <label for="id_proyecto">Proyecto:</label>
+                                <input type="text" name="proyecto" id="id_proyecto" maxlength="255" class="form-control" required>
+                            {% else %}
+                                <label for="id_area_ejecutora">Area ejecutora:</label>
+                                <input type="text" readonly value="{{ organica.nombre }}" class="form-control">
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if ejecutora != None %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            <input type="text" readonly value="{{ ejecutora.nombre }}" class="form-control">
+                            <input type="hidden" value="{{ ejecutora.pk }}" name="area_ejecutora">
+                        {% else %}
+                            <label for="id_area_ejecutora">Area ejecutora:</label>
+                            <input type="text" readonly value="{{ organica.nombre }}" class="form-control">
+                        {% endif %}
+                    {% endif %}
                 
                 </div>
             </div>

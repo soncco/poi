@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Q
 
 from .models import Plan, Resultado
 
@@ -65,11 +66,20 @@ def plan(request):
     else:
         organica = UnidadOrganica.objects.get(pk = organica)
 
+    ejecutora = request.GET.get('ejecutora')
+    if ejecutora != '':
+        ejecutora = Unidad.objects.get(pk = ejecutora)
+    else:
+        ejecutora = None
+
+    myself = request.GET.get('myself')
+
+
     form = PlanForm()
     detalle_form = ActividadFormSet()
     asignaciones = AsignacionPresupuestal.objects.all().order_by('rubro')
     unidades = Unidad.objects.filter(pertenece_a = organica).order_by('nombre')
-    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'unidades': unidades, 'organica': organica}
+    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'unidades': unidades, 'organica': organica, 'ejecutora': ejecutora, 'myself': myself}
     return render(request, 'plan/nuevo-plan.html', context)
 
 @login_required
@@ -113,7 +123,9 @@ def planes_json(request):
         planes = planes.filter(unidad_organica__nombre__icontains = request.GET.get('filter[2]'))
 
     if 'filter[3]' in filters:
-        planes = planes.filter(area_ejecutora__nombre__icontains = request.GET.get('filter[3]'))
+        f1 = Q(area_ejecutora__nombre__icontains = request.GET.get('filter[3]'))
+        f2 = Q(proyecto__icontains = request.GET.get('filter[3]'))
+        planes = planes.filter(f1 | f2)
 
     if 'filter[4]' in filters:
         planes = planes.filter(responsable__icontains = request.GET.get('filter[4]'))
@@ -166,7 +178,10 @@ def planes_json(request):
 
         if plan.area_ejecutora is None:
             organica = plan.unidad_organica.nombre
-            proyecto = plan.proyecto
+            if plan.proyecto is not None:
+                proyecto = plan.proyecto
+            else:
+                proyecto = organica
         else:
             organica = plan.area_ejecutora.pertenece_a.nombre
             proyecto = plan.area_ejecutora.nombre

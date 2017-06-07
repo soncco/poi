@@ -1,8 +1,8 @@
 from rest_framework import routers, serializers, viewsets
 
-from .models import AsignacionPresupuestal
+from .models import Unidad
 
-class AsignacionPresupuestalSerializer(serializers.HyperlinkedModelSerializer):
+class UnidadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = AsignacionPresupuestal
-        fields = ('url', 'pk', 'rubro', 'fuente',)
+        model = Unidad
+        fields = ('pk', 'nombre', 'abreviatura',)

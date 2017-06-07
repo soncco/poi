@@ -12,17 +12,32 @@
 {% block content %}
    <div class="well">
         <form action="{% url 'plan:plan' %}" method="get">
-            {% csrf_token %}
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="unidades">Escoja una unidad orgánica</label>
                         <select name="unidad" id="unidades" class="form-control" required>
-                                <option value="">Escoja una unidad</option>
+                            <option value="">Escoja una unidad</option>
                             {% for unidad in unidades %}
-                                <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
+                                <option value="{{ unidad.pk }}" data-especial="{{ unidad.especial }}">{{ unidad.nombre }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+                </div>
+                <div class="col-md-12 areas" style="display: none">
+                    <div class="form-group">
+                        <label for="unidades">Opcionalmente escoja también una área ejecutora</label>
+                        <select name="ejecutora" id="ejecutoras" class="form-control">
+                            <option value="">Escoja una área ejecutora</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-12 especial" style="display: none">
+                    <div class="form-group">
+                        <label for="unidades"></label>
+                        <input type="radio" value="si" name="myself" id="si"> <label for="si">La unidad orgánica ejecuta</label>
+                        <input type="radio" value="no" name="myself" id="no"> <label for="no">Es proyecto</label>
                     </div>
                 </div>
             </div>
@@ -31,3 +46,6 @@
     </div>
 {% endblock content %}
 
+{% block js %}
+    <script src="{% static "plan/pre.js" %}"></script>
+{% endblock js %}

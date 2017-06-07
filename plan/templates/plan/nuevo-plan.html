@@ -58,7 +58,11 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {% if organica.especial == True %}
-                    <label for="id_responsable">Residente:</label>
+                        {% if ejecutora != None or myself == 'si' %}
+                            <label for="id_responsable">Responsable:</label>
+                        {% else %}
+                            <label for="id_responsable">Residente:</label>
+                        {% endif %}
                     {% else %}
                     {{ form.responsable.label_tag }}
                     {% endif %}

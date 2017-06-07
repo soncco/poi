@@ -264,7 +264,7 @@ class ImpresionPlan:
         total = Paragraph(str(actividad.total), normal_custom_center(size))
         fecha = Paragraph(actividad.fecha_termino.strftime('%d/%m/%Y'), normal_custom_center(size))
         distribucion = Paragraph(number_format(actividad.distribucion_presupuestal, 2), normal_custom_right(size))
-        fuente = Paragraph(actividad.asignacion_presupuestal.rubro, normal_custom_center(size))
+        fuente = Paragraph(actividad.asignacion_presupuestal.fuente, normal_custom_center(size))
 
         detalles_data = [
             [conteo, t_act, t_umed, t_fecha],

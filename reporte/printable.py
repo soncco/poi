@@ -113,7 +113,7 @@ def tabla_plan_meses(plan):
                 ('BOX', (0,0), (-1,-1), 0.25, colors.black),
                 ('ALIGNMENT', (0,0), (-1,-1), 'CENTER'),
                 ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-                ('SPAN', (4,4), (4,11)),
+                #('SPAN', (4,4), (4,11)),
                 ('LINEBELOW', (4,4), (4,11), 0, colors.white),
                 ('LINEAFTER', (4,4), (4,11), 0, colors.white),
             ]

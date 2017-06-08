@@ -17,13 +17,23 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="">Unidad Orgánica</label>: <br>
-                        {{ actividad.pertenece_a.area_ejecutora.pertenece_a }}
+                        {{ actividad.pertenece_a.unidad_organica }}
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="">Área Ejecutora</label>: <br>
-                        {{ actividad.pertenece_a.area_ejecutora }}
+                        {% if actividad.pertenece_a.area_ejecutora != None %}
+                            <label for="">Área Ejecutora</label>: <br>
+                            {{ actividad.pertenece_a.area_ejecutora }}
+                        {% else %}
+                            {% if actividad.proyecto != None %}
+                                <label for="">Área Ejecutora</label>: <br>
+                                {{ actividad.pertenece_a.area_ejecutora }}
+                            {% else %}
+                                <label for="">Área Ejecutora</label>: <br>
+                                {{ actividad.pertenece_a.unidad_organica }}
+                            {% endif %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="col-md-3">

@@ -20,6 +20,23 @@ import json, datetime
 @login_required
 def nuevo_cuadro(request, id):
     actividad = Actividad.objects.get(pk = id)
+    if request.method == 'POST':
+        form = CuadroForm(request.POST)
+        detalle_form = CuadroDetalleFormSet(request.POST)
+
+        if form.is_valid() and detalle_form.is_valid():
+            cuadro = form.save(commit=False)
+
+            cuadro.save()
+            detalle_form.instance = cuadro
+            detalle_form.save()
+
+            messages.success(request, 'Se ha creado un cuadro de necesidades.')
+            return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pk]))
+
+        else:
+            print form.errors
+            print detalle_form.errors
     form = CuadroForm()
     detalle_form = CuadroDetalleFormSet()
     context = {'actividad': actividad, 'form': form, 'detalle_form': detalle_form}

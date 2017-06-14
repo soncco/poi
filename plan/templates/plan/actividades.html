@@ -55,7 +55,11 @@
         <td>{{ actividad.tarea_actividad }}</td>
         <td>{{ actividad.unidad_medida }}</td>
         <td>{{ actividad.distribucion_presupuestal }}</td>
+        {% if actividad.cuadro.pk != None  %}
+        <td class="text-center"><a href="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> Editar Cuadro de necesidades</a></td>
+        {% else %}
         <td class="text-center"><a href="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" class="btn btn-success btn-xs"><i class="fa fa-table"></i> Crear Cuadro de necesidades</a></td>
+        {% endif %}
       </tr>
     {% endfor %}
   </tbody>

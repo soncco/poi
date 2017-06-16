@@ -170,7 +170,7 @@ def reporte_dependencia_excel(request):
         k += 1
 
         inicio = k + 4
-        sheet.merge_range('A%s:A%s' % (k, k+3), u'Tarea o Actividad', negrita_borde)
+        sheet.merge_range('A%s:A%s' % (k, k+3), u'Actividad', negrita_borde)
         sheet.merge_range('B%s:B%s' % (k, k+3), u'Unidad de medida', negrita_borde)
         sheet.merge_range('C%s:C%s' % (k, k+3), u'Peso', negrita_borde)
         sheet.merge_range('D%s:AA%s' % (k, k), u'Ejecución', negrita_borde)

@@ -119,6 +119,8 @@
                     {{ form.periodo }}
                 </div>
             </div>
+            <div class="clearfix"></div>
+
             <h2 class="page-sub-header text-info">Actividades o Proyectos</h2>
 
             <div class="actividades">
@@ -126,7 +128,7 @@
                 <div class="actividad small">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Tarea</label>
+                            <label for="">Actividad</label>
                             <textarea name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-tarea_actividad" id="" class="input-sm form-control" rows="5" required>{{ actividad.tarea_actividad }}</textarea>
                         </div>
                     </div>
@@ -362,7 +364,7 @@
         <div class="actividad small">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="">Tarea</label>
+                    <label for="">Actividad</label>
                     <textarea name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-tarea_actividad" id="" class="input-sm form-control" rows="5" required></textarea>
                 </div>
             </div>

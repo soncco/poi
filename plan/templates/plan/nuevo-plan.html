@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block header %}Nuevo Plan (paso 2){% endblock header %}
+{% block title %}Nuevo Plan (paso 2){% endblock title %}
 
 {% block actions %}
     <span class="small pull-right">
@@ -104,7 +105,7 @@
                 <div class="actividad small">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Tarea</label>
+                            <label for="">Actividad</label>
                             <textarea name="{{ detalle_form.prefix }}-0-tarea_actividad" id="" class="input-sm form-control" rows="5" required></textarea>
                         </div>
                     </div>
@@ -335,7 +336,7 @@
         <div class="actividad small">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="">Tarea</label>
+                    <label for="">Actividad</label>
                     <textarea name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-tarea_actividad" id="" class="input-sm form-control" rows="5" required></textarea>
                 </div>
             </div>

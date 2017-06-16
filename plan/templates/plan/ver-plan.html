@@ -110,7 +110,43 @@
                     </div>
                 </div>
             </div>
+            {% if plan.unidad_organica.actividades == True %}
+                {% if plan.area_ejecutora != None %}
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form.act.label_tag }}
+                            {{ form.act.value }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-12" style="display: none">
+                        <div class="form-group">
+                            {{ form.act.label_tag }}
+                            {{ form.act.value }}
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% else %}
+                <div class="col-md-12">
+                    <div class="form-group" style="display: none">
+                        {{ form.act.label_tag }}
+                        {{ form.act.value }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if organica.especial == True %}
+                {% if organica.actividades == True %}
+                    {% if ejecutora != None %}
+                    <h2 class="page-sub-header text-info">Tareas</h2>
+                    {% else %}
+                    <h2 class="page-sub-header text-info">Actividades</h2>
+                    {% endif %}
+                {% endif %}
+            {% else %}
             <h2 class="page-sub-header text-info">Actividades o Proyectos</h2>
+            {% endif %}
 
             <div class="actividades">
                 {% for actividad in plan.actividad_set.all %}
@@ -118,7 +154,15 @@
                     <form action="" class="actividad-{{ actividad.pk }}">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="">Actividad</label>
+                                {% if organica.actividades == True %}
+                                    {% if ejecutora != None %}
+                                        <label for="">Tarea</label>
+                                    {% else %}
+                                        <label for="">Actividad</label>
+                                    {% endif %}
+                                {% else %}
+                                    <label for="">Actividad</label>
+                                {% endif %}
                                 <p>{{ actividad.tarea_actividad }}</p>
                                 
                             </div>

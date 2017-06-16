@@ -226,6 +226,11 @@ class ImpresionPlan:
     elements.append(Paragraph(u'<strong>Objetivo Específico</strong>: %s' % plan.objetivo_especifico_institucional, normal_custom(9)))
     elements.append(Spacer(0, spacer))
 
+    if plan.unidad_organica.actividades == True:
+        if plan.area_ejecutora is not None:
+            elements.append(Paragraph(u'<strong>Actividad</strong>: %s' % (plan.act if plan.act is not None else ''), normal_custom(9)))
+            elements.append(Spacer(0, spacer))
+
 
     # Tabla
     size = 8

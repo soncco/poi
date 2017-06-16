@@ -25,6 +25,7 @@ class Plan(models.Model):
     creado_por = models.ForeignKey(User, default=1)
     aprobado = models.BooleanField(default=False)
     anio = models.CharField(max_length=4, default='')
+    act = models.CharField(max_length=255, blank=True, null=True)
 
 class Actividad(models.Model):
     TIPOS = (

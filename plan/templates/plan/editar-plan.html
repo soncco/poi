@@ -113,22 +113,65 @@
                     {{ form.objetivo_especifico_institucional }}
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.periodo.label_tag }}
                     {{ form.periodo }}
                 </div>
             </div>
-            <div class="clearfix"></div>
 
+            {% if plan.unidad_organica.actividades == True %}
+                {% if plan.area_ejecutora != None %}
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ form.act.label_tag }}
+                            {{ form.act }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-md-12" style="display: none">
+                        <div class="form-group">
+                            {{ form.act.label_tag }}
+                            {{ form.act }}
+                        </div>
+                    </div>
+                {% endif %}
+
+            {% else %}
+                <div class="col-md-12">
+                    <div class="form-group" style="display: none">
+                        {{ form.act.label_tag }}
+                        {{ form.act }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if plan.unidad_organica.especial == True %}
+                {% if plan.unidad_organica.actividades == True %}
+                    {% if plan.area_ejecutora != None %}
+                    <h2 class="page-sub-header text-info">Tareas</h2>
+                    {% else %}
+                    <h2 class="page-sub-header text-info">Actividades</h2>
+                    {% endif %}
+                {% endif %}
+            {% else %}
             <h2 class="page-sub-header text-info">Actividades o Proyectos</h2>
+            {% endif %}
 
             <div class="actividades">
                 {% for actividad in plan.actividad_set.all %}
                 <div class="actividad small">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">Actividad</label>
+                            {% if plan.unidad_organica.actividades == True %}
+                                {% if plan.area_ejecutora != None %}
+                                    <label for="">Tarea</label>                                
+                                {% else %}
+                                    <label for="">Actividad</label>                                
+                                {% endif %}
+                            {% else %}
+                                <label for="">Actividad</label>                                
+                            {% endif %}
                             <textarea name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-tarea_actividad" id="" class="input-sm form-control" rows="5" required>{{ actividad.tarea_actividad }}</textarea>
                         </div>
                     </div>
@@ -364,7 +407,15 @@
         <div class="actividad small">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="">Actividad</label>
+                    {% if plan.unidad_organica.actividades == True %}
+                        {% if plan.area_ejecutora != None %}
+                            <label for="">Tarea</label>                                
+                        {% else %}
+                            <label for="">Actividad</label>                                
+                        {% endif %}
+                    {% else %}
+                        <label for="">Actividad</label>                                
+                    {% endif %}
                     <textarea name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-tarea_actividad" id="" class="input-sm form-control" rows="5" required></textarea>
                 </div>
             </div>

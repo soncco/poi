@@ -91,8 +91,10 @@ var plan = plan || {};
     });
 
     $('.borrar-cuadro').click(function(e) {
-        e.preventDefault();
-        return confirm('¿Estás seguro de borrar este cuadro de necesidades?');
+        var c = confirm('¿Estás seguro de borrar este cuadro de necesidades?');
+        if(!c) {
+            e.preventDefault();
+        }
     });
 
     $('.imprimir-cuadro').click(function(e) {

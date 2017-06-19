@@ -9,6 +9,7 @@
 {% block actions %}
     <span class="small pull-right">
         <a href="{% url 'plan:planes' %}" class="btn btn-primary btn-sm"><i class="fa fa-list"></i> Ver todos los planes</a>
+        <a href="{% url 'reporte:cuadro_excel' %}?tipo=plan&amp;plan={{ plan.pk }}" class="btn btn-success btn-sm"><i class="fa fa-file-excel-o"></i> Exportar a excel todos los cuadros</a>
     </span>
 {% endblock actions %}
 
@@ -55,10 +56,14 @@
         <td>{{ actividad.tarea_actividad }}</td>
         <td>{{ actividad.unidad_medida }}</td>
         <td>{{ actividad.distribucion_presupuestal }}</td>
-        {% if actividad.cuadro.pk != None  %}
-        <td class="text-center"><a href="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" class="btn btn-warning btn-xs"><i class="fa fa-edit"></i> Editar Cuadro de necesidades</a></td>
+        {% if actividad.cuadro  %}
+        <td class="text-center">
+          <a href="{% url 'cuadro:editar_cuadro' actividad.pk %}" class="btn btn-warning btn-xs" title="Editar Cuadro de necesidades"><i class="fa fa-edit"></i></a>
+          <a href="{% url 'reporte:imprimir_cuadro' actividad.cuadro.pk %}" class="btn btn-info btn-xs imprimir-cuadro" title="Imprimir Cuadro de necesidades"><i class="fa fa-print"></i></a>
+          <a href="{% url 'reporte:cuadro_excel' %}?tipo=cuadro&amp;cuadro={{ actividad.cuadro.pk }}" class="btn btn-success btn-xs" title="Imprimir Cuadro de necesidades"><i class="fa fa-file-excel-o"></i></a>
+        </td>
         {% else %}
-        <td class="text-center"><a href="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" class="btn btn-success btn-xs"><i class="fa fa-table"></i> Crear Cuadro de necesidades</a></td>
+        <td class="text-center"><a href="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" class="btn btn-primary btn-xs" title="Crear Cuadro de necesidades"><i class="fa fa-table"></i></a></td>
         {% endif %}
       </tr>
     {% endfor %}
@@ -75,3 +80,25 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.28.0/css/theme.bootstrap.min.css">
 {% endblock css %}
 
+{% block js %}
+  <script src="{% static "plan/actividades.js" %}"></script>
+{% endblock js %}
+
+{% block modal %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalprint">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Imprimir</h4>
+          </div>
+          <div class="modal-body">
+            <iframe src="" frameborder="0" width="100%" height="380"></iframe>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock modal %}

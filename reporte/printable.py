@@ -77,6 +77,14 @@ def normal_custom_right(size):
         alignment = TA_RIGHT
     )
 
+def negrita_custom_right(size):
+    return ParagraphStyle(
+        name = 'negrita_custom_center_%s' % str(size),
+        fontName = 'Helvetica-Bold',
+        fontSize = size,
+        alignment = TA_RIGHT
+    )
+
 def negrita_custom_center(size):
     return ParagraphStyle(
         name = 'negrita_custom_center_%s' % str(size),
@@ -130,6 +138,15 @@ def tabla_firma_estilo():
             ]
         )
 
+def tabla_cuadro(cuadro):
+    total = cuadro.cuadrodetalle_set.count()
+    return TableStyle(
+            [
+                ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+                ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+                ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            ]
+        )
 
 class ImpresionPlan:
   def __init__(self, buffer, pagesize):
@@ -376,6 +393,224 @@ class ImpresionPlan:
     return pdf
 
 class NumberedCanvas(canvas.Canvas):
+  def __init__(self, *args, **kwargs):
+    canvas.Canvas.__init__(self, *args, **kwargs)
+    self._saved_page_states = []
+
+  def showPage(self):
+    self._saved_page_states.append(dict(self.__dict__))
+    self._startPage()
+
+  def save(self):
+    """add page info to each page (page x of y)"""
+    num_pages = len(self._saved_page_states)
+    for state in self._saved_page_states:
+      self.__dict__.update(state)
+      self.draw_page_number(num_pages)
+      canvas.Canvas.showPage(self)
+      canvas.Canvas.save(self)
+
+  def draw_page_number(self, page_count):
+    # Change the position of this to wherever you want the page number to be
+    self.setFont('Helvetica', 8)
+    self.drawRightString(205 * mm, 290 * mm,
+      u"Página %d de %d" % (self._pageNumber, page_count))
+
+
+class ImpresionCuadro:
+  def __init__(self, buffer, pagesize):
+    self.buffer = buffer
+    if pagesize == 'A4':
+      self.pagesize = landscape(A4)
+    elif pagesize == 'Letter':
+      self.pagesize = landscape(letter)
+      self.width, self.height = self.pagesize
+
+  @staticmethod
+  def _header_footer_cuadro(canvas, doc, cuadro):
+    canvas.saveState()
+
+    logo = 'reporte/static/reporte/logo.jpg'
+
+    top = doc.topMargin + doc.bottomMargin - 8 * mm
+
+    canvas.drawImage(logo, doc.leftMargin + 30 * mm, doc.height + top - 12 * mm, width = (1.8 * cm), height = (1.8 * cm))
+    
+
+    # Cabecera
+    header = Paragraph(u'Municipalidad Provincial de Urubamba', negrita_custom_center(15))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top)
+
+
+    header = Paragraph(u'Cuadro de necesidades', negrita_custom_center(12))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 8 * mm)
+
+    header = Paragraph(u'<strong>Unidad Orgánica</strong>: %s' % (cuadro.actividad.pertenece_a.unidad_organica.nombre), normal_custom(9))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 15 * mm - h)
+
+    if cuadro.actividad.pertenece_a.area_ejecutora is not None:
+        header = Paragraph(u'<strong>Área Ejecutora</strong>: %s' % (cuadro.actividad.pertenece_a.area_ejecutora.nombre), normal_custom(9))
+    else:
+        if cuadro.actividad.pertenece_a.proyecto is not None:
+            header = Paragraph(u'<strong>Proyecto</strong>: %s' % (cuadro.actividad.pertenece_a.proyecto), normal_custom(9))
+        else:
+            header = Paragraph(u'<strong>Área Ejecutora</strong>: %s' % (cuadro.actividad.pertenece_a.unidad_organica.nombre), normal_custom(9))
+
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 21 * mm - h)
+
+    if cuadro.actividad.pertenece_a.area_ejecutora is not None:
+        header = Paragraph(u'<strong>Responsable</strong>: %s' % (cuadro.actividad.pertenece_a.responsable), normal_custom(9))
+    else:
+        if cuadro.actividad.pertenece_a.proyecto is not None:
+            header = Paragraph(u'<strong>Residente</strong>: %s' % (cuadro.actividad.pertenece_a.responsable), normal_custom(9))
+        else:
+            header = Paragraph(u'<strong>Responsable</strong>: %s' % (cuadro.actividad.pertenece_a.responsable), normal_custom(9))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin, doc.height + top - 27 * mm - h)
+
+
+    header = Paragraph(u'<strong>Presupuesto</strong>: S/ %s' % number_format(cuadro.actividad.distribucion_presupuestal, 2), normal_custom(10))
+    w, h = header.wrap(doc.width, top)
+    header.drawOn(canvas, doc.leftMargin + 150 * mm, doc.height + top - 27 * mm - h)
+
+
+    firmas_segundo = [
+      ['_____________________________', '_____________________________',  '_____________________________'],
+      [u'Firma del responsable', 'Jefe inmediato', 'Gerencia Municipal']
+    ]
+
+    tabla_firmas_2 = Table(firmas_segundo, colWidths = [doc.width/3.0], style = tabla_firma_estilo())
+    w, h = tabla_firmas_2.wrap(doc.width, doc.bottomMargin)
+    tabla_firmas_2.drawOn(canvas, doc.leftMargin, h + 10)
+
+
+    canvas.restoreState()
+
+
+  def print_cuadro(self, cuadro):
+    buffer = self.buffer
+    doc = SimpleDocTemplate(buffer, pagesize = self.pagesize, topMargin = 41 * mm, leftMargin = 8 * mm , rightMargin = 8 * mm, bottomMargin = 40 * mm, showBoundary = 1)
+
+    elements  = []
+
+    spacer = 5
+    elements.append(Paragraph(u'<strong>Actividad</strong>: %s' % cuadro.actividad.tarea_actividad, normal_custom(9)))
+    elements.append(Spacer(0, spacer))
+
+    # Tabla.
+    size = 8
+    size2 = 6
+    t_item = Paragraph('#', negrita_custom_center(size))
+    t_desc = Paragraph(u'Descripción', negrita_custom_center(size))
+    t_umed = Paragraph(u'U. Med.', negrita_custom_center(size))
+    t_t1 = Paragraph(u'T1', negrita_custom_center(size))
+    t_t2 = Paragraph(u'T2', negrita_custom_center(size))
+    t_t3 = Paragraph(u'T3', negrita_custom_center(size))
+    t_t4 = Paragraph(u'T4', negrita_custom_center(size))
+
+    t_e = Paragraph(u'Ene', negrita_custom_center(size))
+    t_f = Paragraph(u'Feb', negrita_custom_center(size))
+    t_m = Paragraph(u'Mar', negrita_custom_center(size))
+    t_a = Paragraph(u'Abr', negrita_custom_center(size))
+    t_y = Paragraph(u'May', negrita_custom_center(size))
+    t_j = Paragraph(u'Jun', negrita_custom_center(size))
+    t_l = Paragraph(u'Jul', negrita_custom_center(size))
+    t_g = Paragraph(u'Ago', negrita_custom_center(size))
+    t_s = Paragraph(u'Set', negrita_custom_center(size))
+    t_o = Paragraph(u'Oct', negrita_custom_center(size))
+    t_n = Paragraph(u'Nov', negrita_custom_center(size))
+    t_d = Paragraph(u'Dic', negrita_custom_center(size))
+    
+    t_total = Paragraph(u'Total', negrita_custom_center(size))
+    t_totalprecio = Paragraph(u'Precio', negrita_custom_center(size))
+    t_totalsoles = Paragraph(u'Total S/', negrita_custom_center(size))
+
+    if cuadro.actividad.pertenece_a.periodo == '1':
+        detalles_data = [
+            [t_item, t_desc, t_t1, t_t2, t_t3, t_t4, t_total, t_totalprecio, t_totalsoles]
+        ]
+
+        k = 1
+        for detalle in cuadro.cuadrodetalle_set.all():
+            kk = Paragraph(str(k), normal_custom_center(size))
+            desc = Paragraph(detalle.producto.descripcion, normal_custom(size))
+            p1 = Paragraph(str(detalle.p1), normal_custom_right(size))
+            p4 = Paragraph(str(detalle.p4), normal_custom_right(size))
+            p7 = Paragraph(str(detalle.p7), normal_custom_right(size))
+            p10 = Paragraph(str(detalle.p10), normal_custom_right(size))
+            total_cantidades = Paragraph(str(detalle.total_cantidades), normal_custom_right(size))
+            precio = Paragraph(number_format(detalle.precio, 2), normal_custom_right(size))
+            total = Paragraph(number_format(detalle.total, 2), normal_custom_right(size))
+            detalles_data.append(
+                [kk, desc, p1, p4, p7, p10, total_cantidades, precio, total]
+            )
+            k = k+1
+
+        t_texto = Paragraph('TOTAL S/', negrita_custom_right(size))
+        super_total = Paragraph(number_format(cuadro.total, 2), negrita_custom_right(size))
+        detalles_data.append(
+          ['--', '--', '--', '--', '--', '--', '--', t_texto, super_total]
+        )
+
+        widths = [10 * mm, 120 * mm, None]
+    else:
+        detalles_data = [
+            [t_item, t_desc, t_e, t_f, t_m, t_a, t_y, t_j, t_l, t_g, t_s, t_o, t_n, t_d, t_total, t_totalprecio, t_totalsoles]
+        ]
+
+        k = 1
+        for detalle in cuadro.cuadrodetalle_set.all():
+            kk = Paragraph(str(k), normal_custom_center(size2))
+            desc = Paragraph(detalle.producto.descripcion, normal_custom(size2))
+            p1 = Paragraph(str(detalle.p1), normal_custom_right(size2))
+            p2 = Paragraph(str(detalle.p2), normal_custom_right(size2))
+            p3 = Paragraph(str(detalle.p3), normal_custom_right(size2))
+            p4 = Paragraph(str(detalle.p4), normal_custom_right(size2))
+            p5 = Paragraph(str(detalle.p5), normal_custom_right(size2))
+            p6 = Paragraph(str(detalle.p6), normal_custom_right(size2))
+            p7 = Paragraph(str(detalle.p7), normal_custom_right(size2))
+            p8 = Paragraph(str(detalle.p8), normal_custom_right(size2))
+            p9 = Paragraph(str(detalle.p9), normal_custom_right(size2))
+            p10 = Paragraph(str(detalle.p10), normal_custom_right(size2))
+            p11 = Paragraph(str(detalle.p11), normal_custom_right(size2))
+            p12 = Paragraph(str(detalle.p12), normal_custom_right(size2))
+            total_cantidades = Paragraph(str(detalle.total_cantidades), normal_custom_right(size2))
+            precio = Paragraph(number_format(detalle.precio, 2), normal_custom_right(size2))
+            total = Paragraph(number_format(detalle.total, 2), normal_custom_right(size2))
+            detalles_data.append(
+                [kk, desc, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, total_cantidades, precio, total]
+            )
+            k = k+1
+
+        t_texto = Paragraph('TOTAL S/', negrita_custom_right(size2))
+        super_total = Paragraph(number_format(cuadro.total, 2), negrita_custom_right(size2))
+        detalles_data.append(
+          ['--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', t_texto, super_total]
+        )
+
+        widths = [8 * mm, 52 * mm, None]
+
+
+    detalles_tabla = Table(detalles_data, colWidths = widths, style=tabla_cuadro(cuadro))
+    elements.append(detalles_tabla)
+
+ 
+
+        
+
+
+    doc.build(elements, onFirstPage = partial(self._header_footer_cuadro, cuadro = cuadro),
+      onLaterPages = partial(self._header_footer_cuadro, cuadro = cuadro), canvasmaker = NumberedCuadroCanvas)
+
+    pdf = buffer.getvalue()
+    buffer.close()
+    return pdf
+
+class NumberedCuadroCanvas(canvas.Canvas):
   def __init__(self, *args, **kwargs):
     canvas.Canvas.__init__(self, *args, **kwargs)
     self._saved_page_states = []

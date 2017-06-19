@@ -2,19 +2,19 @@
 
 {% load static %}
 
-{% block title %}Informe por Unidad Orgánica{% endblock title %}
+{% block title %}Cuadros por dependencia{% endblock title %}
 
-{% block header %}Informe por Unidad Orgánica{% endblock header %}
+{% block header %}Cuadros por dependencia{% endblock header %}
 
 
 {% block content %}
 
     <div class="well">
-        <form action="{% url 'reporte:reporte_dependencia_excel' %}" method="post">
+        <form action="{% url 'reporte:cuadro_excel' %}" method="get">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="unidades">Escoja una unidad orgánica</label>
+                        <label for="unidades">Escoja una dependencia</label>
                         <select name="unidad" id="unidades" class="form-control" required>
                             {% for unidad in unidades %}
                                 <option value="{{ unidad.pk }}">{{ unidad.nombre }}</option>
@@ -32,16 +32,8 @@
             
             {% csrf_token %}
             <button class="btn btn-block btn-success"><i class="fa fa-file-excel-o"></i> Exportar a Excel</button>
-            <input type="hidden" name="tipo" value="organica">
+            <input type="hidden" name="tipo" value="dependencia">
         </form>
     </div>
     
 {% endblock content %}
-
-{% block js %}
-    <script src="{% static "plan/lista.js" %}"></script>
-{% endblock js %}
-
-{% block css %}
-{% endblock css %}
-

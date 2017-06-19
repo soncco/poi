@@ -11,7 +11,7 @@ def grupo_responsable(user):
     return user.groups.filter(name='Responsable').exists()
 
 def grupo_logistico(user):
-    return user.groups.filter(name='Logística').exists()
+    return user.groups.filter(name='Logistico').exists()
 
 def grupo_administrador(user):
     return user.groups.filter(name='Administrador').exists()

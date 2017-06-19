@@ -9,10 +9,12 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 
 from plan.models import Plan
-from printable import ImpresionPlan
+from printable import ImpresionPlan, ImpresionCuadro
 from plan.utils import solo_responsable, grupo_administrador, grupo_logistico
 
 from base.models import Unidad, UnidadOrganica
+
+from cuadro.models import Cuadro, CuadroDetalle, Producto
 
 from xlsxwriter.workbook import Workbook
 try:
@@ -415,5 +417,324 @@ def reporte_dependencia_excel(request):
     output.seek(0)
     response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     response['Content-Disposition'] = "attachment; filename=reporte-%s.xlsx" % nombre
+
+    return response
+
+@login_required
+def imprimir_cuadro(request, id):
+    response = HttpResponse(content_type='application/pdf')
+    
+    buffer = BytesIO()
+    try:
+        cuadro = get_object_or_404(Cuadro, pk = id)
+    except:
+        raise Http404
+
+    report = ImpresionCuadro(buffer, 'A4')
+    pdf = report.print_cuadro(cuadro)
+
+    response.write(pdf)
+    return response
+
+@login_required
+def cuadro_excel(request):
+    tipo = request.GET.get('tipo')
+
+    if tipo == 'cuadro':
+        pk = request.GET.get('cuadro')
+        cuadro = Cuadro.objects.filter(pk = pk)
+        actividad = cuadro[0].actividad
+        plan = actividad.pertenece_a
+        anio = actividad.pertenece_a.anio
+        gerencia = actividad.pertenece_a.unidad_organica.nombre
+
+        if plan.area_ejecutora is not None:
+            titulo_area = u'Área Ejecutora:'
+            nombre_area = plan.area_ejecutora.nombre
+        else:
+            if plan.proyecto is not None:
+                titulo_area = u'Proyecto:'
+                nombre_area = plan.proyecto
+            else:
+                titulo_area = u'Área Ejecutora:'
+                nombre_area = plan.unidad_organica.nombre
+
+        sec_func = cuadro[0].sec_func
+
+        act_titulo = 'Actividad'
+        act_nombre = actividad.tarea_actividad
+
+    if tipo == 'plan':
+        pk = request.GET.get('plan')
+        plan = Plan.objects.get(pk = pk)
+        anio = plan.anio
+        gerencia = plan.unidad_organica.nombre
+
+        if plan.area_ejecutora is not None:
+            titulo_area = u'Área Ejecutora:'
+            nombre_area = plan.area_ejecutora.nombre
+        else:
+            if plan.proyecto is not None:
+                titulo_area = u'Proyecto:'
+                nombre_area = plan.proyecto
+            else:
+                titulo_area = u'Área Ejecutora:'
+                nombre_area = plan.unidad_organica.nombre
+
+        sec_func = ''
+
+        act_titulo = 'Plan Nro:'
+        act_nombre = plan.numero
+
+    if tipo == 'dependencia':
+        pk = request.GET.get('unidad')
+        unidad = Unidad.objects.get(pk = pk)
+        anio = request.GET.get('anio')
+        gerencia = unidad.pertenece_a.nombre
+
+        titulo_area = u'Área Ejecutora:'
+        nombre_area = unidad.nombre
+
+        sec_func = ''
+
+        act_titulo = ''
+        act_nombre = ''
+
+    if tipo == 'organica':
+        pk = request.GET.get('unidad')
+        unidad = UnidadOrganica.objects.get(pk = pk)
+        anio = request.GET.get('anio')
+        gerencia = unidad.nombre
+
+        titulo_area = u'Área Ejecutora:'
+        nombre_area = ''
+
+        sec_func = ''
+
+        act_titulo = ''
+        act_nombre = ''
+
+    if tipo == 'institucion':
+        anio = request.GET.get('anio')
+        gerencia = 'Municipalidad'
+
+        titulo_area = u''
+        nombre_area = ''
+
+        sec_func = ''
+
+        act_titulo = ''
+        act_nombre = ''
+        
+
+    output = StringIO.StringIO()
+
+    book = Workbook(output)
+    sheet = book.add_worksheet('CUADRO DE NECESIDADES')
+    sheet.set_landscape()
+    sheet.set_paper(9)
+
+    titulo = book.add_format({
+        'bold': 1,
+        'align': 'center'
+    })
+
+    negrita = book.add_format({'bold': 1})
+    fecha = book.add_format({'num_format': 'dd/mm/yy'})
+    dinero = book.add_format({'num_format': '0.00'})
+    dinero_item = book.add_format({'num_format': '0.00', 'fg_color': '#BADDF5'})
+    item = book.add_format({'fg_color': '#BADDF5'})
+
+    wrap = book.add_format({'text_wrap': True})
+
+    negrita_borde = book.add_format({'bold': 1, 'border': 1, 'fg_color': '#BADDF5', 'valign': 'vcenter', 'text_wrap': True, 'align': 'center'})
+    borde = book.add_format({'border': 1})
+    borde_numero = book.add_format({'border': 1, 'num_format': '0.00'})
+    borde_fecha = book.add_format({'num_format': 'dd/mm/yy', 'border': 1})
+
+
+    hasta = 'Y'
+
+    sheet.merge_range('A1:%s1' % hasta, 'MUNICIPALIDAD PROVINCIAL DE URUBAMBA', titulo)
+    sheet.merge_range('A2:%s2' % hasta, u'CUADRO DE NECESIDADES DE BIENES, SERVICIOS Y OBRAS PARA EL AÑO FISCAL %s ' % anio, titulo)
+
+    sheet.write('A3', 'Gerencia:', negrita)
+    sheet.merge_range('B3:H3', gerencia)
+
+    sheet.write('A4', titulo_area, negrita)
+    sheet.merge_range('B4:H4', nombre_area)
+
+    sheet.write('A5', 'SEC FUNC', negrita)
+    sheet.merge_range('B5:H5', sec_func)
+
+    sheet.write('A6', act_titulo, negrita)
+    sheet.merge_range('B6:H6', act_nombre)
+
+    sheet.write('A8', u'N°', negrita_borde)
+    sheet.write('B8', u'Descripción', negrita_borde)
+    sheet.write('C8', u'Unidad', negrita_borde)
+    sheet.write('D8', u'Ene', negrita_borde)
+    sheet.write('E8', u'Feb', negrita_borde)
+    sheet.write('F8', u'Mar', negrita_borde)
+    sheet.write('G8', u'Abr', negrita_borde)
+    sheet.write('H8', u'May', negrita_borde)
+    sheet.write('I8', u'Jun', negrita_borde)
+    sheet.write('J8', u'Jul', negrita_borde)
+    sheet.write('K8', u'Ago', negrita_borde)
+    sheet.write('L8', u'Set', negrita_borde)
+    sheet.write('M8', u'Oct', negrita_borde)
+    sheet.write('N8', u'Nov', negrita_borde)
+    sheet.write('O8', u'Dic', negrita_borde)
+    sheet.write('P8', u'Total', negrita_borde)
+    sheet.write('Q8', u'Precio', negrita_borde)
+    sheet.write('R8', u'Total S/', negrita_borde)
+
+    k = 9
+    item = 1
+    first = k
+
+    if tipo == 'cuadro':
+        
+        for detalle in cuadro[0].cuadrodetalle_set.all():
+            sheet.write('A%s' % k, item, borde)
+            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
+            sheet.write('C%s' % k, detalle.unidad_medida, borde)
+            sheet.write('D%s' % k, detalle.p1, borde_numero)
+            sheet.write('E%s' % k, detalle.p2, borde_numero)
+            sheet.write('F%s' % k, detalle.p3, borde_numero)
+            sheet.write('G%s' % k, detalle.p4, borde_numero)
+            sheet.write('H%s' % k, detalle.p5, borde_numero)
+            sheet.write('I%s' % k, detalle.p6, borde_numero)
+            sheet.write('J%s' % k, detalle.p7, borde_numero)
+            sheet.write('K%s' % k, detalle.p8, borde_numero)
+            sheet.write('L%s' % k, detalle.p9, borde_numero)
+            sheet.write('M%s' % k, detalle.p10, borde_numero)
+            sheet.write('N%s' % k, detalle.p11, borde_numero)
+            sheet.write('O%s' % k, detalle.p12, borde_numero)
+            formula = '=SUM(D{0}:O{0})'.format(k)
+            sheet.write_formula('P%s' % k, formula, borde_numero)
+            sheet.write('Q%s' % k, detalle.precio, borde_numero)
+            formula2 = '=P{0}*Q{0}'.format(k)
+            sheet.write_formula('R%s' % k, formula2, borde_numero)
+            item = item + 1
+            k = k + 1
+
+    if tipo == 'plan':
+        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a = plan.pk)
+        for detalle in detalles:
+            sheet.write('A%s' % k, item, borde)
+            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
+            sheet.write('C%s' % k, detalle.unidad_medida, borde)
+            sheet.write('D%s' % k, detalle.p1, borde_numero)
+            sheet.write('E%s' % k, detalle.p2, borde_numero)
+            sheet.write('F%s' % k, detalle.p3, borde_numero)
+            sheet.write('G%s' % k, detalle.p4, borde_numero)
+            sheet.write('H%s' % k, detalle.p5, borde_numero)
+            sheet.write('I%s' % k, detalle.p6, borde_numero)
+            sheet.write('J%s' % k, detalle.p7, borde_numero)
+            sheet.write('K%s' % k, detalle.p8, borde_numero)
+            sheet.write('L%s' % k, detalle.p9, borde_numero)
+            sheet.write('M%s' % k, detalle.p10, borde_numero)
+            sheet.write('N%s' % k, detalle.p11, borde_numero)
+            sheet.write('O%s' % k, detalle.p12, borde_numero)
+            formula = '=SUM(D{0}:O{0})'.format(k)
+            sheet.write_formula('P%s' % k, formula, borde_numero)
+            sheet.write('Q%s' % k, detalle.precio, borde_numero)
+            formula2 = '=P{0}*Q{0}'.format(k)
+            sheet.write_formula('R%s' % k, formula2, borde_numero)
+            item = item + 1
+            k = k + 1
+
+    if tipo == 'dependencia':
+        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__area_ejecutora = unidad.pk, pertenece_a__actividad__pertenece_a__anio = anio)
+        for detalle in detalles:
+            sheet.write('A%s' % k, item, borde)
+            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
+            sheet.write('C%s' % k, detalle.unidad_medida, borde)
+            sheet.write('D%s' % k, detalle.p1, borde_numero)
+            sheet.write('E%s' % k, detalle.p2, borde_numero)
+            sheet.write('F%s' % k, detalle.p3, borde_numero)
+            sheet.write('G%s' % k, detalle.p4, borde_numero)
+            sheet.write('H%s' % k, detalle.p5, borde_numero)
+            sheet.write('I%s' % k, detalle.p6, borde_numero)
+            sheet.write('J%s' % k, detalle.p7, borde_numero)
+            sheet.write('K%s' % k, detalle.p8, borde_numero)
+            sheet.write('L%s' % k, detalle.p9, borde_numero)
+            sheet.write('M%s' % k, detalle.p10, borde_numero)
+            sheet.write('N%s' % k, detalle.p11, borde_numero)
+            sheet.write('O%s' % k, detalle.p12, borde_numero)
+            formula = '=SUM(D{0}:O{0})'.format(k)
+            sheet.write_formula('P%s' % k, formula, borde_numero)
+            sheet.write('Q%s' % k, detalle.precio, borde_numero)
+            formula2 = '=P{0}*Q{0}'.format(k)
+            sheet.write_formula('R%s' % k, formula2, borde_numero)
+            item = item + 1
+            k = k + 1
+
+
+    if tipo == 'organica':
+        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__unidad_organica = unidad.pk, pertenece_a__actividad__pertenece_a__anio = anio)
+        for detalle in detalles:
+            sheet.write('A%s' % k, item, borde)
+            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
+            sheet.write('C%s' % k, detalle.unidad_medida, borde)
+            sheet.write('D%s' % k, detalle.p1, borde_numero)
+            sheet.write('E%s' % k, detalle.p2, borde_numero)
+            sheet.write('F%s' % k, detalle.p3, borde_numero)
+            sheet.write('G%s' % k, detalle.p4, borde_numero)
+            sheet.write('H%s' % k, detalle.p5, borde_numero)
+            sheet.write('I%s' % k, detalle.p6, borde_numero)
+            sheet.write('J%s' % k, detalle.p7, borde_numero)
+            sheet.write('K%s' % k, detalle.p8, borde_numero)
+            sheet.write('L%s' % k, detalle.p9, borde_numero)
+            sheet.write('M%s' % k, detalle.p10, borde_numero)
+            sheet.write('N%s' % k, detalle.p11, borde_numero)
+            sheet.write('O%s' % k, detalle.p12, borde_numero)
+            formula = '=SUM(D{0}:O{0})'.format(k)
+            sheet.write_formula('P%s' % k, formula, borde_numero)
+            sheet.write('Q%s' % k, detalle.precio, borde_numero)
+            formula2 = '=P{0}*Q{0}'.format(k)
+            sheet.write_formula('R%s' % k, formula2, borde_numero)
+            item = item + 1
+            k = k + 1
+
+    if tipo == 'institucion':
+        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__anio = anio)
+        for detalle in detalles:
+            sheet.write('A%s' % k, item, borde)
+            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
+            sheet.write('C%s' % k, detalle.unidad_medida, borde)
+            sheet.write('D%s' % k, detalle.p1, borde_numero)
+            sheet.write('E%s' % k, detalle.p2, borde_numero)
+            sheet.write('F%s' % k, detalle.p3, borde_numero)
+            sheet.write('G%s' % k, detalle.p4, borde_numero)
+            sheet.write('H%s' % k, detalle.p5, borde_numero)
+            sheet.write('I%s' % k, detalle.p6, borde_numero)
+            sheet.write('J%s' % k, detalle.p7, borde_numero)
+            sheet.write('K%s' % k, detalle.p8, borde_numero)
+            sheet.write('L%s' % k, detalle.p9, borde_numero)
+            sheet.write('M%s' % k, detalle.p10, borde_numero)
+            sheet.write('N%s' % k, detalle.p11, borde_numero)
+            sheet.write('O%s' % k, detalle.p12, borde_numero)
+            formula = '=SUM(D{0}:O{0})'.format(k)
+            sheet.write_formula('P%s' % k, formula, borde_numero)
+            sheet.write('Q%s' % k, detalle.precio, borde_numero)
+            formula2 = '=P{0}*Q{0}'.format(k)
+            sheet.write_formula('R%s' % k, formula2, borde_numero)
+            item = item + 1
+            k = k + 1
+
+    sheet.write('Q%s' % k, 'TOTAL S/', borde)
+    formula3 = '=SUM(R%s:R%s)' % (first, k-1)
+    sheet.write_formula('R%s' % k, formula3, borde_numero)
+
+
+
+
+    book.close()
+
+    output.seek(0)
+    response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=cuadro.xlsx"
 
     return response

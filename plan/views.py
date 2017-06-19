@@ -170,7 +170,7 @@ def planes_json(request):
             links = crear_enlace(reverse('plan:ver_plan', args=[plan.pk]), 'warning', 'Ver o Editar', 'edit')
         else:
             links = crear_enlace(reverse('plan:ver_plan', args=[plan.pk]), 'primary', 'Ver o evaluar', 'eye')
-            links += crear_enlace(reverse('plan:actividades', args=[plan.pk]), 'default', 'Crear cuadro de necesidades', 'table')
+        links += crear_enlace(reverse('plan:actividades', args=[plan.pk]), 'default', 'Crear cuadro de necesidades', 'table')
         links += crear_enlace(reverse('reporte:imprimir_plan', args=[plan.pk]), 'info print', 'Imprimir', 'print')
         links += crear_enlace('%s?pk=%s&amp;tipo=single' % (reverse('reporte:reporte_dependencia_excel',), plan.pk), 'success', 'Exportar a Excel', 'file-excel-o')
         if not plan.aprobado:

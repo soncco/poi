@@ -8,12 +8,11 @@ from models import Cuadro, CuadroDetalle
 class CuadroForm(ModelForm):
     class Meta:
         model = Cuadro
-        fields = '__all__'
+        exclude = ('actividad',)
 
         widgets = {
             'sec_func': TextInput(attrs={
                 'class': 'form-control input-sm',
-                'required': 'required',
                 'autocomplete': 'off',
                 'placeholder': 'Sec Func'
             })

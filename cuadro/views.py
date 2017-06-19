@@ -14,6 +14,10 @@ from plan.models import Actividad
 
 from rest_framework import viewsets, generics
 
+from base.models import UnidadOrganica, Unidad
+
+from plan.utils import grupo_logistico, grupo_administrador
+
 
 import json, datetime
 
@@ -26,13 +30,14 @@ def nuevo_cuadro(request, id):
 
         if form.is_valid() and detalle_form.is_valid():
             cuadro = form.save(commit=False)
+            cuadro.actividad = actividad
 
             cuadro.save()
             detalle_form.instance = cuadro
             detalle_form.save()
 
             messages.success(request, 'Se ha creado un cuadro de necesidades.')
-            return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pk]))
+            return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
 
         else:
             print form.errors
@@ -41,6 +46,63 @@ def nuevo_cuadro(request, id):
     detalle_form = CuadroDetalleFormSet()
     context = {'actividad': actividad, 'form': form, 'detalle_form': detalle_form}
     return render(request, 'cuadro/nuevo-cuadro.html', context)
+
+@login_required
+def editar_cuadro(request, id):
+    actividad = Actividad.objects.get(pk = id)
+    cuadro = actividad.cuadro
+    if request.method == 'POST':
+        form = CuadroForm(request.POST, instance = cuadro)
+
+        if form.is_valid():
+            cuadro = form.save(commit=False)
+            detalle_form = CuadroDetalleFormSet(request.POST, instance=cuadro)
+            if detalle_form.is_valid():
+                cuadro.save()
+                for detalle in cuadro.cuadrodetalle_set.all():
+                    detalle.delete()
+                detalle_form.save()
+
+                messages.success(request, 'Se ha editado el cuadro de necesidades.')
+                return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
+            else:
+                print detalle_form.errors
+        else:
+            print detalle_form.errors
+
+
+    form = CuadroForm(instance=cuadro)
+    detalle_form = CuadroDetalleFormSet()
+    context = {'actividad': actividad, 'form': form, 'detalle_form': detalle_form, 'cuadro': cuadro}
+    return render(request, 'cuadro/editar-cuadro.html', context)
+
+@login_required
+def borrar_cuadro(request, id):
+    actividad = Actividad.objects.get(pk = id)
+    cuadro = actividad.cuadro
+    cuadro.delete()
+    messages.success(request, 'Se ha borrado el cuadro de necesidades.')
+    return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
+
+# Informes
+@login_required
+def informe_dependencia(request):
+    unidades = Unidad.objects.all()
+    context = {'unidades': unidades}
+    return render(request, 'cuadro/informe-dependencia.html', context)
+
+@login_required
+def informe_organica(request):
+    unidades = UnidadOrganica.objects.all()
+    context = {'unidades': unidades}
+    return render(request, 'cuadro/informe-organica.html', context)
+
+@login_required
+def informe_institucion(request):
+    context = {}
+    return render(request, 'cuadro/informe-institucion.html', context)
+
+
 
 # REST.
 class ProductoViewSet(viewsets.ModelViewSet):

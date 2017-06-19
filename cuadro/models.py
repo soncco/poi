@@ -15,14 +15,13 @@ class Producto(models.Model):
 
 class Cuadro(models.Model):
   actividad = models.OneToOneField('plan.Actividad')
-  sec_func = models.CharField(max_length = 4)
+  sec_func = models.CharField(max_length = 4, default='', blank=True)
   creado_por = models.ForeignKey(User)
   total = models.DecimalField(max_digits = 11, decimal_places = 2, default = Decimal('0.00'))
 
 
 class CuadroDetalle(models.Model):
   pertenece_a = models.ForeignKey(Cuadro)
-  cantidad = models.FloatField()
   unidad_medida = models.CharField(max_length=100)
   producto = models.ForeignKey(Producto)
   p1 = models.FloatField(default=0)

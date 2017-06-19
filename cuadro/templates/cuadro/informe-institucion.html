@@ -2,15 +2,15 @@
 
 {% load static %}
 
-{% block title %}Informe por institución{% endblock title %}
+{% block title %}Cuadros por institución{% endblock title %}
 
-{% block header %}Informe por institución{% endblock header %}
+{% block header %}Cuadros por institución{% endblock header %}
 
 
 {% block content %}
 
     <div class="well">
-        <form action="{% url 'reporte:reporte_dependencia_excel' %}" method="post">
+        <form action="{% url 'reporte:cuadro_excel' %}" method="get">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -27,11 +27,3 @@
     </div>
     
 {% endblock content %}
-
-{% block js %}
-    <script src="{% static "plan/lista.js" %}"></script>
-{% endblock js %}
-
-{% block css %}
-{% endblock css %}
-

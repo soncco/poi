@@ -10,6 +10,13 @@ var plan = plan || {};
         dateFormat: 'dd-mm-yy'
     };
 
+    $('.test').click(function(e) {
+        var total = ('')
+        $('.actividad').each(function(i) {
+            $(this).find
+        })
+    })
+
     $('.datepicker').datepicker(datepickerOptions);
 
     var ocultar = function() {
@@ -37,7 +44,6 @@ var plan = plan || {};
                 .removeAttr('required')
                 .attr('readonly', 'readonly');
         }
-        console.log($('#id_periodo').val());
         sumat();
     }
 
@@ -88,7 +94,17 @@ var plan = plan || {};
     periodos();
 
     var actualizarTotalFilas = function() {
-        $('#id_actividad_set-TOTAL_FORMS').val($('.actividad').length);
+        var total = $('.actividad').length;
+        $('#id_actividad_set-TOTAL_FORMS').val(total);
+        $('.actividad').each(function(i) {
+            var $this = $(this);
+            var selector = '[name*='+ prefix +'-]';
+            var $el = $this.find(selector);
+            $el.each(function(j) {
+                var suffix = $(this).attr('name').split('-')[2];
+                $(this).attr('name', prefix + '-' + i + '-' + suffix);
+            });
+        });
         calculo();
     }
 

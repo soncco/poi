@@ -239,6 +239,9 @@
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
     <script src="{% static "cuadro/producto.js" %}"></script>
+    <script>
+        var prefix = '{{ detalle_form.prefix }}';
+    </script>
     <script src="{% static "cuadro/cuadro.js" %}"></script>
 {% endblock js %}
 

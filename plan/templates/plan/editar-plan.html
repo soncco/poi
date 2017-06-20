@@ -11,7 +11,7 @@
         <a href="{% url 'reporte:reporte_dependencia_excel' %}?pk={{ plan.pk }}&amp;tipo=single" class="btn btn-success btn-sm excel"><i class="fa fa-file-excel-o"></i> Exportar a Excel</a>
         <a href="{% url 'plan:planes' %}" class="btn btn-primary btn-sm"><i class="fa fa-list"></i> Ver todos los planes</a>
         <a href="{% url 'plan:plan' %}" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Crear otro Plan</a>
-
+        <button class="btn btn-default btn-sm test">test</button>
     </span>
 {% endblock actions %}
 
@@ -337,7 +337,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Total en <span class="t">periodos</span><span class="m">meses</span></label>
-                                    <input type="number" class="input-sm form-control total-t" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-total" readonly value="{{ actividad.total }}">
+                                    <input type="number" class="input-sm form-control total-t" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-total" readonly value="{{ actividad.total|unlocalize }}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -398,6 +398,9 @@
 {% block js %}
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script>
+        var prefix = '{{ detalle_form.prefix }}';
+    </script>
     <script src="{% static "plan/plan.js" %}"></script>
 {% endblock js %}
 

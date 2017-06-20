@@ -41,7 +41,17 @@ var plan = plan || {};
     sumat();
 
     var actualizarTotalFilas = function() {
-        $('#id_cuadrodetalle_set-TOTAL_FORMS').val($('.producto').length);
+        var total = $('.producto').length;
+        $('#id_cuadrodetalle_set-TOTAL_FORMS').val(total);
+        $('.producto').each(function(i) {
+            var $this = $(this);
+            var selector = '[name*='+ prefix +'-]';
+            var $el = $this.find(selector);
+            $el.each(function(j) {
+                var suffix = $(this).attr('name').split('-')[2];
+                $(this).attr('name', prefix + '-' + i + '-' + suffix);
+            });
+        });
         calculo();
     }
 

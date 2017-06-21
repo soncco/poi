@@ -36,23 +36,24 @@ var plan = plan || {};
             })
         },
         response: function(e, ui) {
-            if(ui.content.length === 0) {
+            if(ui.content.length == 0) {
                 var parent = $(e.target).parent();
-                parent.find('.ac-producto').val('');
                 parent.find('.id_producto').val('');
             }
+            
         },
         select: function(e, ui) {
             var parent = $(e.target).parent().parent();
             parent.find('.id_producto').val(ui.item.data.id);
         },
         change: function(e,ui) {
+            console.log('change');
             if(!ui.item) {
                 var parent = $(e.target).parent();
-                parent.find('.ac-producto').val('');
                 parent.find('.id_producto').val('');
             }
-        }
+        },
+
     };
 
     $('.ac-producto').autocomplete(plan.acProductoOptions);

@@ -18,6 +18,8 @@ from base.models import UnidadOrganica, Unidad
 
 from plan.utils import grupo_logistico, grupo_administrador
 
+from .utils import modificar_post
+
 
 import json, datetime
 
@@ -25,8 +27,10 @@ import json, datetime
 def nuevo_cuadro(request, id):
     actividad = Actividad.objects.get(pk = id)
     if request.method == 'POST':
-        form = CuadroForm(request.POST)
-        detalle_form = CuadroDetalleFormSet(request.POST)
+        nuevo_post = modificar_post(request.POST, CuadroDetalleFormSet().prefix)
+        form = CuadroForm(nuevo_post)
+        detalle_form = CuadroDetalleFormSet(nuevo_post)
+        pass
 
         if form.is_valid() and detalle_form.is_valid():
             cuadro = form.save(commit=False)
@@ -52,11 +56,12 @@ def editar_cuadro(request, id):
     actividad = Actividad.objects.get(pk = id)
     cuadro = actividad.cuadro
     if request.method == 'POST':
-        form = CuadroForm(request.POST, instance = cuadro)
+        nuevo_post = modificar_post(request.POST, CuadroDetalleFormSet().prefix)
+        form = CuadroForm(nuevo_post, instance = cuadro)
 
         if form.is_valid():
             cuadro = form.save(commit=False)
-            detalle_form = CuadroDetalleFormSet(request.POST, instance=cuadro)
+            detalle_form = CuadroDetalleFormSet(nuevo_post, instance=cuadro)
             if detalle_form.is_valid():
                 cuadro.save()
                 for detalle in cuadro.cuadrodetalle_set.all():

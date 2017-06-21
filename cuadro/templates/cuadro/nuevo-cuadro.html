@@ -60,7 +60,7 @@
                     <div class="col-md-9">
                         <div class="form-group">
                             <label for="">Descripción</label>: <span class="text-info">Escriba el detalle del bien o servicio.</span>
-                            <textarea name="" id="" cols="30" rows="6" class="form-control input-sm ac-producto" required></textarea>
+                            <textarea name="{{ detalle_form.prefix }}-0-nuevo" id="" cols="30" rows="6" class="form-control input-sm ac-producto" required></textarea>
                             <input type="hidden" class="id_producto" name="{{ detalle_form.prefix }}-0-producto" value="">
                         </div>
                     </div>
@@ -258,7 +258,7 @@
                 <div class="col-md-9">
                     <div class="form-group">
                         <label for="">Descripción</label>: <span class="text-info">Escriba el detalle del bien o servicio.</span>
-                        <textarea name="" id="" cols="30" rows="4" class="form-control input-sm ac-producto" required></textarea>
+                        <textarea name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-nuevo" id="" cols="30" rows="4" class="form-control input-sm ac-producto" required></textarea>
                         <input type="hidden" class="id_producto" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-producto" value="">
                     </div>
                 </div>

@@ -61,7 +61,6 @@ var plan = plan || {};
     $('.unitario').bind('keyup mouseup', sumat);
 
     var quitar = function() {
-        console.log($('.producto'));
         if($('.producto').length == 1) {
             alert('No se puede quitar el único producto.');
             return false;
@@ -85,6 +84,7 @@ var plan = plan || {};
         $row.find('.unitario').bind('keyup mouseup', sumat);
         $row.find('.quitar-producto').bind('click', quitar);
         $row.find('.ac-producto').autocomplete(plan.acProductoOptions);
+        $row.find('.ac-clasificador').autocomplete(plan.acClasificadorOptions);
         return $row;
     }
 

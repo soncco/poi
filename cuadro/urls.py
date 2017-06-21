@@ -5,6 +5,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'productos', views.ProductoViewSet)
+router.register(r'clasificadores', views.ClasificadorViewSet)
 
 app_name = 'cuadro'
 urlpatterns = [
@@ -20,5 +21,6 @@ urlpatterns = [
 
     url(r'^api/cuadro/', include(router.urls)),
     url(r'^api/cuadro/producto/filter/$', views.ProductoFilterViewSet.as_view()),
+    url(r'^api/cuadro/clasificador/filter/$', views.ClasificadorFilterViewSet.as_view()),
     
 ]

@@ -60,11 +60,16 @@
                     <div class="col-md-9">
                         <div class="form-group">
                             <label for="">Descripción</label>: <span class="text-info">Escriba el detalle del bien o servicio.</span>
-                            <textarea name="" id="" cols="30" rows="4" class="form-control input-sm ac-producto" required></textarea>
+                            <textarea name="" id="" cols="30" rows="6" class="form-control input-sm ac-producto" required></textarea>
                             <input type="hidden" class="id_producto" name="{{ detalle_form.prefix }}-0-producto" value="">
                         </div>
                     </div>
                     <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Clasificador</label>
+                            <input type="text" class="form-control input-sm ac-clasificador" required>
+                            <input type="hidden" class="id_clasificador" name="{{ detalle_form.prefix }}-0-clasificador" value="">
+                        </div>
                         <div class="form-group">
                             <label for="">Unidad de Medida</label>
                             <input type="text" class="form-control input-sm" name="{{ detalle_form.prefix }}-0-unidad_medida" required>
@@ -76,6 +81,9 @@
                     </div>
 
                     <div class="col-md-9">
+                        <div class="col-md-12">
+                            <h4>Cantidades por periodo</h4>
+                        </div>
                         {% if actividad.pertenece_a.periodo == '1' %}
                         <div class="col-md-3">
                             <div class="form-group">
@@ -235,6 +243,7 @@
     <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
     <script src="{% static "cuadro/producto.js" %}"></script>
+    <script src="{% static "cuadro/clasificador.js" %}"></script>
     <script>
         var prefix = '{{ detalle_form.prefix }}';
     </script>
@@ -255,6 +264,11 @@
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
+                        <label for="">Clasificador</label>
+                        <input type="text" class="form-control input-sm ac-clasificador" required>
+                        <input type="hidden" class="id_clasificador" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-clasificador" value="">
+                    </div>
+                    <div class="form-group">
                         <label for="">Unidad de Medida</label>
                         <input type="text" class="form-control input-sm" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-unidad_medida" required>
                     </div>
@@ -265,6 +279,9 @@
                 </div>
 
                 <div class="col-md-9">
+                    <div class="col-md-12">
+                        <h4>Cantidades por periodo</h4>
+                    </div>
                     {% if actividad.pertenece_a.periodo == '1' %}
                     <div class="col-md-3">
                         <div class="form-group">

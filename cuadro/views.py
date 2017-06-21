@@ -7,9 +7,9 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 
-from .models import Cuadro, CuadroDetalle, Producto
+from .models import Cuadro, CuadroDetalle, Producto, Clasificador
 from .forms import CuadroForm, CuadroDetalleFormSet
-from .serializers import ProductoSerializer
+from .serializers import ProductoSerializer, ClasificadorSerializer
 from plan.models import Actividad
 
 from rest_framework import viewsets, generics
@@ -109,6 +109,10 @@ class ProductoViewSet(viewsets.ModelViewSet):
         queryset = Producto.objects.all()
         serializer_class = ProductoSerializer
 
+class ClasificadorViewSet(viewsets.ModelViewSet):
+        queryset = Clasificador.objects.all()
+        serializer_class = ClasificadorSerializer
+
 class ProductoFilterViewSet(generics.ListAPIView):
     serializer_class = ProductoSerializer
 
@@ -117,6 +121,18 @@ class ProductoFilterViewSet(generics.ListAPIView):
             term = self.request.query_params.get('term', None)
 
             if term is not None:
-                    queryset = queryset.filter(descripcion__icontains = term)[:15]
+                    queryset = queryset.filter(descripcion__istartswith = term)[:15]
 
             return queryset
+
+class ClasificadorFilterViewSet(generics.ListAPIView):
+        serializer_class = ClasificadorSerializer
+
+        def get_queryset(self):
+                queryset = Clasificador.objects.all()
+                term = self.request.query_params.get('term', None)
+
+                if term is not None:
+                        queryset = queryset.filter(cadena__icontains = term) | queryset.filter(descripcion__icontains = term)
+
+                return queryset[:10]

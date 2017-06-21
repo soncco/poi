@@ -13,6 +13,18 @@ class Producto(models.Model):
     def __str__(self):
         return self.descripcion
 
+@python_2_unicode_compatible
+class Clasificador(models.Model):
+    cadena = models.CharField(max_length = 20)
+    descripcion = models.CharField(max_length = 255)
+
+    class Meta:
+        verbose_name = ('Clasificador')
+        verbose_name_plural = ('Clasificadores')
+
+    def __str__(self):
+        return self.cadena
+
 class Cuadro(models.Model):
   actividad = models.OneToOneField('plan.Actividad')
   sec_func = models.CharField(max_length = 4, default='', blank=True)
@@ -24,6 +36,7 @@ class CuadroDetalle(models.Model):
   pertenece_a = models.ForeignKey(Cuadro)
   unidad_medida = models.CharField(max_length=100)
   producto = models.ForeignKey(Producto)
+  clasificador = models.ForeignKey(Clasificador)
   p1 = models.FloatField(default=0)
   p2 = models.FloatField(default=0)
   p3 = models.FloatField(default=0)

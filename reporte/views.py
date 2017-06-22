@@ -571,162 +571,69 @@ def cuadro_excel(request):
     sheet.merge_range('B6:H6', act_nombre)
 
     sheet.write('A8', u'N°', negrita_borde)
-    sheet.write('B8', u'Descripción', negrita_borde)
-    sheet.write('C8', u'Unidad', negrita_borde)
-    sheet.write('D8', u'Ene', negrita_borde)
-    sheet.write('E8', u'Feb', negrita_borde)
-    sheet.write('F8', u'Mar', negrita_borde)
-    sheet.write('G8', u'Abr', negrita_borde)
-    sheet.write('H8', u'May', negrita_borde)
-    sheet.write('I8', u'Jun', negrita_borde)
-    sheet.write('J8', u'Jul', negrita_borde)
-    sheet.write('K8', u'Ago', negrita_borde)
-    sheet.write('L8', u'Set', negrita_borde)
-    sheet.write('M8', u'Oct', negrita_borde)
-    sheet.write('N8', u'Nov', negrita_borde)
-    sheet.write('O8', u'Dic', negrita_borde)
-    sheet.write('P8', u'Total', negrita_borde)
-    sheet.write('Q8', u'Precio', negrita_borde)
-    sheet.write('R8', u'Total S/', negrita_borde)
+    sheet.write('B8', u'Unidad', negrita_borde)
+    sheet.write('C8', u'Clasificador', negrita_borde)
+    sheet.write('D8', u'Descripción', negrita_borde)
+    sheet.write('E8', u'Ene', negrita_borde)
+    sheet.write('F8', u'Feb', negrita_borde)
+    sheet.write('G8', u'Mar', negrita_borde)
+    sheet.write('H8', u'Abr', negrita_borde)
+    sheet.write('I8', u'May', negrita_borde)
+    sheet.write('J8', u'Jun', negrita_borde)
+    sheet.write('K8', u'Jul', negrita_borde)
+    sheet.write('L8', u'Ago', negrita_borde)
+    sheet.write('M8', u'Set', negrita_borde)
+    sheet.write('N8', u'Oct', negrita_borde)
+    sheet.write('O8', u'Nov', negrita_borde)
+    sheet.write('P8', u'Dic', negrita_borde)
+    sheet.write('Q8', u'Total', negrita_borde)
+    sheet.write('R8', u'Precio', negrita_borde)
+    sheet.write('S8', u'Total S/', negrita_borde)
 
     k = 9
     item = 1
     first = k
 
     if tipo == 'cuadro':
-        
-        for detalle in cuadro[0].cuadrodetalle_set.all():
-            sheet.write('A%s' % k, item, borde)
-            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
-            sheet.write('C%s' % k, detalle.unidad_medida, borde)
-            sheet.write('D%s' % k, detalle.p1, borde_numero)
-            sheet.write('E%s' % k, detalle.p2, borde_numero)
-            sheet.write('F%s' % k, detalle.p3, borde_numero)
-            sheet.write('G%s' % k, detalle.p4, borde_numero)
-            sheet.write('H%s' % k, detalle.p5, borde_numero)
-            sheet.write('I%s' % k, detalle.p6, borde_numero)
-            sheet.write('J%s' % k, detalle.p7, borde_numero)
-            sheet.write('K%s' % k, detalle.p8, borde_numero)
-            sheet.write('L%s' % k, detalle.p9, borde_numero)
-            sheet.write('M%s' % k, detalle.p10, borde_numero)
-            sheet.write('N%s' % k, detalle.p11, borde_numero)
-            sheet.write('O%s' % k, detalle.p12, borde_numero)
-            formula = '=SUM(D{0}:O{0})'.format(k)
-            sheet.write_formula('P%s' % k, formula, borde_numero)
-            sheet.write('Q%s' % k, detalle.precio, borde_numero)
-            formula2 = '=P{0}*Q{0}'.format(k)
-            sheet.write_formula('R%s' % k, formula2, borde_numero)
-            item = item + 1
-            k = k + 1
-
+        detalles = cuadro[0].cuadrodetalle_set.all()
     if tipo == 'plan':
         detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a = plan.pk)
-        for detalle in detalles:
-            sheet.write('A%s' % k, item, borde)
-            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
-            sheet.write('C%s' % k, detalle.unidad_medida, borde)
-            sheet.write('D%s' % k, detalle.p1, borde_numero)
-            sheet.write('E%s' % k, detalle.p2, borde_numero)
-            sheet.write('F%s' % k, detalle.p3, borde_numero)
-            sheet.write('G%s' % k, detalle.p4, borde_numero)
-            sheet.write('H%s' % k, detalle.p5, borde_numero)
-            sheet.write('I%s' % k, detalle.p6, borde_numero)
-            sheet.write('J%s' % k, detalle.p7, borde_numero)
-            sheet.write('K%s' % k, detalle.p8, borde_numero)
-            sheet.write('L%s' % k, detalle.p9, borde_numero)
-            sheet.write('M%s' % k, detalle.p10, borde_numero)
-            sheet.write('N%s' % k, detalle.p11, borde_numero)
-            sheet.write('O%s' % k, detalle.p12, borde_numero)
-            formula = '=SUM(D{0}:O{0})'.format(k)
-            sheet.write_formula('P%s' % k, formula, borde_numero)
-            sheet.write('Q%s' % k, detalle.precio, borde_numero)
-            formula2 = '=P{0}*Q{0}'.format(k)
-            sheet.write_formula('R%s' % k, formula2, borde_numero)
-            item = item + 1
-            k = k + 1
-
     if tipo == 'dependencia':
         detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__area_ejecutora = unidad.pk, pertenece_a__actividad__pertenece_a__anio = anio)
-        for detalle in detalles:
-            sheet.write('A%s' % k, item, borde)
-            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
-            sheet.write('C%s' % k, detalle.unidad_medida, borde)
-            sheet.write('D%s' % k, detalle.p1, borde_numero)
-            sheet.write('E%s' % k, detalle.p2, borde_numero)
-            sheet.write('F%s' % k, detalle.p3, borde_numero)
-            sheet.write('G%s' % k, detalle.p4, borde_numero)
-            sheet.write('H%s' % k, detalle.p5, borde_numero)
-            sheet.write('I%s' % k, detalle.p6, borde_numero)
-            sheet.write('J%s' % k, detalle.p7, borde_numero)
-            sheet.write('K%s' % k, detalle.p8, borde_numero)
-            sheet.write('L%s' % k, detalle.p9, borde_numero)
-            sheet.write('M%s' % k, detalle.p10, borde_numero)
-            sheet.write('N%s' % k, detalle.p11, borde_numero)
-            sheet.write('O%s' % k, detalle.p12, borde_numero)
-            formula = '=SUM(D{0}:O{0})'.format(k)
-            sheet.write_formula('P%s' % k, formula, borde_numero)
-            sheet.write('Q%s' % k, detalle.precio, borde_numero)
-            formula2 = '=P{0}*Q{0}'.format(k)
-            sheet.write_formula('R%s' % k, formula2, borde_numero)
-            item = item + 1
-            k = k + 1
-
-
     if tipo == 'organica':
         detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__unidad_organica = unidad.pk, pertenece_a__actividad__pertenece_a__anio = anio)
-        for detalle in detalles:
-            sheet.write('A%s' % k, item, borde)
-            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
-            sheet.write('C%s' % k, detalle.unidad_medida, borde)
-            sheet.write('D%s' % k, detalle.p1, borde_numero)
-            sheet.write('E%s' % k, detalle.p2, borde_numero)
-            sheet.write('F%s' % k, detalle.p3, borde_numero)
-            sheet.write('G%s' % k, detalle.p4, borde_numero)
-            sheet.write('H%s' % k, detalle.p5, borde_numero)
-            sheet.write('I%s' % k, detalle.p6, borde_numero)
-            sheet.write('J%s' % k, detalle.p7, borde_numero)
-            sheet.write('K%s' % k, detalle.p8, borde_numero)
-            sheet.write('L%s' % k, detalle.p9, borde_numero)
-            sheet.write('M%s' % k, detalle.p10, borde_numero)
-            sheet.write('N%s' % k, detalle.p11, borde_numero)
-            sheet.write('O%s' % k, detalle.p12, borde_numero)
-            formula = '=SUM(D{0}:O{0})'.format(k)
-            sheet.write_formula('P%s' % k, formula, borde_numero)
-            sheet.write('Q%s' % k, detalle.precio, borde_numero)
-            formula2 = '=P{0}*Q{0}'.format(k)
-            sheet.write_formula('R%s' % k, formula2, borde_numero)
-            item = item + 1
-            k = k + 1
-
     if tipo == 'institucion':
-        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__anio = anio)
-        for detalle in detalles:
-            sheet.write('A%s' % k, item, borde)
-            sheet.write('B%s' % k, detalle.producto.descripcion, borde)
-            sheet.write('C%s' % k, detalle.unidad_medida, borde)
-            sheet.write('D%s' % k, detalle.p1, borde_numero)
-            sheet.write('E%s' % k, detalle.p2, borde_numero)
-            sheet.write('F%s' % k, detalle.p3, borde_numero)
-            sheet.write('G%s' % k, detalle.p4, borde_numero)
-            sheet.write('H%s' % k, detalle.p5, borde_numero)
-            sheet.write('I%s' % k, detalle.p6, borde_numero)
-            sheet.write('J%s' % k, detalle.p7, borde_numero)
-            sheet.write('K%s' % k, detalle.p8, borde_numero)
-            sheet.write('L%s' % k, detalle.p9, borde_numero)
-            sheet.write('M%s' % k, detalle.p10, borde_numero)
-            sheet.write('N%s' % k, detalle.p11, borde_numero)
-            sheet.write('O%s' % k, detalle.p12, borde_numero)
-            formula = '=SUM(D{0}:O{0})'.format(k)
-            sheet.write_formula('P%s' % k, formula, borde_numero)
-            sheet.write('Q%s' % k, detalle.precio, borde_numero)
-            formula2 = '=P{0}*Q{0}'.format(k)
-            sheet.write_formula('R%s' % k, formula2, borde_numero)
-            item = item + 1
-            k = k + 1
+        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__unidad_organica = unidad.pk, pertenece_a__actividad__pertenece_a__anio = anio)
+        
+    for detalle in detalles:
+        sheet.write('A%s' % k, item, borde)
+        sheet.write('B%s' % k, detalle.unidad_medida, borde)
+        sheet.write('C%s' % k, detalle.clasificador.cadena, borde)
+        sheet.write('D%s' % k, detalle.producto.descripcion, borde)
+        sheet.write('E%s' % k, detalle.p1, borde_numero)
+        sheet.write('F%s' % k, detalle.p2, borde_numero)
+        sheet.write('G%s' % k, detalle.p3, borde_numero)
+        sheet.write('H%s' % k, detalle.p4, borde_numero)
+        sheet.write('I%s' % k, detalle.p5, borde_numero)
+        sheet.write('J%s' % k, detalle.p6, borde_numero)
+        sheet.write('K%s' % k, detalle.p7, borde_numero)
+        sheet.write('L%s' % k, detalle.p8, borde_numero)
+        sheet.write('M%s' % k, detalle.p9, borde_numero)
+        sheet.write('N%s' % k, detalle.p10, borde_numero)
+        sheet.write('O%s' % k, detalle.p11, borde_numero)
+        sheet.write('P%s' % k, detalle.p12, borde_numero)
+        formula = '=SUM(E{0}:P{0})'.format(k)
+        sheet.write_formula('Q%s' % k, formula, borde_numero)
+        sheet.write('R%s' % k, detalle.precio, borde_numero)
+        formula2 = '=Q{0}*R{0}'.format(k)
+        sheet.write_formula('S%s' % k, formula2, borde_numero)
+        item = item + 1
+        k = k + 1
+
 
     sheet.write('Q%s' % k, 'TOTAL S/', borde)
-    formula3 = '=SUM(R%s:R%s)' % (first, k-1)
-    sheet.write_formula('R%s' % k, formula3, borde_numero)
+    formula3 = '=SUM(S%s:S%s)' % (first, k-1)
+    sheet.write_formula('S%s' % k, formula3, borde_numero)
 
 
 

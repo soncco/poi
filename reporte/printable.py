@@ -507,6 +507,7 @@ class ImpresionCuadro:
     t_item = Paragraph('#', negrita_custom_center(size))
     t_desc = Paragraph(u'Descripción', negrita_custom_center(size))
     t_umed = Paragraph(u'U. Med.', negrita_custom_center(size))
+    t_clas = Paragraph(u'Clas.', negrita_custom_center(size))
     t_t1 = Paragraph(u'T1', negrita_custom_center(size))
     t_t2 = Paragraph(u'T2', negrita_custom_center(size))
     t_t3 = Paragraph(u'T3', negrita_custom_center(size))
@@ -531,12 +532,14 @@ class ImpresionCuadro:
 
     if cuadro.actividad.pertenece_a.periodo == '1':
         detalles_data = [
-            [t_item, t_desc, t_t1, t_t2, t_t3, t_t4, t_total, t_totalprecio, t_totalsoles]
+            [t_item, t_umed, t_clas, t_desc, t_t1, t_t2, t_t3, t_t4, t_total, t_totalprecio, t_totalsoles]
         ]
 
         k = 1
         for detalle in cuadro.cuadrodetalle_set.all():
             kk = Paragraph(str(k), normal_custom_center(size))
+            u_med = Paragraph(detalle.unidad_medida, normal_custom(size))
+            clas = Paragraph(detalle.clasificador.cadena, normal_custom(size))
             desc = Paragraph(detalle.producto.descripcion, normal_custom(size))
             p1 = Paragraph(str(detalle.p1), normal_custom_right(size))
             p4 = Paragraph(str(detalle.p4), normal_custom_right(size))
@@ -546,7 +549,7 @@ class ImpresionCuadro:
             precio = Paragraph(number_format(detalle.precio, 2), normal_custom_right(size))
             total = Paragraph(number_format(detalle.total, 2), normal_custom_right(size))
             detalles_data.append(
-                [kk, desc, p1, p4, p7, p10, total_cantidades, precio, total]
+                [kk, u_med, clas, desc, p1, p4, p7, p10, total_cantidades, precio, total]
             )
             k = k+1
 
@@ -556,15 +559,17 @@ class ImpresionCuadro:
           ['--', '--', '--', '--', '--', '--', '--', t_texto, super_total]
         )
 
-        widths = [10 * mm, 120 * mm, None]
+        widths = [10 * mm, 15 * mm, 20 * mm, 85 * mm, None]
     else:
         detalles_data = [
-            [t_item, t_desc, t_e, t_f, t_m, t_a, t_y, t_j, t_l, t_g, t_s, t_o, t_n, t_d, t_total, t_totalprecio, t_totalsoles]
+            [t_item, t_umed, t_clas, t_desc, t_e, t_f, t_m, t_a, t_y, t_j, t_l, t_g, t_s, t_o, t_n, t_d, t_total, t_totalprecio, t_totalsoles]
         ]
 
         k = 1
         for detalle in cuadro.cuadrodetalle_set.all():
             kk = Paragraph(str(k), normal_custom_center(size2))
+            u_med = Paragraph(detalle.unidad_medida, normal_custom(size))
+            clas = Paragraph(detalle.clasificador.cadena, normal_custom(size))
             desc = Paragraph(detalle.producto.descripcion, normal_custom(size2))
             p1 = Paragraph(str(detalle.p1), normal_custom_right(size2))
             p2 = Paragraph(str(detalle.p2), normal_custom_right(size2))
@@ -582,7 +587,7 @@ class ImpresionCuadro:
             precio = Paragraph(number_format(detalle.precio, 2), normal_custom_right(size2))
             total = Paragraph(number_format(detalle.total, 2), normal_custom_right(size2))
             detalles_data.append(
-                [kk, desc, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, total_cantidades, precio, total]
+                [kk, u_med, clas, desc, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, total_cantidades, precio, total]
             )
             k = k+1
 
@@ -592,7 +597,7 @@ class ImpresionCuadro:
           ['--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', '--', t_texto, super_total]
         )
 
-        widths = [8 * mm, 52 * mm, None]
+        widths = [8 * mm,  15 * mm, 20 * mm, 17 * mm, None]
 
 
     detalles_tabla = Table(detalles_data, colWidths = widths, style=tabla_cuadro(cuadro))

@@ -16,6 +16,8 @@ from base.models import Unidad, UnidadOrganica
 
 from cuadro.models import Cuadro, CuadroDetalle, Producto
 
+from utils import traer_suma
+
 from xlsxwriter.workbook import Workbook
 try:
     import cStringIO as StringIO
@@ -553,7 +555,7 @@ def cuadro_excel(request):
     borde_fecha = book.add_format({'num_format': 'dd/mm/yy', 'border': 1})
 
 
-    hasta = 'Y'
+    hasta = 'S'
 
     sheet.merge_range('A1:%s1' % hasta, 'MUNICIPALIDAD PROVINCIAL DE URUBAMBA', titulo)
     sheet.merge_range('A2:%s2' % hasta, u'CUADRO DE NECESIDADES DE BIENES, SERVICIOS Y OBRAS PARA EL AÑO FISCAL %s ' % anio, titulo)
@@ -643,5 +645,89 @@ def cuadro_excel(request):
     output.seek(0)
     response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
     response['Content-Disposition'] = "attachment; filename=cuadro.xlsx"
+
+    return response
+
+@login_required
+def resumen_excel(request):
+    output = StringIO.StringIO()
+
+    book = Workbook(output)
+    sheet = book.add_worksheet(u'Resumen por unidad orgánica')
+    sheet.set_landscape()
+    sheet.set_paper(9)
+
+    titulo = book.add_format({
+        'bold': 1,
+        'align': 'center'
+    })
+
+    negrita = book.add_format({'bold': 1})
+    fecha = book.add_format({'num_format': 'dd/mm/yy'})
+    dinero = book.add_format({'num_format': '0.00'})
+    dinero_item = book.add_format({'num_format': '0.00', 'fg_color': '#BADDF5'})
+    item = book.add_format({'fg_color': '#BADDF5'})
+
+    wrap = book.add_format({'text_wrap': True})
+
+    negrita_borde = book.add_format({'bold': 1, 'border': 1, 'fg_color': '#BADDF5', 'valign': 'vcenter', 'text_wrap': True, 'align': 'center'})
+    borde = book.add_format({'border': 1})
+    borde_numero = book.add_format({'border': 1, 'num_format': '0.00'})
+    borde_fecha = book.add_format({'num_format': 'dd/mm/yy', 'border': 1})
+
+    anio = request.GET.get('anio')
+
+    sheet.write('A3', u'Unidades orgánicas', negrita_borde)
+
+    from base.models import AsignacionPresupuestal
+    alfabeto = ['B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T','U']
+
+    k = 0
+    for fuente in AsignacionPresupuestal.objects.all():
+        sheet.write('%s3' % alfabeto[k], fuente.rubro, negrita_borde)
+        k = k + 1
+
+    sheet.write('%s3' % alfabeto[k], 'Total', negrita_borde)
+
+    hasta = alfabeto[k]
+
+    sheet.merge_range('A1:%s1' % hasta, 'MUNICIPALIDAD PROVINCIAL DE URUBAMBA', titulo)
+    sheet.merge_range('A2:%s2' % hasta, u'RESUMEN DE UNIDADES ORGÁNICAS PARA EL AÑO FISCAL %s ' % anio, titulo)
+
+    j = 4
+    for organica in UnidadOrganica.objects.all():
+        sheet.write('A%s' % j, organica.nombre, negrita)
+        k = 0
+        for fuente in AsignacionPresupuestal.objects.all():
+            total = traer_suma(fuente, organica, 'o')
+            sheet.write('%s%s' % (alfabeto[k], j), total, dinero)
+            k = k + 1
+        sheet.write_formula('%s%s' % (alfabeto[k], j),'=SUM(B%s:%s%s)' % (j, alfabeto[k-1], j) ,dinero)
+        j = j + 1
+        for unidad in Unidad.objects.filter(pertenece_a = organica):
+            sheet.write('A%s' % j, unidad.nombre)
+            l = 0
+            for fuente in AsignacionPresupuestal.objects.all():
+                total = traer_suma(fuente, unidad, 'u')
+                sheet.write('%s%s' % (alfabeto[l], j), total, dinero)
+                l = l + 1
+            sheet.write_formula('%s%s' % (alfabeto[l], j),'=SUM(B%s:%s%s)' % (j, alfabeto[l-1], j) ,dinero)
+            j = j + 1
+
+    sheet.write('A%s' % j, 'TOTAL', negrita_borde)
+
+    k = 0
+    for fuente in AsignacionPresupuestal.objects.all():
+        sheet.write_formula('%s%s' % (alfabeto[k], j),'=SUM(%s4:%s%s)' % (alfabeto[k], alfabeto[k], j-1) ,dinero)
+        k = k + 1
+
+    sheet.write_formula('%s%s' % (alfabeto[k], j),'=SUM(%s4:%s%s)' % (alfabeto[k], alfabeto[k], j-1) ,dinero)
+
+
+    book.close()
+
+    output.seek(0)
+    response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=resumen.xlsx"
 
     return response

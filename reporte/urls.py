@@ -10,4 +10,5 @@ urlpatterns = [
     # Excel
     url(r'^reporte/excel/dependencia$', views.reporte_dependencia_excel, name='reporte_dependencia_excel'),
     url(r'^cuadro/excel$', views.cuadro_excel, name='cuadro_excel'),
+    url(r'^resumen/excel$', views.resumen_excel, name='resumen_excel'),
 ]

@@ -2,15 +2,15 @@
 
 {% load static %}
 
-{% block title %}Informe por institución{% endblock title %}
+{% block title %}Resumen por unidades orgánicas{% endblock title %}
 
-{% block header %}Informe por institución{% endblock header %}
+{% block header %}Resumen por unidades orgánicas{% endblock header %}
 
 
 {% block content %}
 
     <div class="well">
-        <form action="{% url 'reporte:reporte_dependencia_excel' %}" method="post">
+        <form action="{% url 'reporte:resumen_excel' %}" method="get">
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
@@ -27,6 +27,7 @@
     </div>
     
 {% endblock content %}
+
 
 {% block css %}
 {% endblock css %}

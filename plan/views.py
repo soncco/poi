@@ -320,3 +320,9 @@ def informe_institucion(request):
     context = {}
     return render(request, 'plan/informe-institucion.html', context)
 
+@login_required
+@user_passes_test(grupo_administrador)
+def informe_resumen(request):
+    context = {}
+    return render(request, 'plan/informe-resumen.html', context)
+

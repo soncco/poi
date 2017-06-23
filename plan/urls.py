@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^informe/dependiencia/$', views.informe_dependencia, name='informe_dependencia'),
     url(r'^informe/organica/$', views.informe_organica, name='informe_organica'),
     url(r'^informe/institucion/$', views.informe_institucion, name='informe_institucion'),
+    url(r'^informe/resumen/$', views.informe_resumen, name='informe_resumen'),
 ]

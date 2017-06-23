@@ -603,7 +603,7 @@ def cuadro_excel(request):
     if tipo == 'organica':
         detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__unidad_organica = unidad.pk, pertenece_a__actividad__pertenece_a__anio = anio)
     if tipo == 'institucion':
-        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__unidad_organica = unidad.pk, pertenece_a__actividad__pertenece_a__anio = anio)
+        detalles = CuadroDetalle.objects.filter(pertenece_a__actividad__pertenece_a__anio = anio)
         
     for detalle in detalles:
         sheet.write('A%s' % k, item, borde)
@@ -631,10 +631,10 @@ def cuadro_excel(request):
         k = k + 1
 
 
-    sheet.write('Q%s' % k, 'TOTAL S/', borde)
+    sheet.write('R%s' % k, 'TOTAL S/', borde)
     formula3 = '=SUM(S%s:S%s)' % (first, k-1)
     sheet.write_formula('S%s' % k, formula3, borde_numero)
-
+    sheet.autofilter('A8:S%s' % (k-1))
 
 
 

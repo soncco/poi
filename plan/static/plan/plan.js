@@ -10,12 +10,6 @@ var plan = plan || {};
         dateFormat: 'dd-mm-yy'
     };
 
-    $('.test').click(function(e) {
-        var total = ('')
-        $('.actividad').each(function(i) {
-            $(this).find
-        })
-    })
 
     $('.datepicker').datepicker(datepickerOptions);
 

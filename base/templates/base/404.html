@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{% load static %}
+{% block header %}
+No existe
+{% endblock header %}
+<p>El documento que estás intentando ver ya no existe.</p>
+<p>
+    <a href="{% url 'base:index' %}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver al inicio</a>
+</p>
+{% endblock %}
+
+
+{% block title %}404{% endblock %}
+

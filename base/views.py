@@ -193,3 +193,21 @@ class UnidadFilterViewSet(generics.ListAPIView):
             queryset = queryset.filter(pertenece_a__pk = organica)
 
         return queryset
+
+
+def handler404(request):
+    response = render(request, 'base/404.html', {})
+    response.status_code = 403
+    return response
+
+def handler403(request):
+    response = render(request, 'base/403.html', {})
+    response.status_code = 403
+    return response
+
+import sys
+def handler500(request):
+    type_, value, traceback = sys.exc_info()
+    response = render(request, 'base/500.html', {'value_': value})
+    response.status_code = 500
+    return response

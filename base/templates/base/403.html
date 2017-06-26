@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% block content %}
+{% load static %}
+{% block header %}
+Prohibido
+{% endblock header %}
+<p>No tiene acceso a esta página.</p>
+<p>
+    <a href="{% url 'base:index' %}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-circle-left"></i> Volver al inicio</a>
+</p>
+{% endblock %}
+
+
+{% block title %}403{% endblock %}
+
+

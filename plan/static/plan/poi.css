@@ -40,3 +40,11 @@ h6 {
 .login .page-header {
     display: none;
 }
+
+
+.pre {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1000px;
+}

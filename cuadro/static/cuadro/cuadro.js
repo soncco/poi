@@ -114,4 +114,20 @@ var plan = plan || {};
         return false;
     });
 
+    $('form').submit(function(e) {
+        var pre = $(this).find("button[type=submit]:focus").data('pre');
+        $('#pre').val(pre);
+    });
+
+    $(window).scroll(function() {
+        var top = $(document).scrollTop();
+        var height = $(window).height();
+        var h = $(document).height();
+        if(top+height-h > -140) {
+            $('.pre').fadeOut();
+        } else {
+            $('.pre').fadeIn();
+        }
+    })
+
 })(jQuery)

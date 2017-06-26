@@ -53,8 +53,13 @@ def plan(request):
 
             for actividad in plan.actividad_set.all():
                 crear_resultado(actividad)
-            messages.success(request, 'Se ha creado un plan.')
-            return HttpResponseRedirect('%s%s%s' % (reverse('plan:planes'), '?imprimir=', plan.pk))
+
+            if(request.POST.get('pre') == 'no'):
+                messages.success(request, 'Se ha creado un plan.')
+                return HttpResponseRedirect('%s%s%s' % (reverse('plan:planes'), '?imprimir=', plan.pk))
+            else:
+                messages.success(request, 'Se ha pre-guardado el plan')
+                return HttpResponseRedirect(reverse('plan:ver_plan', args=[plan.pk]))
 
         else:
             print form.errors
@@ -237,8 +242,12 @@ def ver_plan(request, id):
                 for actividad in plan.actividad_set.all():
                     crear_resultado(actividad)
 
-                messages.success(request, 'Se ha modificado el Plan.')
-                return HttpResponseRedirect(reverse('plan:planes'))
+                if(request.POST.get('pre') == 'no'):
+                    messages.success(request, 'Se ha modificado el Plan.')
+                    return HttpResponseRedirect('%s%s%s' % (reverse('plan:planes'), '?imprimir=', plan.pk))
+                else:
+                    messages.success(request, 'Se ha pre-guardado el plan')
+                    return HttpResponseRedirect(reverse('plan:ver_plan', args=[plan.pk]))
 
             else:
                 print detalle_form.errors

@@ -40,8 +40,12 @@ def nuevo_cuadro(request, id):
             detalle_form.instance = cuadro
             detalle_form.save()
 
-            messages.success(request, 'Se ha creado un cuadro de necesidades.')
-            return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
+            if request.POST.get('pre') == 'no':
+                messages.success(request, 'Se ha creado un cuadro de necesidades.')
+                return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
+            else:
+                messages.success(request, 'Se ha preguardado el cuadro de necesidades.')
+                return HttpResponseRedirect(reverse('cuadro:editar_cuadro', args=[actividad.pk]))
 
         else:
             print form.errors
@@ -68,8 +72,13 @@ def editar_cuadro(request, id):
                     detalle.delete()
                 detalle_form.save()
 
-                messages.success(request, 'Se ha editado el cuadro de necesidades.')
-                return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
+                if request.POST.get('pre') == 'no':
+                    messages.success(request, 'Se ha editado el cuadro de necesidades.')
+                    return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
+                else:
+                    messages.success(request, 'Se ha preguardado el cuadro de necesidades.')
+                    return HttpResponseRedirect(reverse('cuadro:editar_cuadro', args=[actividad.pk]))
+
             else:
                 print detalle_form.errors
         else:

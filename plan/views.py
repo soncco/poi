@@ -14,6 +14,7 @@ from .models import Plan, Resultado
 from .forms import PlanForm, ActividadForm, ActividadFormSet, ResultadoForm
 from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado
 from .utils import numero_plan, verificar_numero
+from .mail import notificar_plan
 
 from base.models import Unidad, AsignacionPresupuestal, UnidadOrganica
 
@@ -56,6 +57,7 @@ def plan(request):
 
             if(request.POST.get('pre') == 'no'):
                 messages.success(request, 'Se ha creado un plan.')
+                notificar_plan(plan)
                 return HttpResponseRedirect('%s%s%s' % (reverse('plan:planes'), '?imprimir=', plan.pk))
             else:
                 messages.success(request, 'Se ha pre-guardado el plan')

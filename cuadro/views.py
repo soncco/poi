@@ -17,6 +17,7 @@ from rest_framework import viewsets, generics
 from base.models import UnidadOrganica, Unidad
 
 from plan.utils import grupo_logistico, grupo_administrador
+from plan.mail import notificar_cuadro
 
 from .utils import modificar_post
 
@@ -42,6 +43,7 @@ def nuevo_cuadro(request, id):
 
             if request.POST.get('pre') == 'no':
                 messages.success(request, 'Se ha creado un cuadro de necesidades.')
+                notificar_cuadro(cuadro)
                 return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
             else:
                 messages.success(request, 'Se ha preguardado el cuadro de necesidades.')

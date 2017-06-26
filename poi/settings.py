@@ -137,3 +137,11 @@ USE_THOUSAND_SEPARATOR = False
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
+
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'no-reply@abastecimiento.pe'
+EMAIL_HOST_PASSWORD = 'valoisponten4'
+DEFAULT_FROM_EMAIL = 'no-reply@abastecimiento.pe'

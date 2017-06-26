@@ -31,3 +31,7 @@ urlpatterns = [
 
 admin.site.site_header = 'POI - Administración'
 admin.site.site_title = 'POI - Administración'
+
+handler404 = 'base.views.handler404'
+handler500 = 'base.views.handler500'
+handler403 = 'base.views.handler403'

@@ -43,7 +43,7 @@ def nuevo_cuadro(request, id):
 
             if request.POST.get('pre') == 'no':
                 messages.success(request, 'Se ha creado un cuadro de necesidades.')
-                notificar_cuadro(cuadro)
+                #notificar_cuadro(cuadro)
                 return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
             else:
                 messages.success(request, 'Se ha preguardado el cuadro de necesidades.')

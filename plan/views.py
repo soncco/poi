@@ -57,7 +57,7 @@ def plan(request):
 
             if(request.POST.get('pre') == 'no'):
                 messages.success(request, 'Se ha creado un plan.')
-                notificar_plan(plan)
+                #notificar_plan(plan)
                 return HttpResponseRedirect('%s%s%s' % (reverse('plan:planes'), '?imprimir=', plan.pk))
             else:
                 messages.success(request, 'Se ha pre-guardado el plan')

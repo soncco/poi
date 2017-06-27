@@ -266,14 +266,8 @@
     </script>
     <script src="{% static "cuadro/cuadro.js" %}"></script>
     <script>
-    {% for field in form %}
-        console.log('{{ field.errors }}');
-        console.log('{{ field.errors }}');
-    {% endfor %}
-    {% for field in detalle_form %}
-        console.log('{{ field.errors }}');
-        console.log('{{ field.errors }}');
-    {% endfor %}
+    console.log('{{ form.non_field_errors }}');
+    console.log('{{ detalle_form.non_field_errors }}');
     </script>
 {% endblock js %}
 

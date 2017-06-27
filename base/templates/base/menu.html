@@ -21,6 +21,14 @@
                         <li><a href="{% url 'plan:planes' %}">Lista de planes</a></li>
                     </ul>
                 </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documentos <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% static "cuadro/techos.xlsx" %}">Techos presupuestales</a></li>
+                        <li><a href="{% static "cuadro/compras.xlsx" %}">Catálogo de productos</a></li>
+                    </ul>
+                </li>
                 
                 {% ifusergroup Administrador %}
                 <li class="dropdown">

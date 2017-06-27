@@ -8,6 +8,7 @@
 {% block actions %}
     <span class="small pull-right">
         <a href="{% url 'plan:actividades' actividad.pertenece_a.pk %}" class="btn btn-primary btn-sm"><i class="fa fa-list"></i> Volver a la lista de actividades</a>
+        <a href="{% static "cuadro/compras.xlsx" %}" class="btn btn-info btn-sm"><i class="fa fa-download"></i> Catálogo de Compras</a>
     </span>
 {% endblock actions %}
 
@@ -16,13 +17,13 @@
         <h4 class="text-info">Actividad: {{ actividad.tarea_actividad}}</h4>
         <div class="well">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Unidad Orgánica</label>: <br>
                         {{ actividad.pertenece_a.unidad_organica }}
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         {% if actividad.pertenece_a.area_ejecutora != None %}
                             <label for="">Área Ejecutora</label>: <br>
@@ -38,13 +39,13 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Distribución Presupuestal</label>: <br>
                         <strong class="text-success">S/ {{ actividad.distribucion_presupuestal|unlocalize }}</strong>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" style="display: none">
                     <div class="form-group">
                         {{ form.sec_func.label_tag }} <br>
                         {{ form.sec_func }}

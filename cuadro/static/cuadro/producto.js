@@ -39,18 +39,20 @@ var plan = plan || {};
             if(ui.content.length == 0) {
                 var parent = $(e.target).parent();
                 parent.find('.id_producto').val('');
+                parent.parent().parent().find('.unitario').val('');
             }
             
         },
         select: function(e, ui) {
             var parent = $(e.target).parent().parent();
             parent.find('.id_producto').val(ui.item.data.id);
+            parent.parent().parent().find('.unitario').val(ui.item.data.precio);
         },
         change: function(e,ui) {
-            console.log('change');
             if(!ui.item) {
                 var parent = $(e.target).parent();
                 parent.find('.id_producto').val('');
+                parent.parent().parent().find('.unitario').val('');
             }
         },
 

@@ -19,7 +19,7 @@ from base.models import UnidadOrganica, Unidad
 from plan.utils import grupo_logistico, grupo_administrador
 from plan.mail import notificar_cuadro
 
-from .utils import modificar_post
+from .utils import modificar_post, actualizar_precio
 
 
 import json, datetime
@@ -41,6 +41,7 @@ def nuevo_cuadro(request, id):
             detalle_form.instance = cuadro
             detalle_form.save()
 
+            actualizar_precio(cuadro)
             if request.POST.get('pre') == 'no':
                 messages.success(request, 'Se ha creado un cuadro de necesidades.')
                 #notificar_cuadro(cuadro)
@@ -74,12 +75,14 @@ def editar_cuadro(request, id):
                     detalle.delete()
                 detalle_form.save()
 
+                actualizar_precio(cuadro)
                 if request.POST.get('pre') == 'no':
                     messages.success(request, 'Se ha editado el cuadro de necesidades.')
                     return HttpResponseRedirect(reverse('plan:actividades', args=[actividad.pertenece_a.pk]))
                 else:
                     messages.success(request, 'Se ha preguardado el cuadro de necesidades.')
                     return HttpResponseRedirect(reverse('cuadro:editar_cuadro', args=[actividad.pk]))
+
 
             else:
                 print detalle_form.errors

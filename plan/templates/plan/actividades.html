@@ -60,7 +60,7 @@
         <td class="text-center">
           <a href="{% url 'cuadro:editar_cuadro' actividad.pk %}" class="btn btn-warning btn-xs" title="Editar Cuadro de necesidades"><i class="fa fa-edit"></i></a>
           <a href="{% url 'reporte:imprimir_cuadro' actividad.cuadro.pk %}" class="btn btn-info btn-xs imprimir-cuadro" title="Imprimir Cuadro de necesidades"><i class="fa fa-print"></i></a>
-          <a href="{% url 'reporte:cuadro_excel' %}?tipo=cuadro&amp;cuadro={{ actividad.cuadro.pk }}" class="btn btn-success btn-xs" title="Imprimir Cuadro de necesidades"><i class="fa fa-file-excel-o"></i></a>
+          <a href="{% url 'reporte:cuadro_excel' %}?tipo=cuadro&amp;cuadro={{ actividad.cuadro.pk }}" class="btn btn-success btn-xs" title="Exporta a Excel el Cuadro de necesidades"><i class="fa fa-file-excel-o"></i></a>
         </td>
         {% else %}
         <td class="text-center"><a href="{% url 'cuadro:nuevo_cuadro' actividad.pk %}" class="btn btn-primary btn-xs" title="Crear Cuadro de necesidades"><i class="fa fa-table"></i></a></td>

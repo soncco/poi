@@ -17,3 +17,9 @@ def modificar_post(post, prefix):
                 copy[i] = nuevo_producto.pk
 
     return copy
+
+def actualizar_precio(cuadro):
+    for detalle in cuadro.cuadrodetalle_set.all():
+        if detalle.precio != 0:
+            detalle.producto.precio = detalle.precio
+            detalle.producto.save()

@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 @python_2_unicode_compatible
 class Producto(models.Model):
     descripcion = models.TextField()
+    precio = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
 
     def __str__(self):
         return self.descripcion

@@ -416,3 +416,16 @@
 {% block css %}
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">
 {% endblock css %}
+
+{% block js %}
+    <script>
+    {% for field in form %}
+        console.log('{{ field.errors }}');
+        console.log('{{ field.errors }}');
+    {% endfor %}
+    {% for field in detalle_form %}
+        console.log('{{ field.errors }}');
+        console.log('{{ field.errors }}');
+    {% endfor %}
+    </script>
+{% endblock js %}

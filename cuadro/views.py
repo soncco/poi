@@ -53,8 +53,9 @@ def nuevo_cuadro(request, id):
         else:
             print form.errors
             print detalle_form.errors
-    form = CuadroForm()
-    detalle_form = CuadroDetalleFormSet()
+    else:
+        form = CuadroForm()
+        detalle_form = CuadroDetalleFormSet()
     context = {'actividad': actividad, 'form': form, 'detalle_form': detalle_form}
     return render(request, 'cuadro/nuevo-cuadro.html', context)
 

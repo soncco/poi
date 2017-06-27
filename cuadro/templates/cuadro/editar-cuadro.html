@@ -265,6 +265,16 @@
         var prefix = '{{ detalle_form.prefix }}';
     </script>
     <script src="{% static "cuadro/cuadro.js" %}"></script>
+    <script>
+    {% for field in form %}
+        console.log('{{ field.errors }}');
+        console.log('{{ field.errors }}');
+    {% endfor %}
+    {% for field in detalle_form %}
+        console.log('{{ field.errors }}');
+        console.log('{{ field.errors }}');
+    {% endfor %}
+    </script>
 {% endblock js %}
 
 
@@ -450,15 +460,3 @@
     </div>
 {% endblock modal %}
 
-{% block js %}
-    <script>
-    {% for field in form %}
-        console.log('{{ field.errors }}');
-        console.log('{{ field.errors }}');
-    {% endfor %}
-    {% for field in detalle_form %}
-        console.log('{{ field.errors }}');
-        console.log('{{ field.errors }}');
-    {% endfor %}
-    </script>
-{% endblock js %}

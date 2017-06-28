@@ -211,7 +211,7 @@ def planes_json(request):
 
 @login_required
 def ver_plan(request, id):
-    plan = Plan.objects.get(pk = id)
+    plan = Plan.objects.get(id__exact = id)
     if solo_responsable(request.user):
         if request.user != plan.creado_por:
             messages.warning(request, 'No puedes ver planes que no te pertenecen.')
@@ -233,12 +233,10 @@ def ver_plan(request, id):
             if proyecto is not None:
                 plan.proyecto = proyecto
 
-            detalle_form = ActividadFormSet(request.POST, instance = plan)
+            detalle_form = ActividadFormSet(request.POST, request.FILES, instance = plan)
             if detalle_form.is_valid():
                 plan.save()
                 verificar_numero(plan, request)
-                for actividad in plan.actividad_set.all():
-                    actividad.delete()
                 detalle_form.save()
 
                 for actividad in plan.actividad_set.all():
@@ -258,7 +256,7 @@ def ver_plan(request, id):
 
 
     form = PlanForm(instance = plan)
-    detalle_form = ActividadFormSet()
+    detalle_form = ActividadFormSet(instance=plan)
     asignaciones = AsignacionPresupuestal.objects.all().order_by('rubro')
     context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'plan': plan}
 

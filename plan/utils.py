@@ -21,8 +21,11 @@ def solo_responsable(user):
     return permisos
 
 def crear_resultado(actividad):
-    resultado = Resultado(pertenece_a = actividad)
-    resultado.save()
+    try:
+        resultado = Resultado.objects.get(pertenece_a = actividad)
+    except:
+        resultado = Resultado(pertenece_a = actividad)
+        resultado.save()
 
 def numero_plan(plan):
     ultimo = Plan.objects.filter(area_ejecutora = plan.area_ejecutora, anio = plan.anio).last()

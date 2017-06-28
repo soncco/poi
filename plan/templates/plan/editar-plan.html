@@ -160,6 +160,8 @@
             <div class="actividades">
                 {% for actividad in plan.actividad_set.all %}
                 <div class="actividad small">
+                    <input type="hidden" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-id" value="{{ actividad.pk }}" id="id_{{ detalle_form.prefix }}-{{ forloop.counter0 }}-id">
+                    <input type="hidden" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-pertenece_a" value="{{ plan.pk }}" id="id_{{ detalle_form.prefix }}-{{ forloop.counter0 }}-pertenece_a">
                     <div class="col-md-6">
                         <div class="form-group">
                             {% if plan.unidad_organica.actividades == True %}
@@ -376,7 +378,7 @@
                 <div class="well">
                     <button class="btn btn-block btn-success btn-sm agregar-actividad" type="button"><i class="fa fa-plus"></i> Agregar actividad</button>
                     <input id="id_{{ detalle_form.prefix }}-TOTAL_FORMS" name="{{ detalle_form.prefix }}-TOTAL_FORMS" type="hidden" value="{{ plan.actividad_set.count }}">
-                    <input id="id_{{ detalle_form.prefix }}-INITIAL_FORMS" name="{{ detalle_form.prefix }}-INITIAL_FORMS" type="hidden" value="0">
+                    <input id="id_{{ detalle_form.prefix }}-INITIAL_FORMS" name="{{ detalle_form.prefix }}-INITIAL_FORMS" type="hidden" value="{{ plan.actividad_set.count }}">
                     <input id="id_{{ detalle_form.prefix }}-MIN_NUM_FORMS" name="{{ detalle_form.prefix }}-MIN_NUM_FORMS" type="hidden" value="0">
                     <input id="id_{{ detalle_form.prefix }}-MAX_NUM_FORMS" name="{{ detalle_form.prefix }}-MAX_NUM_FORMS" type="hidden" value="1000">
                     {% csrf_token %}
@@ -393,7 +395,9 @@
             </div>
 
         </div>
-    </form>    
+    </form>
+
+    nalga {{detalle_form.management_form }}
 {% endblock content %}
 
 {% block js %}
@@ -409,6 +413,8 @@
 {% block template %}
         <script type="text/template" id="template">
         <div class="actividad small">
+            <input type="hidden" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-id" id="id_{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-id">
+            <input type="hidden" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-pertenece_a" value="{{ plan.pk }}" id="id_{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-pertenece_a">
             <div class="col-md-6">
                 <div class="form-group">
                     {% if plan.unidad_organica.actividades == True %}
@@ -636,3 +642,6 @@
 
 
 {% block title %}Ver o Editar Plan{% endblock title %}
+
+
+{% block namespace %}editar-plan{% endblock namespace %}

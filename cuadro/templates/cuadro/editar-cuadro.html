@@ -70,6 +70,8 @@
         <div class="productos">
             {% for detalle in cuadro.cuadrodetalle_set.all %}
             <div class="producto small">
+                <input type="hidden" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-id" value="{{ detalle.pk }}" id="id_{{ detalle_form.prefix }}-{{ forloop.counter0 }}-id" class="pk">
+                <input type="hidden" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-pertenece_a" value="{{ cuadro.pk }}" id="id_{{ detalle_form.prefix }}-{{ forloop.counter0 }}-pertenece_a">
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
@@ -275,6 +277,8 @@
 {% block template %}
     <script type="text/template" id="template">
         <div class="producto small">
+            <input type="hidden" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-id" id="id_{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-id" class="pk">
+            <input type="hidden" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-pertenece_a" value="{{ plan.pk }}" id="id_{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-pertenece_a">
             <div class="row">
                 <div class="col-md-9">
                     <div class="form-group">

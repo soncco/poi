@@ -233,7 +233,7 @@ def ver_plan(request, id):
             if proyecto is not None:
                 plan.proyecto = proyecto
 
-            detalle_form = ActividadFormSet(request.POST, request.FILES, instance = plan)
+            detalle_form = ActividadFormSet(request.POST, instance = plan)
             if detalle_form.is_valid():
                 plan.save()
                 verificar_numero(plan, request)

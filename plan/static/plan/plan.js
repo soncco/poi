@@ -108,16 +108,45 @@ var plan = plan || {};
     $('.m-input').bind('keyup mouseup', sumat);
 
     var quitar = function() {
-        if($('.actividad').length == 1) {
-            alert('No se puede quitar la única actividad.');
-            return false;
+        if($('.editar-plan').length == 0) {
+            if($('.actividad').length == 1) {
+                alert('No se puede quitar la única actividad.');
+                return false;
+            }
+        } else {
+            var actividades = $('.actividad').length;
+            var chequeados = $('.marcado:checked').length;
+            if(actividades-chequeados == 1) {
+                alert('No se puede quitar la única actividad.');
+                return false;
+            }
+            
         }
         if(confirm('¿Estás seguro?')) {
-            $(this).parent().parent().remove();
-            ocultar();
-            calculo();
-            sumat();
-            actualizarTotalFilas();
+            if($('.editar-plan').length == 0) {
+                $(this).parent().parent().remove();
+                ocultar();
+                calculo();
+                sumat();
+                actualizarTotalFilas();
+            } else {
+                var parent = $(this).parent().parent();
+                if(parent.find('.pk').val() == '') {
+                    parent.remove();
+                } else {
+                    parent.find('.marcado').prop('checked', true);
+                    parent.find('.peso').val(0);
+                    parent.find('.t-input').val(0);
+                    parent.find('.m-input').val(0);
+                    parent.find('.m-input').val(0);
+                    parent.addClass('hidden');
+                }
+                ocultar();
+                calculo();
+                sumat();
+                actualizarTotalFilas();
+            }
+            
         }
 
     }

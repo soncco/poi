@@ -70,6 +70,7 @@ def editar_cuadro(request, id):
         if form.is_valid():
             cuadro = form.save(commit=False)
             detalle_form = CuadroDetalleFormSet(nuevo_post, instance=cuadro)
+            print request.POST
             if detalle_form.is_valid():
                 cuadro.save()
                 for detalle in cuadro.cuadrodetalle_set.all():

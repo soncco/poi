@@ -30,7 +30,7 @@ class Cuadro(models.Model):
   actividad = models.OneToOneField('plan.Actividad')
   sec_func = models.CharField(max_length = 4, default='', blank=True)
   creado_por = models.ForeignKey(User)
-  total = models.DecimalField(max_digits = 11, decimal_places = 2, default = Decimal('0.00'))
+  total = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
 
 
 class CuadroDetalle(models.Model):
@@ -51,5 +51,5 @@ class CuadroDetalle(models.Model):
   p11 = models.FloatField(default=0)
   p12 = models.FloatField(default=0)
   total_cantidades = models.FloatField(default=0)
-  precio = models.DecimalField(max_digits = 11, decimal_places = 2, default = Decimal('0.00'))
-  total = models.DecimalField(max_digits = 11, decimal_places = 2, default = Decimal('0.00'))
+  precio = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
+  total = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))

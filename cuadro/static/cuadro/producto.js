@@ -46,7 +46,8 @@ var plan = plan || {};
         select: function(e, ui) {
             var parent = $(e.target).parent().parent();
             parent.find('.id_producto').val(ui.item.data.id);
-            parent.parent().parent().find('.unitario').val(ui.item.data.precio);
+            var precio = ui.item.data.precio * 1
+            parent.parent().parent().find('.unitario').val(precio.toFixed(2));
         },
         change: function(e,ui) {
             if(!ui.item) {

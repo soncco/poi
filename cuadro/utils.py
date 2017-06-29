@@ -11,7 +11,7 @@ def modificar_post(post, prefix):
         if i.find('-producto') != -1:
             if copy[i] == '':
                 key = '%s%s-nuevo' % (prefix, get_num(i, prefix))
-                producto = copy[key]
+                producto = copy[key].strip()
                 nuevo_producto = Producto(descripcion = producto)
                 nuevo_producto.save()
                 copy[i] = nuevo_producto.pk
@@ -21,5 +21,6 @@ def modificar_post(post, prefix):
 def actualizar_precio(cuadro):
     for detalle in cuadro.cuadrodetalle_set.all():
         if detalle.precio != 0:
-            detalle.producto.precio = detalle.precio
-            detalle.producto.save()
+            p = Producto.objects.get(pk = detalle.producto.pk)
+            p.precio = detalle.precio
+            p.save()

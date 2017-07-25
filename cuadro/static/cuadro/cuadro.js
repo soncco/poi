@@ -100,13 +100,6 @@ var plan = plan || {};
         actualizarTotalFilas();
     });
 
-    $('.borrar-cuadro').click(function(e) {
-        var c = confirm('¿Estás seguro de borrar este cuadro de necesidades?');
-        if(!c) {
-            e.preventDefault();
-        }
-    });
-
     $('.imprimir-cuadro').click(function(e) {
         e.preventDefault();
         $('#modalprint .modal-body iframe').attr("src", $(this).attr('href'));

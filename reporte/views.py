@@ -96,7 +96,7 @@ def reporte_dependencia_excel(request):
     output = StringIO.StringIO()
 
     book = Workbook(output)
-    sheet = book.add_worksheet(nombre)
+    sheet = book.add_worksheet(nombre[:30])
     sheet.set_landscape()
     sheet.set_paper(9)
 

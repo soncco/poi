@@ -345,8 +345,7 @@
                                 <div class="form-group">
                                     <label for="">Tipo de medición</label>
                                     <select name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-tipo_t" class="form-control input-sm" id="tipo_t">
-                                        <option value="1" {% if actividad.tipo_t == '1' %}selected{% endif %}>Porcentual</option>
-                                        <option value="2" {% if actividad.tipo_t == '2' %}selected{% endif %}>Numérico</option>
+                                        <option value="2">Numérico</option>
                                     </select>
                                 </div>
                             </div>
@@ -594,7 +593,6 @@
                         <div class="form-group">
                             <label for="">Tipo de medición</label>
                             <select name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-tipo_t" class="form-control input-sm" id="tipo_t">
-                                <option value="1">Porcentual</option>
                                 <option value="2">Numérico</option>
                             </select>
                         </div>

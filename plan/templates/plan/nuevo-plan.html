@@ -20,7 +20,7 @@
                 <div class="form-group">
                     <label>Unidad Orgánica</label>: {{ organica.nombre }}
                     <input type="hidden" name="unidad_organica" value="{{ organica.pk }}"> 
-                </div>
+                </divP
             </div>
             <div class="col-md-4">
                 <div class="form-group">
@@ -315,7 +315,6 @@
                                 <div class="form-group">
                                     <label for="">Tipo de medición</label>
                                     <select name="{{ detalle_form.prefix }}-0-tipo_t" class="form-control input-sm" id="tipo_t">
-                                        <option value="1">Porcentual</option>
                                         <option value="2">Numérico</option>
                                     </select>
                                 </div>
@@ -559,7 +558,6 @@
                         <div class="form-group">
                             <label for="">Tipo de medición</label>
                             <select name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-tipo_t" class="form-control input-sm" id="tipo_t">
-                                <option value="1">Porcentual</option>
                                 <option value="2">Numérico</option>
                             </select>
                         </div>

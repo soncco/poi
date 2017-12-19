@@ -646,3 +646,9 @@
 
 
 {% block namespace %}editar-plan{% endblock namespace %}
+
+{% block extras %}
+    <div class="flotante">
+        <p>El techo presupuestal de la unidad orgánica es: <strong>{{ plan.unidad_organica.techo|unlocalize }}</strong></p>
+    </div>
+{% endblock extras %}

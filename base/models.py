@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from decimal import Decimal
 
 
 @python_2_unicode_compatible
@@ -10,6 +11,7 @@ class UnidadOrganica(models.Model):
     nombre = models.CharField(max_length=255)
     especial = models.BooleanField(default=False)
     actividades = models.BooleanField(default=False)
+    techo = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
 
     class Meta:
         verbose_name=u'Unidad orgánica'

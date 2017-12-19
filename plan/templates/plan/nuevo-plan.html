@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% load static %}
+{% load l10n %}
 
 {% block header %}Nuevo Plan (paso 2){% endblock header %}
 {% block title %}Nuevo Plan (paso 2){% endblock title %}
@@ -582,4 +583,10 @@
 {% block css %}
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">
 {% endblock css %}
+
+{% block extras %}
+    <div class="flotante">
+        <p>El techo presupuestal de la unidad orgánica es: <strong>{{ organica.techo|unlocalize }}</strong></p>
+    </div>
+{% endblock extras %}
 

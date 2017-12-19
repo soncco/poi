@@ -249,6 +249,7 @@
     <script src="{% static "cuadro/clasificador.js" %}"></script>
     <script>
         var prefix = '{{ detalle_form.prefix }}';
+        var distribucion_actividad = {{ actividad.distribucion_presupuestal|unlocalize }};
     </script>
     <script src="{% static "cuadro/cuadro.js" %}"></script>
     <script>
@@ -420,3 +421,11 @@
 {% block css %}
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/redmond/jquery-ui.css">
 {% endblock css %}
+
+{% block extras %}
+    <div class="flotante">
+        <p>Total actividad: <span class="total-actividad">{{ actividad.distribucion_presupuestal|unlocalize }}</span>
+            <br> Total cuadro: <span class="total-cuadro"></span>
+            <br> Saldo: <span class="saldo"></span></p>
+    </div>
+{% endblock extras %}

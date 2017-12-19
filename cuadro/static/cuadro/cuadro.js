@@ -4,6 +4,12 @@ var plan = plan || {};
 
 (function($) {
 
+    var faltante = function() {
+        var presupuesto = $('#id_presupuesto').val() * 1;
+        var saldo = distribucion_actividad - presupuesto;
+        $('.saldo').text(saldo.toFixed(2));
+    }
+
 
     var calculo = function() {
         var total = 0;
@@ -13,6 +19,9 @@ var plan = plan || {};
 
         $('#presupuesto').text(total.toFixed(2));
         $('#id_presupuesto').val(total.toFixed(2));
+        $('.total-cuadro').text(total.toFixed(2));
+
+        faltante();
 
     }
 

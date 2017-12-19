@@ -265,6 +265,7 @@
     <script src="{% static "cuadro/clasificador.js" %}"></script>
     <script>
         var prefix = '{{ detalle_form.prefix }}';
+        var distribucion_actividad = {{ cuadro.actividad.distribucion_presupuestal|unlocalize }};
     </script>
     <script src="{% static "cuadro/cuadro.js" %}"></script>
     <script>
@@ -458,3 +459,12 @@
     </div>
 {% endblock modal %}
 
+
+
+{% block extras %}
+    <div class="flotante">
+        <p>Total actividad: <span class="total-actividad">{{ cuadro.actividad.distribucion_presupuestal|unlocalize }}</span>
+            <br> Total cuadro: <span class="total-cuadro"></span>
+            <br> Saldo: <span class="saldo"></span></p>
+    </div>
+{% endblock extras %}

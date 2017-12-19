@@ -12,7 +12,7 @@ from .models import Plan, Resultado
 
 
 from .forms import PlanForm, ActividadForm, ActividadFormSet, ResultadoForm
-from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado
+from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado, grupo_jefe
 from .utils import numero_plan, verificar_numero
 from .mail import notificar_plan
 
@@ -317,7 +317,7 @@ def informe_dependencia(request):
     return render(request, 'plan/informe-dependencia.html', context)
 
 @login_required
-@user_passes_test(grupo_administrador)
+#@user_passes_test(grupo_administrador)
 def informe_organica(request):
     unidades = UnidadOrganica.objects.all()
     context = {'unidades': unidades}

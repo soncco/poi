@@ -16,8 +16,11 @@ def grupo_logistico(user):
 def grupo_administrador(user):
     return user.groups.filter(name='Administrador').exists()
 
+def grupo_jefe(user):
+    return user.groups.filter(name='Jefe').exists()
+
 def solo_responsable(user):
-    permisos = grupo_responsable(user) and not grupo_logistico(user) and not grupo_administrador(user)
+    permisos = grupo_responsable(user) and not grupo_logistico(user) and not grupo_administrador(user) and not grupo_jefe(user)
     return permisos
 
 def crear_resultado(actividad):

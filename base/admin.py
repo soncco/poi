@@ -12,10 +12,11 @@ class UnidadAdmin(admin.ModelAdmin):
   list_filter = ('pertenece_a',)
 
 class UnidadOrganicaAdmin(admin.ModelAdmin):
-  list_display = ('nombre', 'especial', 'actividades')
+  list_display = ('nombre', 'especial', 'actividades', 'techo',)
   search_fields = ['nombre',]
   list_filter = ('especial','actividades',)
 
 admin.site.register(Unidad, UnidadAdmin)
 admin.site.register(UnidadOrganica, UnidadOrganicaAdmin)
 admin.site.register(AsignacionPresupuestal)
+admin.site.register(Opcion)

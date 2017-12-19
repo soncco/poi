@@ -8,9 +8,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required, user_passes_test
-from plan.utils import grupo_administrador
+from plan.utils import grupo_administrador, traer_opcion, guardar_opcion
 
-from .models import Unidad
+from .models import Unidad, Opcion
 from .serializers import UnidadSerializer
 
 from rest_framework import viewsets, generics
@@ -211,3 +211,24 @@ def handler500(request):
     response = render(request, 'base/500.html', {'value_': value})
     response.status_code = 500
     return response
+
+@login_required
+@user_passes_test(grupo_administrador)
+def opciones(request):
+
+    if request.method == 'POST':
+        mostrar_mensaje = request.POST.get('mostrar_mensaje')
+        mensaje = request.POST.get('mensaje')
+
+        guardar_opcion('mostrar_mensaje', mostrar_mensaje)
+        guardar_opcion('mensaje', mensaje)
+
+        messages.success(request, 'Se han guardado las opciones.')
+        return HttpResponseRedirect(reverse('base:opciones'))
+    
+
+    mostrar_mensaje = traer_opcion('mostrar_mensaje')
+    mensaje = traer_opcion('mensaje')
+
+    context = {'mostrar_mensaje': mostrar_mensaje, 'mensaje': mensaje}
+    return render(request, 'base/opciones.html', context)

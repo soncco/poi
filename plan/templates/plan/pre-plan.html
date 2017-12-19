@@ -11,6 +11,11 @@
 {% endblock actions %}
 
 {% block content %}
+    {% if mostrar_mensaje == 'si' %}
+        <div class="alert alert-warning">
+            <p>{{ mensaje|safe }}</p>
+        </div>
+    {% endif %}
    <div class="well">
         <form action="{% url 'plan:plan' %}" method="get">
 

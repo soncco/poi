@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from models import Resultado, Plan
+from base.models import Opcion
 from django.contrib import messages
 
 import re
@@ -60,3 +61,14 @@ def verificar_numero(plan, request):
         if(plan.numero == '0'):
             plan.numero = Plan.objects.filter(area_ejecutora = plan.area_ejecutora, anio = plan.anio).count()
             plan.save()
+
+
+
+def traer_opcion(clave):
+    o, created = Opcion.objects.get_or_create(clave = clave, defaults = {'clave': clave, 'valor': ''})
+    return o.valor
+
+def guardar_opcion(clave, valor):
+    o = Opcion.objects.get(clave = clave)
+    o.valor = valor
+    o.save()

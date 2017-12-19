@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block header %}
+  <i class="fa fa-gears text-primary"></i> Opciones
+{% endblock header %}
+
+{% block content %}
+{{opciones}}
+<form action="{% url 'base:opciones' %}" role="form" method="post" id="the-form">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="">Mostrar mensaje:</label>
+        <select name="mostrar_mensaje" class="form-control">
+          {% if mostrar_mensaje == 'si' %}
+          <option value="si" selected>Si</option>
+          <option value="no">No</option>
+          {% else %}
+          <option value="si">Si</option>
+          <option value="no" selected>No</option>
+          {% endif %}
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="">Mensaje:</label>
+        <textarea name="mensaje" id="" cols="30" rows="10" class="form-control">{{ mensaje }}</textarea>
+      </div>
+    </div>
+
+  </div>
+  <div class="well">
+    <p class="text-center">
+      <button class="btn btn-primary btn-block btn-lg"><i class="fa fa-floppy-o"></i> Guardar</button>
+      {% csrf_token %}
+    </p>
+  </div>
+</form>
+
+{% endblock %}
+
+{% block title %}Opciones{% endblock %}
+
+{% block css %}
+{% endblock %}

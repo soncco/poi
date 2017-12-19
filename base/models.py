@@ -46,3 +46,11 @@ class AsignacionPresupuestal(models.Model):
 
     def __str__(self):
         return self.rubro
+
+@python_2_unicode_compatible
+class Opcion(models.Model):
+    clave = models.CharField(max_length = 100)
+    valor = models.TextField()
+
+    def __str__(self):
+        return '%s: %s' % (self.clave, self.valor)

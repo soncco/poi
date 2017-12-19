@@ -111,7 +111,7 @@ def usuario(request):
             for grupo in grupos:
                 the_grupo = Group.objects.get(pk = grupo)
                 user.groups.add(the_grupo)
-                if the_grupo.pk == 1:
+                if the_grupo.pk == 1 or the_grupo.pk == 2:
                     user.is_staff = True
                 user.save()
 
@@ -158,7 +158,7 @@ def usuario_editar(request, id):
             for grupo in grupos:
                 the_grupo = Group.objects.get(pk = grupo)
                 user.groups.add(the_grupo)
-                if the_grupo.pk == 1:
+                if the_grupo.pk == 1 or the_grupo.pk == 2:
                     user.is_staff = True
                 user.save()
 

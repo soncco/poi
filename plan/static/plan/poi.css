@@ -68,3 +68,8 @@ h6 {
 .flotante span {
     font-weight: bold
 }
+
+.alert a {
+    color: #fff !important;
+    text-decoration: underline;
+}

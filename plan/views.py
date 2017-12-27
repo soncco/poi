@@ -13,7 +13,7 @@ from .models import Plan, Resultado
 
 from .forms import PlanForm, ActividadForm, ActividadFormSet, ResultadoForm
 from .utils import crear_enlace, grupo_responsable, grupo_administrador, grupo_logistico, solo_responsable, crear_resultado, grupo_jefe
-from .utils import numero_plan, verificar_numero, traer_opcion
+from .utils import numero_plan, verificar_numero
 from .mail import notificar_plan
 
 from base.models import Unidad, AsignacionPresupuestal, UnidadOrganica
@@ -24,7 +24,7 @@ import json, datetime
 @login_required
 def pre_plan(request):
     unidades = UnidadOrganica.objects.all()
-    context = {'unidades': unidades, 'mostrar_mensaje': traer_opcion('mostrar_mensaje'), 'mensaje': traer_opcion('mensaje')}
+    context = {'unidades': unidades}
     return render(request, 'plan/pre-plan.html', context)
 
 

@@ -216,7 +216,7 @@ class ImpresionPlan:
 
     firmas_segundo = [
       ['_____________________________', '',  '_____________________________'],
-      [u'Firma del responsable', '', 'Planeamiento y presupuesto']
+      [u'Firma del responsable', '', u'Planeamiento Estratégico y Operativo']
     ]
 
     tabla_firmas_2 = Table(firmas_segundo, colWidths = [doc.width/3.0], style = tabla_firma_estilo())

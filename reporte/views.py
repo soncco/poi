@@ -555,7 +555,7 @@ def cuadro_excel(request):
     borde_fecha = book.add_format({'num_format': 'dd/mm/yy', 'border': 1})
 
 
-    hasta = 'S'
+    hasta = 'U'
 
     sheet.merge_range('A1:%s1' % hasta, 'MUNICIPALIDAD PROVINCIAL DE URUBAMBA', titulo)
     sheet.merge_range('A2:%s2' % hasta, u'CUADRO DE NECESIDADES DE BIENES, SERVICIOS Y OBRAS PARA EL AÑO FISCAL %s ' % anio, titulo)
@@ -591,6 +591,8 @@ def cuadro_excel(request):
     sheet.write('Q8', u'Total', negrita_borde)
     sheet.write('R8', u'Precio', negrita_borde)
     sheet.write('S8', u'Total S/', negrita_borde)
+    sheet.write('T8', u'Dependencia', negrita_borde)
+    sheet.write('U8', u'Unidad organica', negrita_borde)
 
     k = 9
     item = 1
@@ -629,6 +631,19 @@ def cuadro_excel(request):
         sheet.write('R%s' % k, detalle.precio, borde_numero)
         formula2 = '=Q{0}*R{0}'.format(k)
         sheet.write_formula('S%s' % k, formula2, borde_numero)
+
+        if detalle.pertenece_a.actividad.pertenece_a.area_ejecutora is not None:
+            dependencia = detalle.pertenece_a.actividad.pertenece_a.area_ejecutora.nombre
+        else:
+            dependencia = ''
+
+        if detalle.pertenece_a.actividad.pertenece_a.unidad_organica is not None:
+            organica = detalle.pertenece_a.actividad.pertenece_a.unidad_organica.nombre
+        else:
+            organica = ''
+
+        sheet.write('T%s' % k, dependencia)
+        sheet.write('U%s' % k, organica)
         item = item + 1
         k = k + 1
 

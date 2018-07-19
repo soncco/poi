@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 #@python_2_unicode_compatible
 class Plan(models.Model):
     TIPOS = (
-        ('1', 'Trimestral'),
         ('2', 'Mensual'),
     )
     numero = models.CharField(max_length=100, default='')
@@ -17,7 +16,7 @@ class Plan(models.Model):
     area_ejecutora = models.ForeignKey('base.Unidad', null=True,blank=True)
     proyecto = models.CharField(max_length=255, null=True,blank=True)
     responsable = models.CharField(max_length=255)
-    periodo = models.CharField(choices=TIPOS, default='1', max_length=1)
+    periodo = models.CharField(choices=TIPOS, default='2', max_length=1)
     presupuesto = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
     creado_por = models.ForeignKey(User, default=1)
     aprobado = models.BooleanField(default=False)

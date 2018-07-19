@@ -31,24 +31,6 @@ class PlanForm(ModelForm):
                 'autocomplete': 'off',
                 'placeholder': ''
             }),
-            'accion_central': Textarea(attrs={
-                'class': 'form-control',
-                'required': 'required',
-                'autocomplete': 'off',
-                'placeholder': 'Acción central'
-            }),
-            'objetivo_general_institucional': Textarea(attrs={
-                'class': 'form-control',
-                'required': 'required',
-                'autocomplete': 'off',
-                'placeholder': 'Objetivo general'
-            }),
-            'objetivo_especifico_institucional': Textarea(attrs={
-                'class': 'form-control',
-                'required': 'required',
-                'autocomplete': 'off',
-                'placeholder': 'Objetivo específico'
-            }),
             'periodo': Select(attrs={
                 'class': 'form-control',
                 'required': 'required',

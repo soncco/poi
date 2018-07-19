@@ -155,7 +155,7 @@
                             {% else %}
                                 <label for="">Actividad</label>                                
                             {% endif %}
-                            <textarea name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-tarea_actividad" id="" class="input-sm form-control" rows="5" required>{{ actividad.tarea_actividad }}</textarea>
+                            <textarea name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-tarea_actividad" id="" class="input-sm form-control act-upper" rows="5" required>{{ actividad.tarea_actividad }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -407,7 +407,7 @@
                     {% else %}
                         <label for="">Actividad</label>                                
                     {% endif %}
-                    <textarea name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-tarea_actividad" id="" class="input-sm form-control" rows="5" required></textarea>
+                    <textarea name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-tarea_actividad" id="" class="input-sm form-control act-upper" rows="5" required></textarea>
                 </div>
             </div>
             <div class="col-md-3">

@@ -73,3 +73,7 @@ h6 {
     color: #fff !important;
     text-decoration: underline;
 }
+
+.act-upper {
+    text-transform: uppercase;
+}

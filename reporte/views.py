@@ -261,7 +261,7 @@ def reporte_dependencia_excel(request):
 
             
         for actividad in plan.actividad_set.all():
-            sheet.merge_range('A%s:A%s' % (k, k+1), actividad.tarea_actividad, borde)
+            sheet.merge_range('A%s:A%s' % (k, k+1), actividad.tarea_actividad.upper(), borde)
             sheet.merge_range('B%s:B%s' % (k, k+1), actividad.unidad_medida, borde)
             sheet.merge_range('C%s:C%s' % (k, k+1), actividad.peso, borde_numero)
             sheet.merge_range('AF%s:AF%s' % (k, k+1), actividad.distribucion_presupuestal, borde_numero)
@@ -464,7 +464,7 @@ def cuadro_excel(request):
         sec_func = cuadro[0].sec_func
 
         act_titulo = 'Actividad'
-        act_nombre = actividad.tarea_actividad
+        act_nombre = actividad.tarea_actividad.upper()
 
     if tipo == 'plan':
         pk = request.GET.get('plan')

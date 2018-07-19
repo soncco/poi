@@ -279,7 +279,7 @@ class ImpresionPlan:
 
     for actividad in plan.actividad_set.all():
 
-        tarea = Paragraph(actividad.tarea_actividad, normal_custom(7))
+        tarea = Paragraph(actividad.tarea_actividad.upper(), normal_custom(7))
         medida = Paragraph(actividad.unidad_medida, normal_custom_center(size))
         peso = Paragraph(str(actividad.peso), normal_custom_center(size))
         t1 = Paragraph(str(actividad.t1), normal_custom_center(size))
@@ -498,7 +498,7 @@ class ImpresionCuadro:
     elements  = []
 
     spacer = 5
-    elements.append(Paragraph(u'<strong>Actividad</strong>: %s' % cuadro.actividad.tarea_actividad, normal_custom(9)))
+    elements.append(Paragraph(u'<strong>Actividad</strong>: %s' % cuadro.actividad.tarea_actividad.upper(), normal_custom(9)))
     elements.append(Spacer(0, spacer))
 
     # Tabla.

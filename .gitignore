@@ -61,3 +61,4 @@ abastecimiento/media/img/
 
 # TMP
 front/printable/
+.env

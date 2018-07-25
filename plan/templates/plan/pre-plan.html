@@ -15,7 +15,18 @@
         <form action="{% url 'plan:plan' %}" method="get">
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="anio">Escoja un año</label>
+                        <select name="anio" id="anio" class="form-control" required>
+                            <option value="">Escoja un año</option>
+                            {% for anio in anios %}
+                                <option value="{{ anio.pk }}">{{ anio.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-8">
                     <div class="form-group">
                         <label for="unidades">Escoja una unidad orgánica</label>
                         <select name="unidad" id="unidades" class="form-control" required>

@@ -22,13 +22,14 @@
                     <input type="hidden" name="unidad_organica" value="{{ organica.pk }}"> 
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <div class="form-group">
-                    {{ form.anio.label_tag }}
-                    {{ form.anio }}
+                    <p>{{ form.anio.label_tag }}</p>
+                    <p>{{ anio.nombre }}</p>
+                    <input type="hidden" name="anio" value="{{ anio.pk }}">
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group">
                     {% if organica.especial == True %}
                         {% if ejecutora != None %}
@@ -57,7 +58,7 @@
                 
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="form-group">
                     {% if organica.especial == True %}
                         {% if ejecutora != None or myself == 'si' %}
@@ -112,6 +113,8 @@
                     {% else %}
                     <h2 class="page-sub-header text-info">Actividades</h2>
                     {% endif %}
+                {% else %}
+                <h2 class="page-sub-header text-info">Actividades</h2>
                 {% endif %}
             {% else %}
             <h2 class="page-sub-header text-info">Actividades o Proyectos</h2>
@@ -119,6 +122,16 @@
 
             <div class="actividades">
                 <div class="actividad small">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Acción</label>
+                            <select name="{{ detalle_form.prefix }}-0-accion" class="form-control">
+                                {% for accion in acciones  %}
+                                    <option value="{{ accion.pk}}">{{ accion.etiqueta }} - {{ accion.descripcion }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             {% if organica.actividades == True %}
@@ -151,9 +164,13 @@
                         <div class="form-group">
                             <label for="">Asignación presupuestal</label>
                             <select id="" class="input-sm form-control" name="{{ detalle_form.prefix }}-0-asignacion_presupuestal" required>
-                                {% for asignacion in asignaciones %}
-                                    <option value="{{ asignacion.pk }}">{{ asignacion.rubro }}</option>
-                                {% endfor %}
+                                {% if myself == 'no' %}
+                                    <option value="5">18 C.S.C.</option>
+                                {% else %}
+                                    {% for asignacion in asignaciones %}
+                                        <option value="{{ asignacion.pk }}">{{ asignacion.rubro }}</option>
+                                    {% endfor %}
+                                {% endif %}
                             </select>
                         </div>
                     </div>
@@ -362,6 +379,16 @@
 {% block template %}
     <script type="text/template" id="template">
         <div class="actividad small">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Acción</label>
+                    <select name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-accion" class="form-control">
+                        {% for accion in acciones  %}
+                            <option value="{{ accion.pk}}">{{ accion.etiqueta }} - {{ accion.descripcion }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     {% if organica.actividades == True %}
@@ -394,9 +421,13 @@
                 <div class="form-group">
                     <label for="">Asignación presupuestal</label>
                     <select id="" class="input-sm form-control" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-asignacion_presupuestal" required>
-                        {% for asignacion in asignaciones %}
-                            <option value="{{ asignacion.pk }}">{{ asignacion.rubro }}</option>
-                        {% endfor %}
+                        {% if myself == 'no' %}
+                            <option value="5">18 C.S.C.</option>
+                        {% else %}
+                            {% for asignacion in asignaciones %}
+                                <option value="{{ asignacion.pk }}">{{ asignacion.rubro }}</option>
+                            {% endfor %}
+                        {% endif %}
                     </select>
                 </div>
             </div>
@@ -568,6 +599,9 @@
 {% block extras %}
     <div class="flotante">
         <p>El techo presupuestal de la unidad orgánica es: <strong>{{ organica.techo|unlocalize }}</strong></p>
+        {% if ejecutora != None %}
+        <p>El techo presupuestal del área ejecutora es: <strong>{{ ejecutora.techo|unlocalize }}</strong></p>            
+        {% endif %}
     </div>
 {% endblock extras %}
 

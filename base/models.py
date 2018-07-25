@@ -26,6 +26,7 @@ class Unidad(models.Model):
     pertenece_a = models.ForeignKey(UnidadOrganica)
     nombre = models.CharField(max_length=255)
     abreviatura = models.CharField(max_length=20, default='')
+    techo = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
 
     class Meta:
         verbose_name='Unidad'

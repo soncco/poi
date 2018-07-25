@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Cuadro, CuadroDetalle, Producto, Clasificador
 from .forms import CuadroForm, CuadroDetalleFormSet
 from .serializers import ProductoSerializer, ClasificadorSerializer
-from plan.models import Actividad
+from plan.models import Actividad, Anio
 
 from rest_framework import viewsets, generics
 
@@ -109,18 +109,21 @@ def borrar_cuadro(request, id):
 @login_required
 def informe_dependencia(request):
     unidades = Unidad.objects.all()
-    context = {'unidades': unidades}
+    anios = Anio.objects.filter(activo=True)
+    context = {'unidades': unidades, 'anios': anios}
     return render(request, 'cuadro/informe-dependencia.html', context)
 
 @login_required
 def informe_organica(request):
     unidades = UnidadOrganica.objects.all()
-    context = {'unidades': unidades}
+    anios = Anio.objects.filter(activo=True)
+    context = {'unidades': unidades, 'anios': anios}
     return render(request, 'cuadro/informe-organica.html', context)
 
 @login_required
 def informe_institucion(request):
-    context = {}
+    anios = Anio.objects.filter(activo=True)
+    context = {'anios': anios}
     return render(request, 'cuadro/informe-institucion.html', context)
 
 

@@ -20,7 +20,7 @@ class Plan(models.Model):
     presupuesto = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
     creado_por = models.ForeignKey(User, default=1)
     aprobado = models.BooleanField(default=False)
-    anio = models.CharField(max_length=4, default='')
+    anio = models.ForeignKey('Anio')
     act = models.CharField(max_length=255, blank=True, null=True)
 
 class Actividad(models.Model):
@@ -28,6 +28,7 @@ class Actividad(models.Model):
         ('1', 'Porcentual'),
         ('2', u'Numérico'),
     )
+    accion = models.ForeignKey('Accion')
     pertenece_a = models.ForeignKey(Plan)
     tarea_actividad = models.TextField()
     unidad_medida = models.CharField(max_length=100)
@@ -91,3 +92,47 @@ class Resultado(models.Model):
     p12 = models.FloatField(default=0)
     total = models.FloatField(default=0)
     distribucion_presupuestal = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
+
+@python_2_unicode_compatible
+class Anio(models.Model):
+    nombre = models.IntegerField()
+    activo = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = (u'Año')
+        verbose_name_plural = (u'Años')
+
+    def __str__(self):
+        return str(self.nombre)
+
+@python_2_unicode_compatible
+class Objetivo(models.Model):
+    etiqueta = models.CharField(max_length=20)
+    descripcion = models.CharField(max_length=255)
+    anio = models.ForeignKey('Anio')
+
+    def __str__(self):
+        return '(%s) %s' % (self.anio, self.etiqueta)
+
+    @property
+    def completo(self):
+        return '%s - %s' % (self.etiqueta, self.descripcion)
+
+@python_2_unicode_compatible
+class Accion(models.Model):
+    etiqueta = models.CharField(max_length=20)
+    descripcion = models.CharField(max_length=255)
+    objetivo = models.ForeignKey('Objetivo')
+    organicas = models.ManyToManyField('base.UnidadOrganica', blank=True)
+    unidades = models.ManyToManyField('base.Unidad', blank=True)
+
+    class Meta:
+        verbose_name = (u'Acción')
+        verbose_name_plural = ('Acciones')
+
+    def __str__(self):
+        return '%s %s' % (self.objetivo, self.etiqueta)
+
+    @property
+    def completo(self):
+        return '%s - %s' % (self.etiqueta, self.descripcion)

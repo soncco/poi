@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 
-from plan.models import Plan
+from plan.models import Plan, Anio
 from printable import ImpresionPlan, ImpresionCuadro
 from plan.utils import solo_responsable, grupo_administrador, grupo_logistico
 
@@ -54,6 +54,8 @@ def imprimir_plan(request, id):
 def reporte_dependencia_excel(request):
     unidad = request.POST.get('unidad')
     anio = request.POST.get('anio')
+    if anio is not None:
+        anio = Anio.objects.get(pk = anio)
     tipo = request.POST.get('tipo')
 
     if tipo == 'dependencia':
@@ -148,7 +150,7 @@ def reporte_dependencia_excel(request):
                 sheet.merge_range('B%s:H%s' % (k, k), plan.unidad_organica.nombre)
         
         sheet.write('I%s' % k, u'Año', negrita)
-        sheet.merge_range('J%s:M%s' % (k, k), plan.anio)
+        sheet.merge_range('J%s:M%s' % (k, k), plan.anio.nombre)
         k += 1
 
         if plan.area_ejecutora is not None:
@@ -159,18 +161,6 @@ def reporte_dependencia_excel(request):
             else:
                 sheet.write('A%s' % k, u'Responsable', negrita)
         sheet.merge_range('B%s:H%s' % (k, k), plan.responsable)
-        k += 1
-
-        sheet.write('A%s' % k, u'Acción Central', negrita)
-        sheet.merge_range('B%s:%s%s' % (k, hasta, k), plan.accion_central, wrap)
-        k += 1
-
-        sheet.write('A%s' % k, u'Objetivo General', negrita)
-        sheet.merge_range('B%s:%s%s' % (k, hasta, k), plan.objetivo_general_institucional, wrap)
-        k += 1
-
-        sheet.write('A%s' % k, u'Objetivo Específico', negrita)
-        sheet.merge_range('B%s:%s%s' % (k, hasta, k), plan.objetivo_especifico_institucional, wrap)
         k += 1
 
         if plan.unidad_organica.actividades == True:
@@ -200,6 +190,8 @@ def reporte_dependencia_excel(request):
         sheet.merge_range('AF%s:AF%s' % (k, k+3), u'Distribución presupuestal', negrita_borde)
         sheet.merge_range('AG%s:AG%s' % (k, k+3), u'Fuente', negrita_borde)
         sheet.merge_range('AH%s:AH%s' % (k, k+3), u'Fecha Término', negrita_borde)
+        sheet.merge_range('AI%s:AI%s' % (k, k+3), u'Objetivo', negrita_borde)
+        sheet.merge_range('AJ%s:AJ%s' % (k, k+3), u'Acción', negrita_borde)
         k += 4
         q = k-2
         c = k-1
@@ -258,7 +250,7 @@ def reporte_dependencia_excel(request):
             sheet.merge_range('V%s:X%s' % (c, c), u'Prog', negrita_borde)
             sheet.merge_range('Y%s:AA%s' % (c, c), u'Eje', negrita_borde)
 
-
+ 
             
         for actividad in plan.actividad_set.all():
             sheet.merge_range('A%s:A%s' % (k, k+1), actividad.tarea_actividad.upper(), borde)
@@ -267,6 +259,8 @@ def reporte_dependencia_excel(request):
             sheet.merge_range('AF%s:AF%s' % (k, k+1), actividad.distribucion_presupuestal, borde_numero)
             sheet.merge_range('AG%s:AG%s' % (k, k+1), actividad.asignacion_presupuestal.fuente, borde)
             sheet.merge_range('AH%s:AH%s' % (k, k+1), actividad.fecha_termino, borde_fecha)
+            sheet.merge_range('AI%s:AI%s' % (k, k+1), actividad.accion.objetivo.descripcion, borde)
+            sheet.merge_range('AJ%s:AJ%s' % (k, k+1), actividad.accion.descripcion, borde)
 
 
             if plan.get_periodo_display() == 'Mensual':
@@ -492,6 +486,7 @@ def cuadro_excel(request):
         pk = request.GET.get('unidad')
         unidad = Unidad.objects.get(pk = pk)
         anio = request.GET.get('anio')
+        anio = Anio.objects.get(pk = anio)
         gerencia = unidad.pertenece_a.nombre
 
         titulo_area = u'Área Ejecutora:'
@@ -506,6 +501,7 @@ def cuadro_excel(request):
         pk = request.GET.get('unidad')
         unidad = UnidadOrganica.objects.get(pk = pk)
         anio = request.GET.get('anio')
+        anio = Anio.objects.get(pk = anio)
         gerencia = unidad.nombre
 
         titulo_area = u'Área Ejecutora:'
@@ -518,6 +514,7 @@ def cuadro_excel(request):
 
     if tipo == 'institucion':
         anio = request.GET.get('anio')
+        anio = Anio.objects.get(pk = anio)
         gerencia = 'Municipalidad'
 
         titulo_area = u''
@@ -691,6 +688,7 @@ def resumen_excel(request):
     borde_fecha = book.add_format({'num_format': 'dd/mm/yy', 'border': 1})
 
     anio = request.GET.get('anio')
+    anio = Anio.objects.get(anio)
 
     sheet.write('A3', u'Unidades orgánicas', negrita_borde)
 

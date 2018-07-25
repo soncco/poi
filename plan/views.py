@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
 
-from .models import Plan, Resultado
+from .models import Plan, Resultado, Accion, Anio
 
 
 from .forms import PlanForm, ActividadForm, ActividadFormSet, ResultadoForm
@@ -24,7 +24,8 @@ import json, datetime
 @login_required
 def pre_plan(request):
     unidades = UnidadOrganica.objects.all()
-    context = {'unidades': unidades}
+    anios = Anio.objects.filter(activo=True)
+    context = {'unidades': unidades, 'anios': anios}
     return render(request, 'plan/pre-plan.html', context)
 
 
@@ -67,17 +68,22 @@ def plan(request):
             print form.errors
             print detalle_form.errors
 
+    anio = request.GET.get('anio')
+    anio = Anio.objects.get(pk = anio)
+
     organica = request.GET.get('unidad')
     if organica is None:
         return HttpResponseRedirect(reverse('plan:pre_plan'))
     else:
         organica = UnidadOrganica.objects.get(pk = organica)
-
+    
     ejecutora = request.GET.get('ejecutora')
     if ejecutora != '':
         ejecutora = Unidad.objects.get(pk = ejecutora)
+        acciones = Accion.objects.filter(unidades = ejecutora, objetivo__anio = anio)
     else:
         ejecutora = None
+        acciones = Accion.objects.filter(organicas = organica, objetivo__anio = anio)
 
     myself = request.GET.get('myself')
 
@@ -86,7 +92,7 @@ def plan(request):
     detalle_form = ActividadFormSet()
     asignaciones = AsignacionPresupuestal.objects.all().order_by('rubro')
     unidades = Unidad.objects.filter(pertenece_a = organica).order_by('nombre')
-    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'unidades': unidades, 'organica': organica, 'ejecutora': ejecutora, 'myself': myself}
+    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'unidades': unidades, 'organica': organica, 'ejecutora': ejecutora, 'myself': myself, 'acciones': acciones, 'anio': anio}
     return render(request, 'plan/nuevo-plan.html', context)
 
 @login_required
@@ -195,7 +201,7 @@ def planes_json(request):
 
         obj = OrderedDict({
             '0': plan.numero,
-            '1': plan.anio,
+            '1': plan.anio.nombre,
             '2': organica,
             '3': proyecto,
             '4': plan.responsable,
@@ -254,11 +260,16 @@ def ver_plan(request, id):
         else:
             print form.errors
 
+    if plan.area_ejecutora is not None:
+        acciones = Accion.objects.filter(unidades = plan.area_ejecutora, objetivo__anio = plan.anio)
+    else:
+        acciones = Accion.objects.filter(organicas = plan.unidad_organica, objetivo__anio = plan.anio)
+
 
     form = PlanForm(instance = plan)
     detalle_form = ActividadFormSet(instance=plan)
     asignaciones = AsignacionPresupuestal.objects.all().order_by('rubro')
-    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'plan': plan}
+    context = {'form': form, 'detalle_form': detalle_form, 'asignaciones': asignaciones, 'plan': plan, 'acciones': acciones}
 
     if not plan.aprobado:
         return render(request, 'plan/editar-plan.html', context)
@@ -313,25 +324,28 @@ def actividades(request, id):
 @user_passes_test(grupo_administrador)
 def informe_dependencia(request):
     unidades = Unidad.objects.all()
-    context = {'unidades': unidades}
+    anios = Anio.objects.filter(activo=True)
+    context = {'unidades': unidades, 'anios': anios}
     return render(request, 'plan/informe-dependencia.html', context)
 
 @login_required
-#@user_passes_test(grupo_administrador)
 def informe_organica(request):
     unidades = UnidadOrganica.objects.all()
-    context = {'unidades': unidades}
+    anios = Anio.objects.filter(activo=True)
+    context = {'unidades': unidades, 'anios': anios}
     return render(request, 'plan/informe-organica.html', context)
 
 @login_required
 @user_passes_test(grupo_administrador)
 def informe_institucion(request):
-    context = {}
+    anios = Anio.objects.filter(activo=True)
+    context = {'anios': anios}
     return render(request, 'plan/informe-institucion.html', context)
 
 @login_required
 @user_passes_test(grupo_administrador)
 def informe_resumen(request):
-    context = {}
+    anios = Anio.objects.filter(activo=True)
+    context = {'anios': anios}
     return render(request, 'plan/informe-resumen.html', context)
 

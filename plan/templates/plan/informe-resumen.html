@@ -14,8 +14,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="unidades">Escriba el año</label>
-                        <input type="text" name="anio" class="form-control" required>
+                        <label for="anio">Escoja el año</label>
+                        <select name="anio" id="anio" class="form-control">
+                        {% for anio in anios %}
+                            <option value="{{ anio.pk }}">{{ anio.nombre }}</option>
+                        {% endfor %}
+                        </select>
                     </div>
                 </div>
             </div>

@@ -169,7 +169,7 @@ class ImpresionPlan:
     
 
     # Cabecera
-    header = Paragraph(u'Nro: %s' % plan.numero, negrita_custom(10))
+    header = Paragraph(u'Nro: %s - %s' % (plan.numero, plan.anio.nombre), negrita_custom(10))
     w, h = header.wrap(doc.width, top)
     header.drawOn(canvas, doc.leftMargin, doc.height + top)
 
@@ -234,14 +234,7 @@ class ImpresionPlan:
     elements  = []
 
     spacer = 5
-    elements.append(Paragraph(u'<strong>Acción Central</strong>: %s' % plan.accion_central, normal_custom(9)))
-    elements.append(Spacer(0, spacer))
 
-    elements.append(Paragraph(u'<strong>Objetivo General</strong>: %s' % plan.objetivo_general_institucional, normal_custom(9)))
-    elements.append(Spacer(0, spacer))
-
-    elements.append(Paragraph(u'<strong>Objetivo Específico</strong>: %s' % plan.objetivo_especifico_institucional, normal_custom(9)))
-    elements.append(Spacer(0, spacer))
 
     if plan.unidad_organica.actividades == True:
         if plan.area_ejecutora is not None:
@@ -256,6 +249,8 @@ class ImpresionPlan:
     t_fecha = Paragraph(u'Fecha término', negrita_custom_center(size))
     t_peso = Paragraph(u'Peso %', negrita_custom_center(size))
     t_fuente = Paragraph(u'Fuente', negrita_custom_center(size))
+    t_obj = Paragraph(u'Objetivo', negrita_custom_center(size))
+    t_acc = Paragraph(u'Acción', negrita_custom_center(size))
 
 
     ts = ['T1','T2','T3','T4']
@@ -278,6 +273,20 @@ class ImpresionPlan:
     conteo = 1
 
     for actividad in plan.actividad_set.all():
+
+        
+        objetivo = Paragraph(actividad.accion.objetivo.completo, normal_custom(7))
+        accion = Paragraph(actividad.accion.completo, normal_custom(7))
+
+        detalles_data = [
+            [t_obj],
+            [objetivo],
+            [t_acc],
+            [accion],
+        ]
+
+        detalles_tabla = Table(detalles_data, colWidths = [None], style = tabla_plan(plan))
+        elements.append(detalles_tabla)
 
         tarea = Paragraph(actividad.tarea_actividad.upper(), normal_custom(7))
         medida = Paragraph(actividad.unidad_medida, normal_custom_center(size))

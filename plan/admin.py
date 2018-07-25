@@ -17,5 +17,22 @@ class PlanAdmin(admin.ModelAdmin):
   search_fields = ['numero', 'responsable']
   list_filter = ('anio', 'unidad_organica', 'periodo', 'aprobado',)
 
-admin.site.register(Plan, PlanAdmin)
+class AnioAdmin(admin.ModelAdmin):
+  list_display = ('nombre', 'activo',)
+  list_filter = ('activo',)
 
+class ObjetivoAdmin(admin.ModelAdmin):
+  list_display = ('etiqueta', 'descripcion', 'anio',)
+  search_fields = ['etiqueta', 'descripcion']
+  list_filter = ('anio',)
+
+class AccionAdmin(admin.ModelAdmin):
+  list_display = ('etiqueta', 'objetivo',)
+  search_fields = ['etiqueta', 'descripcion']
+  list_filter = ('objetivo__anio', 'objetivo__etiqueta')
+
+admin.site.register(Plan, PlanAdmin)
+admin.site.register(Anio, AnioAdmin)
+
+admin.site.register(Objetivo, ObjetivoAdmin)
+admin.site.register(Accion, AccionAdmin)

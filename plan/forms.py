@@ -36,12 +36,6 @@ class PlanForm(ModelForm):
                 'required': 'required',
                 'autocomplete': 'off',
             }),
-            'anio': TextInput(attrs={
-                'class': 'form-control',
-                'required': 'required',
-                'autocomplete': 'off',
-                'placeholder': 'Año'
-            }),
             'act': TextInput(attrs={
                 'class': 'form-control',
                 'autocomplete': 'off',

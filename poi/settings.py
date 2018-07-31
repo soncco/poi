@@ -148,3 +148,5 @@ EMAIL_HOST_USER = 'no-reply@abastecimiento.pe'
 DEFAULT_FROM_EMAIL = 'no-reply@abastecimiento.pe'
 
 STATIC_ROOT = '../static/'
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = None

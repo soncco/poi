@@ -249,8 +249,8 @@ class ImpresionPlan:
     t_fecha = Paragraph(u'Fecha término', negrita_custom_center(size))
     t_peso = Paragraph(u'Peso %', negrita_custom_center(size))
     t_fuente = Paragraph(u'Fuente', negrita_custom_center(size))
-    t_obj = Paragraph(u'Objetivo', negrita_custom_center(size))
-    t_acc = Paragraph(u'Acción', negrita_custom_center(size))
+    t_obj = Paragraph(u'Objetivo Estratégico Institucional - OEI', negrita_custom_center(size))
+    t_acc = Paragraph(u'Acción Estratégica Instituciónal - AEI', negrita_custom_center(size))
 
 
     ts = ['T1','T2','T3','T4']

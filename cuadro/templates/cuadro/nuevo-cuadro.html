@@ -291,76 +291,76 @@
                     <input type="hidden" value="0" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p12">
 
                     {% else %}
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t1 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Ene</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p1" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p1" {% if actividad.t1 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t2 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Feb</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p2" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p2" {% if actividad.t2 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t3 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Mar</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p3" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p3" {% if actividad.t3 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t4 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Abr</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p4" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p4" {% if actividad.t4 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t5 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">May</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p5" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p5" {% if actividad.t5 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t6 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Jun</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p6" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p6" {% if actividad.t6 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t7 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Jul</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p7" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p7" {% if actividad.t7 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t8 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Ago</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p8" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p8" {% if actividad.t8 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t9 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Set</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p9" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p9" {% if actividad.t9 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t10 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Oct</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p10" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p10" {% if actividad.t10 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t11 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Nov</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p11" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p11" {% if actividad.t11 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3" {% if actividad.t12 == 0 %}style="display: none"{% endif %}>
                         <div class="form-group">
                             <label for="">Dic</label>
-                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p12" required>
+                            <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-p12" {% if actividad.t12 == 0 %}value="0"{% else %}required{% endif %}>
                         </div>
                     </div>
                     {% endif %}
@@ -393,5 +393,10 @@
         <p>Total actividad: <span class="total-actividad">{{ actividad.distribucion_presupuestal|unlocalize }}</span>
             <br> Total cuadro: <span class="total-cuadro"></span>
             <br> Saldo: <span class="saldo"></span></p>
+    </div>
+
+    <div class="flotante flotante2">
+        <p>Clasificadores</p>
+        <ul></ul>
     </div>
 {% endblock extras %}

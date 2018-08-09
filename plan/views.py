@@ -69,6 +69,9 @@ def plan(request):
             print detalle_form.errors
 
     anio = request.GET.get('anio')
+    if anio is None:
+        return HttpResponseRedirect(reverse('plan:pre_plan'))
+
     anio = Anio.objects.get(pk = anio)
 
     organica = request.GET.get('unidad')

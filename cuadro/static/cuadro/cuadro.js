@@ -10,6 +10,34 @@ var plan = plan || {};
         $('.saldo').text(saldo.toFixed(2));
     }
 
+    var clasificadores = function() {
+        var f = $('.flotante2 ul');
+        f.html('');
+        var clas = [];
+        $('.id_clasificador').each(function(i) {
+            var parent = $(this).parent();
+            var c = parent.find('.ac-clasificador').val();
+            if(c != '') {
+                var p = parent.parent().parent().find('.total').val();
+                clas.push({'c': c, 'p': (p * 1)});
+            }
+        });
+
+        if (clas.length) {
+            var result = [];
+            clas.forEach(function(obj) {
+              var id = obj.c;
+              if(!this[id]) result.push(this[id] = obj);
+              else this[id].p += obj.p;
+            }, Object.create(null));
+
+            //console.log(result);
+            for(var i in result) {
+                f.append('<li>' + result[i].c + ' =  S/' + result[i].p + '</li>');
+            }
+        }
+    }
+
 
     var calculo = function() {
         var total = 0;
@@ -22,6 +50,7 @@ var plan = plan || {};
         $('.total-cuadro').text(total.toFixed(2));
 
         faltante();
+        clasificadores();
 
     }
 

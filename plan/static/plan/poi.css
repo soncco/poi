@@ -65,6 +65,11 @@ h6 {
     padding: 0;
 }
 
+.flotante2 {
+    top: 200px !important;
+    background: #18bc9c;
+}
+
 .flotante span {
     font-weight: bold
 }

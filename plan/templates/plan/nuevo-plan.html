@@ -125,7 +125,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="">Acción</label>
-                            <select name="{{ detalle_form.prefix }}-0-accion" class="form-control">
+                            <select name="{{ detalle_form.prefix }}-0-accion" class="form-control" required>
                                 {% for accion in acciones  %}
                                     <option value="{{ accion.pk}}">{{ accion.etiqueta }} - {{ accion.descripcion }}</option>
                                 {% endfor %}
@@ -382,7 +382,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="">Acción</label>
-                    <select name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-accion" class="form-control">
+                    <select name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-accion" class="form-control" required>
                         {% for accion in acciones  %}
                             <option value="{{ accion.pk}}">{{ accion.etiqueta }} - {{ accion.descripcion }}</option>
                         {% endfor %}

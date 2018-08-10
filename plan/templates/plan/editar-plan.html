@@ -150,7 +150,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="">Acción</label>
-                            <select name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-accion" class="form-control">
+                            <select name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-accion" class="form-control" required>
                                 {% for accion in acciones  %}
                                     {% if actividad.accion.pk == accion.pk %}
                                     <option value="{{ accion.pk}}" selected="selected">{{ accion.etiqueta }} - {{ accion.descripcion }}</option>                                        
@@ -416,7 +416,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label for="">Acción</label>
-                    <select name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-accion" class="form-control">
+                    <select name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-accion" class="form-control" required>
                         {% for accion in acciones  %}
                             <option value="{{ accion.pk}}">{{ accion.etiqueta }} - {{ accion.descripcion }}</option>
                         {% endfor %}

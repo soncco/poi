@@ -145,7 +145,7 @@ class ProductoFilterViewSet(generics.ListAPIView):
             term = self.request.query_params.get('term', None)
 
             if term is not None:
-                    queryset = queryset.filter(descripcion__istartswith = term)[:15]
+                    queryset = queryset.filter(descripcion__icontains = term)[:15]
 
             return queryset
 

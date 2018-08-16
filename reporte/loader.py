@@ -1,32 +1,24 @@
 from openpyxl import load_workbook
-wb = load_workbook(filename = r'usuarios.xlsx')
-from django.contrib.auth.models import User, Group
+wb = load_workbook(filename = r'utiles.xlsx')
+from cuadro.models import Producto
+from decimal import Decimal
 
-s = wb['Usuarios']
-
-rows = s.get_highest_row()
-
-for i in range(2,rows):
-  usuario = s['A%s' % i].value
-  nombres = s['B%s' % i].value
-  print usuario
-  _user, created = User.objects.get_or_create(username = usuario, password = usuario)
-  _user.first_name = nombres
-  _user.save()
-  the_grupo = Group.objects.get(pk = 3)
-  _user.groups.add(the_grupo)
-
-from openpyxl import load_workbook
-wb = load_workbook(filename = r'oficinas.xlsx')
-from base.models import Unidad, UnidadOrganica
-
-s = wb['Oficinas']
+s = wb['utiles']
 
 rows = s.get_highest_row()
 
 for i in range(2,rows):
   nombre = s['A%s' % i].value
-  abreviatura = s['B%s' % i].value
-  print nombre
-  _oficina, created = Unidad.objects.get_or_create(nombre = nombre, abreviatura = abreviatura, pertenece_a = UnidadOrganica.objects.get(pk = 1))
-  _oficina.save()
+  clasificador = s['B%s' % i].value
+  u_medida = s['C%s' % i].value
+  precio = Decimal(s['D%s' % i].value)
+  try:
+    _producto, created = Producto.objects.get_or_create(descripcion = nombre, defaults={'clasificador': clasificador, 'unidad_medida': u_medida, 'precio': precio})
+    _producto.save()
+  except:
+    producto = Producto.objects.filter(descripcion = nombre)[0]
+    producto.clasificador_id = clasificador
+    producto.unidad_medida = u_medida
+    producto.precio = precio
+    producto.save()
+    print 'Duplicado: %s' % producto.pk

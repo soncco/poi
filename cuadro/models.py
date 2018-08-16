@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 class Producto(models.Model):
     descripcion = models.TextField()
     precio = models.DecimalField(max_digits = 19, decimal_places = 5, default = Decimal('0.000'))
+    clasificador = models.ForeignKey('cuadro.Clasificador', blank=True, null=True)
+    unidad_medida = models.CharField(max_length=100, default='')
 
     def __str__(self):
         return self.descripcion

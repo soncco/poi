@@ -48,6 +48,11 @@ var plan = plan || {};
             parent.find('.id_producto').val(ui.item.data.id);
             var precio = ui.item.data.precio * 1
             parent.parent().parent().find('.unitario').val(precio.toFixed(2));
+            if(ui.item.data.clasificador) {
+                parent.parent().parent().find('.ac-clasificador').val(ui.item.data.clasificador.cadena);
+                parent.parent().parent().find('.id_clasificador').val(ui.item.data.clasificador.id);
+                parent.parent().parent().find('.umed').val(ui.item.data.unidad_medida);
+            }
         },
         change: function(e,ui) {
             if(!ui.item) {

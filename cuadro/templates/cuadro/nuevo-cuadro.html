@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Unidad de Medida</label>
-                            <input type="text" class="form-control input-sm" name="{{ detalle_form.prefix }}-0-unidad_medida" required>
+                            <input type="text" class="umed form-control input-sm" name="{{ detalle_form.prefix }}-0-unidad_medida" required>
                         </div>
                         <div class="form-group">
                             <label for="">Precio Unitario S/</label>
@@ -217,7 +217,7 @@
         var prefix = '{{ detalle_form.prefix }}';
         var distribucion_actividad = {{ actividad.distribucion_presupuestal|unlocalize }};
     </script>
-    <script src="{% static "cuadro/cuadro.js" %}"></script>
+    <script src="{% static "cuadro/cuadro.js" %}?v=2018"></script>
     <script>
     console.log('{{ form.non_field_errors }}');
     console.log('{{ detalle_form.non_field_errors }}');
@@ -244,7 +244,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Unidad de Medida</label>
-                        <input type="text" class="form-control input-sm" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-unidad_medida" required>
+                        <input type="text" class="umed form-control input-sm" name="{{ detalle_form.prefix }}-{% templatetag openvariable %} numero {% templatetag closevariable %}-unidad_medida" required>
                     </div>
                     <div class="form-group">
                         <label for="">Precio Unitario S/</label>

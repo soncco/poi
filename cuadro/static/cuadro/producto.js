@@ -36,8 +36,10 @@ var plan = plan || {};
             })
         },
         response: function(e, ui) {
+            console.log(ui.content.length);
             if(ui.content.length == 0) {
                 var parent = $(e.target).parent();
+                parent.find('.ac-producto').val('');
                 parent.find('.id_producto').val('');
                 parent.parent().parent().find('.unitario').val('');
             }

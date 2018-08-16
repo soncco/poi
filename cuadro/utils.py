@@ -12,8 +12,13 @@ def modificar_post(post, prefix):
             if copy[i] == '':
                 key = '%s%s-nuevo' % (prefix, get_num(i, prefix))
                 producto = copy[key].strip()
-                nuevo_producto, created = Producto.objects.get_or_create(descripcion = producto)
-                nuevo_producto.save()
+                try:
+                    nuevo_producto, created = Producto.objects.get_or_create(descripcion = producto)
+                    nuevo_producto.save()
+                except:
+                    nuevo_producto= Producto.objects.filter(descripcion = producto)
+                    nuevo_producto = nuevo_producto[0]
+                    nuevo_producto.save()
                 copy[i] = nuevo_producto.pk
 
     return copy

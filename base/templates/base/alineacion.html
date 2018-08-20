@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block header %}
+  <i class="fa fa-gears text-primary"></i> Alineación
+{% endblock header %}
+
+{% block content %}
+<h3>Orgánicas</h3>
+<ul>
+{% for organica in organicas %}
+  <li>
+    {{ organica.nombre }}
+    <h4>Acciones</h4>
+    <ul>
+      {% for accion in organica.accion_set.all  %}
+        <li>{{ accion }}</li>
+      {% empty %}
+        <li class="text-danger">No tiene acciones</li>
+      {% endfor %}
+    </ul>
+    <h4>Unidades</h4>
+    <ul>
+      {% for unidad in organica.unidad_set.all  %}
+        <li>
+          {{ unidad }}
+          <h4>Acciones</h4>
+          <ul>
+            {% for accion in organica.accion_set.all  %}
+              <li>{{ accion }}</li>
+            {% empty %}
+              <li class="text-danger">No tiene acciones</li>
+            {% endfor %}
+          </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+{% block title %}Opciones{% endblock %}
+
+{% block css %}
+{% endblock %}

@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^usuario$', views.usuario, name = 'usuario'),
     url(r'^usuario/(?P<id>.*)$', views.usuario_editar, name = 'usuario_editar'),
     url(r'^opciones$', views.opciones, name = 'opciones'),
+    url(r'^alineacion$', views.alineacion, name = 'alineacion'),
 
     url(r'^api/base/', include(router.urls)),
     url(r'^api/base/unidad/filter/$', views.UnidadFilterViewSet.as_view()),

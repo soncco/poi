@@ -10,7 +10,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required, user_passes_test
 from plan.utils import grupo_administrador, traer_opcion, guardar_opcion
 
-from .models import Unidad, Opcion
+from .models import Unidad, Opcion, UnidadOrganica
 from .serializers import UnidadSerializer
 
 from rest_framework import viewsets, generics
@@ -232,3 +232,11 @@ def opciones(request):
 
     context = {'mostrar_mensaje': mostrar_mensaje, 'mensaje': mensaje}
     return render(request, 'base/opciones.html', context)
+
+
+@login_required
+@user_passes_test(grupo_administrador)
+def alineacion(request):
+    organicas = UnidadOrganica.objects.all()
+    context = {'organicas': organicas}
+    return render(request, 'base/alineacion.html', context)

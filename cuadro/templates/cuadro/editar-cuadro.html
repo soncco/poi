@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
-                            <label for="">Descripción</label>: <span class="text-info">Escriba el detalle del bien o servicio.</span> <span class="text-danger">Si no existe, acérquese a la oficina de logística.</span>
+                            <label for="">Descripción</label>: <span class="text-info">Escriba el detalle del bien o servicio.</span>
                             <textarea name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-nuevo" id="" cols="30" rows="4" class="form-control input-sm ac-producto" required>{{ detalle.producto.descripcion }}</textarea>
                             <input type="hidden" class="id_producto" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-producto" value="{{ detalle.producto.pk }}">
                         </div>

@@ -60,7 +60,8 @@ var plan = plan || {};
             var totalmonto = 0;
             // Totales tiempo.
             $(this).find('.t-input').each(function(k) {
-                total += $(this).val() * 1;
+                if(!$(this).prop('readonly'))
+                    total += $(this).val() * 1;
             })
             $(this).find('.total-cantidades').val(total.toFixed(2));
 

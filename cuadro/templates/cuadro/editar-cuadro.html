@@ -69,7 +69,7 @@
 
         <div class="productos">
             {% for detalle in cuadro.cuadrodetalle_set.all %}
-            <div class="producto small">
+            <div class="producto small" id="producto-{{detalle.id}}">
                 <input type="hidden" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-id" value="{{ detalle.pk }}" id="id_{{ detalle_form.prefix }}-{{ forloop.counter0 }}-id" class="pk">
                 <input type="hidden" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-pertenece_a" value="{{ cuadro.pk }}" id="id_{{ detalle_form.prefix }}-{{ forloop.counter0 }}-pertenece_a">
                 <div class="row">
@@ -104,73 +104,73 @@
                         <div class="col-md-3" {% if actividad.t1 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Ene</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p1" {% if actividad.t1 != 0 %}required{% endif %} value="{{ detalle.p1 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p1" {% if actividad.t1 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p1 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t2 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Feb</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p2" {% if actividad.t2 != 0 %}required{% endif %} value="{{ detalle.p2 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p2" {% if actividad.t2 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p2 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t3 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Mar</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p3" {% if actividad.t3 != 0 %}required{% endif %} value="{{ detalle.p3 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p3" {% if actividad.t3 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p3 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t4 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Abr</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p4" {% if actividad.t4 != 0 %}required{% endif %} value="{{ detalle.p4 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p4" {% if actividad.t4 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p4 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t5 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">May</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p5" {% if actividad.t5 != 0 %}required{% endif %} value="{{ detalle.p5 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p5" {% if actividad.t5 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p5 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t6 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Jun</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p6" {% if actividad.t6 != 0 %}required{% endif %} value="{{ detalle.p6 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p6" {% if actividad.t6 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p6 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t7 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Jul</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p7" {% if actividad.t7 != 0 %}required{% endif %} value="{{ detalle.p7 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p7" {% if actividad.t7 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p7 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t8 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Ago</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p8" {% if actividad.t8 != 0 %}required{% endif %} value="{{ detalle.p8 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p8" {% if actividad.t8 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p8 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t9 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Set</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p9" {% if actividad.t9 != 0 %}required{% endif %} value="{{ detalle.p9 |unlocalize}}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p9" {% if actividad.t9 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p9 |unlocalize}}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t10 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Oct</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p10" {% if actividad.t10 != 0 %}required{% endif %} value="{{ detalle.p10|unlocalize }}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p10" {% if actividad.t10 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p10|unlocalize }}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t11 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Nov</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p11" {% if actividad.t11 != 0 %}required{% endif %} value="{{ detalle.p11|unlocalize }}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p11" {% if actividad.t11 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p11|unlocalize }}">
                             </div>
                         </div>
                         <div class="col-md-3" {% if actividad.t12 == 0 %}style="display: none"{% endif %}>
                             <div class="form-group">
                                 <label for="">Dic</label>
-                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p12" {% if actividad.t12 != 0 %}required{% endif %} value="{{ detalle.p12|unlocalize }}">
+                                <input type="number" class="t-input input-sm form-control" min="0" step="any" name="{{ detalle_form.prefix }}-{{ forloop.counter0 }}-p12" {% if actividad.t12 != 0 %}required{%else%}readonly{% endif %} value="{{ detalle.p12|unlocalize }}">
                             </div>
                         </div>
                     </div>
@@ -232,7 +232,7 @@
         var prefix = '{{ detalle_form.prefix }}';
         var distribucion_actividad = {{ cuadro.actividad.distribucion_presupuestal|unlocalize }};
     </script>
-    <script src="{% static "cuadro/cuadro.js" %}?v=2019.2"></script>
+    <script src="{% static "cuadro/cuadro.js" %}?v=2019.3"></script>
     <script>
     console.log('{{ form.non_field_errors }}');
     console.log('{{ detalle_form.non_field_errors }}');

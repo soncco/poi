@@ -5,7 +5,7 @@ chardet==3.0.4
 curtsies==0.2.11
 Django==1.11
 django-extensions==1.7.9
-djangorestframework==3.6.2
+djangorestframework==3.11.2
 et-xmlfile==1.0.1
 greenlet==0.4.12
 idna==2.5

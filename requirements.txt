@@ -17,7 +17,7 @@ Pillow==4.1.1
 Pygments==2.2.0
 python-decouple==3.1
 pytz==2017.2
-reportlab==3.3.0
+reportlab==3.5.55
 requests==2.18.1
 six==1.10.0
 urllib3==1.21.1
